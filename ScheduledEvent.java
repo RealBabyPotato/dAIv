@@ -21,6 +21,7 @@ public class ScheduledEvent{
 		task = new TimerTask() {
 			public void run() {
 				//do the do
+				//this is a test
 				System.out.println("aaaaaa");
 			}
 		};
