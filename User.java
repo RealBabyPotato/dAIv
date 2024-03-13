@@ -1,9 +1,10 @@
+import com.twilio.type.PhoneNumber;
+
 public class User {
-    private int phoneNum;
-    private int test;
-    
-    public User(int phoneNum) {
-        this.phoneNum = phoneNum;
+    public PhoneNumber phoneNumber;
+
+    public User(PhoneNumber phoneNum) {
+        this.phoneNumber = phoneNum;
     }
 
     private void writeToFile() {
