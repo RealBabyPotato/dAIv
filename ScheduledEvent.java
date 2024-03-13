@@ -1,5 +1,3 @@
-package daiv;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
