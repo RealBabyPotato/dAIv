@@ -4,7 +4,7 @@ import org.eclipse.jetty.util.ajax.JSON;
 
 class Main{
     public static void main(String[] args){
-        //Twilio.init(TwilioSendMessageExample.ACCOUNT_SID, TwilioSendMessageExample.AUTH_TOKEN);
+        Twilio.init(TwilioSendMessageExample.ACCOUNT_SID, TwilioSendMessageExample.AUTH_TOKEN);
         System.out.println("Hello my name is DAIV please interact with me");
 
         // this is how we register a new user atm
