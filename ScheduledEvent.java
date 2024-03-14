@@ -1,5 +1,8 @@
+import java.util.Calendar;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.time.*;
 
 
 public class ScheduledEvent{
@@ -8,17 +11,20 @@ public class ScheduledEvent{
 	private TimerTask task;
 	private long timeToSend;
 	private String response;
+	//identifiers for repeat tasks
 	private int identifier;
 	
-	public ScheduledEvent(int id, String r, long d) {
+	public ScheduledEvent(int id, String r, Calendar d) {
 		
+		//will be used later
 		identifier = id;
 		response = r;
-		timeToSend = d;
+		
+		timeToSend = getTimeDiff(d);
 		
 		task = new TimerTask() {
 			public void run() {
-				//do the do
+				//do the thing
 				//this is a test
 				System.out.println("aaaaaa");
 			}
@@ -30,7 +36,20 @@ public class ScheduledEvent{
 		
 	}
 	
-	
-	
+	//input the date and time at which message should be sent
+	//returns the number of milliseconds between the current time and the time it should be sent
+	public long getTimeDiff(Calendar cal) {
+		Clock clocka = Clock.system(ZoneId.of("UTC"));
+		Clock clock = Clock.offset(clocka, Duration.ofHours(-7));
+		
+		Instant start = Instant.now(clock);
+		
+		String s = cal.toInstant().toString();
+		CharSequence cs = s;
+		Instant end = Instant.parse(cs);
+		
+		return Duration.between(start, end).toMillis();
+		
+	}	
 	
 }
