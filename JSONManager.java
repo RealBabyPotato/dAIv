@@ -8,11 +8,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 public class JSONManager{
-    private User user;
+    private String user;
     private int txt;
     private static JSONArray allUser = new JSONArray();
 
-    public JSONManager(User user){
+    public JSONManager(String user){
         this.user = user;
         txt = 0;
         // Initialize userObject and conversation arrays here
@@ -21,7 +21,7 @@ public class JSONManager{
         userObject.put(user, conversation);
         allUser.add(userObject);
     }
-    public User get_user() {
+    public String get_user() {
         return user;
     }
 
