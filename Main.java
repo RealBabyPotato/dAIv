@@ -9,8 +9,13 @@ class Main{
 
         // this is how we register a new user atm
         User jaden = new User(new PhoneNumber("2508809769"));
+        User ethan = new User(new PhoneNumber("7785334028"));
 
         JSONManager jsonHandler = new JSONManager(jaden);
+        
+        TwilioSendMessageExample.messageUser(ethan, "ethan is lame and cool and blah blah blah");
+        
+        
 
         // this is how we send a message to a user. this method will likely be moved out of the TwilioSendMessageExample class soon.
         //TwilioSendMessageExample.messageUser(jaden, "This is an example of a text to the User object Jaden.");

@@ -26,10 +26,3 @@ replay_pid*
 .idea
 /out
 /target/
-.classpath
-.project
-.settings/org.eclipse.jdt.core.prefs
-bin/.gitattributes
-bin/.project
-bin/pom.xml
-bin/README.md
