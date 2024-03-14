@@ -13,11 +13,9 @@ class Main{
 
         JSONManager jsonHandler = new JSONManager(jaden);
         
-        TwilioSendMessageExample.messageUser(ethan, "ethan is lame and cool and blah blah blah");
+        //TwilioSendMessageExample.messageUser(ethan, "ethan is lame and cool and blah blah blah");
         
-        
-
         // this is how we send a message to a user. this method will likely be moved out of the TwilioSendMessageExample class soon.
-        //TwilioSendMessageExample.messageUser(jaden, "This is an example of a text to the User object Jaden.");
+        TwilioSendMessageExample.messageUser(jaden, "This is an example of a text to the User object Jaden.");
     }
 }
