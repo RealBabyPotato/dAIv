@@ -11,13 +11,9 @@ public class ScheduledEvent{
 	private TimerTask task;
 	private long timeToSend;
 	private String response;
-	//identifiers for repeat tasks
-	private int identifier;
 	
 	public ScheduledEvent(int id, String r, Calendar d) {
-		
-		//will be used later
-		identifier = id;
+
 		response = r;
 		
 		timeToSend = getTimeDiff(d);
