@@ -2,20 +2,25 @@ import com.twilio.type.PhoneNumber;
 
 public class User {
     public PhoneNumber phoneNumber;
-    // change me important VVVV
-    public String userName;
+
+    private String userName;
 
     public User(PhoneNumber phoneNum, String userN) {
         this.phoneNumber = phoneNum;
         this.userName = userN;
     }
 
-    private void writeToFile() {
-
+    public String getUserName(){
+        return userName;
     }
 
-    private void readFromFile() {
+    public void writeToFile(String message) {
+        String reply = "This is where our ChatGPT reply will be handled.";
+        FileReadWrite.addToConversation(this, message, reply);
+    }
 
+    public void readFromFile() {
+        FileReadWrite.readConversation(this);
     }
 
     
