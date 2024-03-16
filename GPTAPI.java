@@ -1,6 +1,5 @@
 import com.theokanning.openai.completion.CompletionRequest;
 import com.theokanning.openai.service.OpenAiService;
-import com.theokanning.openai.client.
 
 class GPTAPI{
     public static void main(String... args) {
