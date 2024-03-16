@@ -25,7 +25,7 @@ public class ScheduledEvent{
 		
 		//get timeToSend by asking for milliseconds from chat
 		timeTracker = new Timer();
-		timeTracker.schedule(task, getTimeDiff(d);
+		timeTracker.schedule(task, getTimeDiff(d));
 		
 	}
 
