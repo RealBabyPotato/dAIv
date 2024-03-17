@@ -4,6 +4,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.time.*;
 
+interface Task{
+	void execute();
+}
 
 public class ScheduledEvent{
 	
@@ -45,9 +48,22 @@ public class ScheduledEvent{
 		
 		//get timeToSend by asking for milliseconds from chat
 		timeTracker = new Timer();
-		timeTracker.schedule(task, getTimeDiff(d), periodToRepeat);	
+		timeTracker.schedule(task, getTimeDiff(d), periodToRepeat);
 	}
-	
+
+	// temporary constructor for immediate-start scheduled events
+	public ScheduledEvent(long periodToRepeat, final Task runnableTask){
+		this.task = new TimerTask() {
+			@Override
+			public void run() {
+				runnableTask.execute();
+			}
+		};
+
+		timeTracker = new Timer();
+		timeTracker.scheduleAtFixedRate(this.task, 0, periodToRepeat);
+	}
+
 	//input the date and time at which message should be sent
 	//returns the number of milliseconds between the current time and the time it should be sent
 	public long getTimeDiff(Calendar cal) {
