@@ -20,13 +20,12 @@ public class ScheduledEvent{
 
 		task = new TimerTask() {
 			public void run() {
-				//do the thing
+				//do the thing to send a message
 				//this is a test
 				System.out.println("aaaaaa");
 			}
 		};
 		
-		//get timeToSend by asking for milliseconds from chat
 		timeTracker = new Timer();
 		timeTracker.schedule(task, getTimeDiff(d));
 		
@@ -64,7 +63,7 @@ public class ScheduledEvent{
 		timeTracker.scheduleAtFixedRate(this.task, 0, periodToRepeat);
 	}
 
-	//input the date and time at which message should be sent
+	//input the date and time at which message should be sent as a calendar object
 	//returns the number of milliseconds between the current time and the time it should be sent
 	public long getTimeDiff(Calendar cal) {
 		Clock clocka = Clock.system(ZoneId.of("UTC"));
