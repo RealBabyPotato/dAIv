@@ -1,21 +1,37 @@
 import com.twilio.type.PhoneNumber;
 
+import java.io.File;
+
 public class User {
     public PhoneNumber phoneNumber;
-    // change me important VVVV
-    public String userName;
+
+    private String userName;
 
     public User(PhoneNumber phoneNum, String userN) {
         this.phoneNumber = phoneNum;
         this.userName = userN;
+        Main.RegisteredUsers.add(this);
     }
 
-    private void writeToFile() {
-
+    public String getUserName(){
+        return userName;
     }
 
-    private void readFromFile() {
+    public void writeToFile(String message) {
+        String reply = "This is where our ChatGPT reply will be handled.";
+        FileReadWrite.addToConversation(this, message, reply);
+    }
 
+    public void writeToFile(String message, String overrideReply){
+        FileReadWrite.addToConversation(this, message, overrideReply);
+    }
+
+    public void readFromFile() {
+        FileReadWrite.readConversation(this);
+    }
+
+    public void message(String content){
+        TwilioSendMessageExample.messageUser(this, content);
     }
 
     

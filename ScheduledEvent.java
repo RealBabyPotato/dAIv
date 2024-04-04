@@ -4,23 +4,38 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.time.*;
 
+interface Task{
+	void execute();
+}
 
 public class ScheduledEvent{
 	
 	private Timer timeTracker;
 	private TimerTask task;
-	private long timeToSend;
 	private String response;
-	//identifiers for repeat tasks
-	private int identifier;
 	
-	public ScheduledEvent(int id, String r, Calendar d) {
-		
-		//will be used later
-		identifier = id;
+	public ScheduledEvent(String r, Calendar d) {
+
 		response = r;
+
+		task = new TimerTask() {
+			public void run() {
+				//do the thing to send a message
+				//this is a test
+				System.out.println("aaaaaa");
+			}
+		};
 		
-		timeToSend = getTimeDiff(d);
+		timeTracker = new Timer();
+		timeTracker.schedule(task, getTimeDiff(d));
+		
+	}
+
+	//for repeated events
+	//periodToRepeat is the time in which the task should be repeated, such as 24 hours. in milliseconds.
+	public ScheduledEvent(String r, Calendar d, long periodToRepeat) {
+		
+		response = r;
 		
 		task = new TimerTask() {
 			public void run() {
@@ -32,11 +47,23 @@ public class ScheduledEvent{
 		
 		//get timeToSend by asking for milliseconds from chat
 		timeTracker = new Timer();
-		timeTracker.schedule(task, timeToSend);
-		
+		timeTracker.schedule(task, getTimeDiff(d), periodToRepeat);
 	}
-	
-	//input the date and time at which message should be sent
+
+	// temporary constructor for immediate-start scheduled events
+	public ScheduledEvent(long periodToRepeat, final Task runnableTask){
+		this.task = new TimerTask() {
+			@Override
+			public void run() {
+				runnableTask.execute();
+			}
+		};
+
+		timeTracker = new Timer();
+		timeTracker.scheduleAtFixedRate(this.task, 0, periodToRepeat);
+	}
+
+	//input the date and time at which message should be sent as a calendar object
 	//returns the number of milliseconds between the current time and the time it should be sent
 	public long getTimeDiff(Calendar cal) {
 		Clock clocka = Clock.system(ZoneId.of("UTC"));
