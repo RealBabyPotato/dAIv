@@ -6,19 +6,19 @@ import java.util.Calendar;
 
 public class EventMaker {
 
-	public static boolean makeEvent(String r, Calendar d) {
+	public static boolean makeEvent(Calendar d) {
 		if(getTimeDiff(d) < 0) {
 			return false;
 		}
-		ScheduledEvent a = new ScheduledEvent(r, d);
+		ScheduledEvent a = new ScheduledEvent(d);
 		return true;
 	}
 	
-	public static boolean makeEvent(String r, Calendar d, long rep) {
+	public static boolean makeEvent(Calendar d, long rep) {
 		if(getTimeDiff(d) < 0) {
 			return false;
 		}
-		ScheduledEvent a = new ScheduledEvent(r, d, rep);
+		ScheduledEvent a = new ScheduledEvent(d, rep);
 		return true;
 	}
 	
