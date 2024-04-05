@@ -7,7 +7,7 @@ import java.util.Calendar;
 public class EventMaker {
 
 	public static boolean makeEvent(Calendar d) {
-		if(getTimeDiff(d) < 0) {
+		if (getTimeDiff(d) < 0) {
 			return false;
 		}
 		ScheduledEvent a = new ScheduledEvent(d);
@@ -15,7 +15,7 @@ public class EventMaker {
 	}
 	
 	public static boolean makeEvent(Calendar d, long rep) {
-		if(getTimeDiff(d) < 0) {
+		if (getTimeDiff(d) < 0) {
 			return false;
 		}
 		ScheduledEvent a = new ScheduledEvent(d, rep);
