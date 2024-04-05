@@ -10,7 +10,7 @@ import java.io.File;
 
 public class FileReadWrite {
 
-    public static void addToConversation(User client, String message, String reply) {
+    public static void addToConversation(User client, String message, String reply, Calendar time) {
         File fileName = new File("conversations/" + client.getUserName() + "Conversation.json");
         JSONObject conversation = null;
 
@@ -23,8 +23,9 @@ public class FileReadWrite {
         } catch (IOException | ParseException e) {
             // create a new conversation if one doesn't already exist
             conversation = new JSONObject();
-            conversation.put("User", client.getUserName());
+            //conversation.put("User", client.getUserName());
             conversation.put("Messages", new JSONArray());
+            conversation.put("time", time);
         }
 
         // add the new message to the conversation

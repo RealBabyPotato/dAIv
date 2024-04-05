@@ -1,7 +1,7 @@
 import com.twilio.Twilio;
 import com.twilio.base.ResourceSet;
 import com.twilio.type.PhoneNumber;
-import org.json.simple.parser.ParseException;
+// import org.json.simple.parser.ParseException;
 import com.twilio.rest.api.v2010.account.Message;
 
 import java.util.ArrayList;
@@ -13,6 +13,7 @@ class Main{
     public static ArrayList<User> RegisteredUsers = new ArrayList<User>(); // not sure if we should keep this...
 
     public static void main(String[] args){
+        System.out.println("TEST");
         Twilio.init(TwilioSendMessageExample.ACCOUNT_SID, TwilioSendMessageExample.AUTH_TOKEN);
         System.out.println("Hello my name is DAIV please interact with me");
 
