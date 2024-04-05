@@ -14,9 +14,8 @@ public class ScheduledEvent{
 	private TimerTask task;
 	private String response;
 	
-	public ScheduledEvent(String r, Calendar d) {
+	public ScheduledEvent(Calendar d) {
 
-		response = r;
 
 		task = new TimerTask() {
 			public void run() {
@@ -33,9 +32,8 @@ public class ScheduledEvent{
 
 	//for repeated events
 	//periodToRepeat is the time in which the task should be repeated, such as 24 hours. in milliseconds.
-	public ScheduledEvent(String r, Calendar d, long periodToRepeat) {
+	public ScheduledEvent(Calendar d, long periodToRepeat) {
 		
-		response = r;
 		
 		task = new TimerTask() {
 			public void run() {
