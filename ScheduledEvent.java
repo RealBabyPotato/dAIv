@@ -3,6 +3,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.time.*;
 
+interface Task{
+	void execute();
+}
+
 public class ScheduledEvent{
 	
 	private Timer timeTracker;
@@ -50,7 +54,20 @@ public class ScheduledEvent{
 		timeTracker.schedule(task, getTimeDiff(date), periodToRepeat);	
 	}
 
-	
+	// temporary constructor for immediate-start scheduled events
+	public ScheduledEvent(long periodToRepeat, final Task runnableTask){
+		this.task = new TimerTask() {
+			@Override
+			public void run() {
+				runnableTask.execute();
+			}
+		};
+
+		timeTracker = new Timer();
+		timeTracker.scheduleAtFixedRate(this.task, 0, periodToRepeat);
+		timeTracker.schedule(task, getTimeDiff(date), periodToRepeat);
+	}
+
 	//input the date and time at which message should be sent
 	//returns the number of milliseconds between the current time and the time it should be sent
 	public long getTimeDiff(Calendar cal) {
