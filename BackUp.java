@@ -10,6 +10,34 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/*
+okay gang here's a good way to begin going about storing user conversations, i outlined some in FileReadWrite
+this was my first idea so there is probably holes, but this should *roughly* be the result? - jaden
+
+{
+  "user": "John Doe",
+  "messages": [
+    {
+      "message": "Hello!",
+      "reply": "Hi there!",
+      "time": "2024-04-08T10:00:00"
+    },
+    {
+      "message": "How are you?",
+      "reply": "I'm doing well, thank you!",
+      "time": "2024-04-08T10:05:00"
+    },
+    {
+      "message": "What are you up to?",
+      "reply": "Just working on some tasks.",
+      "time": "2024-04-08T10:10:00"
+    }
+  ]
+}
+
+subject to change...
+ */
+
 public class BackUp {
 
     private List<JSONObject> tasks;
