@@ -13,6 +13,11 @@ public class User {
         Main.RegisteredUsers.add(this);
     }
 
+    public User(PhoneNumber phoneNum){
+        this.phoneNumber = phoneNum;
+        Main.RegisteredUsers.add(this);
+    }
+
     public String getUserName(){
         return userName;
     }
@@ -32,6 +37,7 @@ public class User {
 
     public void message(String content){
         TwilioSendMessageExample.messageUser(this, content);
+        // this.writeToFile(content); uncomment this when we fix file io
     }
 
     

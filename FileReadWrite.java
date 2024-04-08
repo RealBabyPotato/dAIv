@@ -7,10 +7,16 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
+import java.util.Calendar;
 
 public class FileReadWrite {
 
     public static void addToConversation(User client, String message, String reply) {
+        if(client.getUserName() == null){
+            System.out.println("Can't create a conversation for user with null username!");
+            return;
+        }
+
         File fileName = new File("conversations/" + client.getUserName() + "Conversation.json");
         JSONObject conversation = null;
 
@@ -23,14 +29,15 @@ public class FileReadWrite {
         } catch (IOException | ParseException e) {
             // create a new conversation if one doesn't already exist
             conversation = new JSONObject();
-            conversation.put("User", client.getUserName());
             conversation.put("Messages", new JSONArray());
+            // conversation.put("time", time);
         }
 
         // add the new message to the conversation
         JSONObject newMessage = new JSONObject();
         newMessage.put("Message", message);
         newMessage.put("Reply", reply);
+    newMessage.put("Time", "" + Calendar.getInstance().getTime() + ""); // change to a calendar object maybe? or whatever dateTime people and file io people agree on
         ((JSONArray) conversation.get("Messages")).add(newMessage);
 
         // write the updated conversation back to the file
@@ -62,7 +69,11 @@ public class FileReadWrite {
 
             reader.close();
         } catch (IOException | ParseException e) {
-            System.out.println("No conversation found for user " + client.getUserName());
+            if(client.getUserName() == null){
+                System.out.println("Can't read file for this client - client's username is null (perhaps this user doesn't have a username?)");
+            } else {
+                System.out.println("No conversation found for user " + client.getUserName());
+            }
         }
     }
 }

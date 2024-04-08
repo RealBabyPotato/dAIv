@@ -1,5 +1,4 @@
 import java.util.Calendar;
-import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.time.*;
@@ -12,28 +11,35 @@ public class ScheduledEvent{
 	
 	private Timer timeTracker;
 	private TimerTask task;
-	private String response;
+	private String request;
+	private Calendar date;
+	//identifiers for repeat tasks?
 	
-	public ScheduledEvent(Calendar d) {
-
-
+	//for one time tasks
+	public ScheduledEvent(String r, Calendar d) {
+		
+		request = r;
+		date = d;
+		
 		task = new TimerTask() {
 			public void run() {
-				//do the thing to send a message
+				//do the thing
 				//this is a test
 				System.out.println("aaaaaa");
 			}
 		};
 		
 		timeTracker = new Timer();
-		timeTracker.schedule(task, getTimeDiff(d));
-		
+		timeTracker.schedule(task, getTimeDiff(date));		
 	}
-
+	
+	
 	//for repeated events
 	//periodToRepeat is the time in which the task should be repeated, such as 24 hours. in milliseconds.
-	public ScheduledEvent(Calendar d, long periodToRepeat) {
+	public ScheduledEvent(String r, Calendar d, long periodToRepeat) {
 		
+		request = r;
+		date = d;
 		
 		task = new TimerTask() {
 			public void run() {
@@ -45,7 +51,7 @@ public class ScheduledEvent{
 		
 		//get timeToSend by asking for milliseconds from chat
 		timeTracker = new Timer();
-		timeTracker.schedule(task, getTimeDiff(d), periodToRepeat);
+		timeTracker.schedule(task, getTimeDiff(date), periodToRepeat);	
 	}
 
 	// temporary constructor for immediate-start scheduled events
@@ -59,9 +65,10 @@ public class ScheduledEvent{
 
 		timeTracker = new Timer();
 		timeTracker.scheduleAtFixedRate(this.task, 0, periodToRepeat);
+		timeTracker.schedule(task, getTimeDiff(date), periodToRepeat);
 	}
 
-	//input the date and time at which message should be sent as a calendar object
+	//input the date and time at which message should be sent
 	//returns the number of milliseconds between the current time and the time it should be sent
 	public long getTimeDiff(Calendar cal) {
 		Clock clocka = Clock.system(ZoneId.of("UTC"));
@@ -76,5 +83,6 @@ public class ScheduledEvent{
 		return Duration.between(start, end).toMillis();
 		
 	}	
+	
 	
 }

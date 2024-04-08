@@ -6,21 +6,21 @@ import java.util.Calendar;
 
 public class EventMaker {
 
-	public static boolean makeEvent(Calendar d) {
-		if (getTimeDiff(d) < 0) {
-			return false;
+	public static void makeEvent(String r, Calendar d) {
+		if (isValid(d)) {
+			ScheduledEvent a = new ScheduledEvent(r, d);
 		}
-		ScheduledEvent a = new ScheduledEvent(d);
-		return true;
+	}
+
+	public static void makeEvent(String r, Calendar d, long rep) {
+		if(isValid(d)) {
+			ScheduledEvent a = new ScheduledEvent(r, d, rep);
+		}
 	}
 	
-	public static boolean makeEvent(Calendar d, long rep) {
-		if (getTimeDiff(d) < 0) {
-			return false;
-		}
-		ScheduledEvent a = new ScheduledEvent(d, rep);
-		return true;
-	}
+	public static boolean isValid(Calendar c) {
+        return getTimeDiff(c) >= 0;
+    }
 	
 	public static long getTimeDiff(Calendar cal) {
 		Clock clocka = Clock.system(ZoneId.of("UTC"));
@@ -31,7 +31,8 @@ public class EventMaker {
 		String s = cal.toInstant().toString();
 		CharSequence cs = s;
 		Instant end = Instant.parse(cs);
-
+		
+		
 		return Duration.between(start, end).toMillis();
 		
 	}	
