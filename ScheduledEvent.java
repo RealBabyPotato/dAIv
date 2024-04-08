@@ -13,7 +13,7 @@ public class ScheduledEvent{
 	private TimerTask task;
 	private String request;
 	private Calendar date;
-	//identifiers for repeat tasks?
+	private int field;
 	
 	//for one time tasks
 	public ScheduledEvent(String r, Calendar d) {
@@ -21,26 +21,19 @@ public class ScheduledEvent{
 		request = r;
 		date = d;
 		
-		task = new TimerTask() {
-			public void run() {
-				//do the thing
-				//this is a test
-				System.out.println("aaaaaa");
-			}
-		};
-		
-		timeTracker = new Timer();
-		timeTracker.schedule(task, getTimeDiff(date));		
+		scheduleEvent(r, d);
 	}
-	
-	
+
 	//for repeated events
-	//periodToRepeat is the time in which the task should be repeated, such as 24 hours. in milliseconds.
-	public ScheduledEvent(String r, Calendar d, long periodToRepeat) {
-		
+	public ScheduledEvent(String r, Calendar d, int f) {
 		request = r;
 		date = d;
+		field = f;
 		
+		scheduleRepeatedEvent(r, d, f);
+	}
+
+	public void scheduleEvent(String r, Calendar d) {
 		task = new TimerTask() {
 			public void run() {
 				//do the thing
@@ -49,9 +42,24 @@ public class ScheduledEvent{
 			}
 		};
 		
-		//get timeToSend by asking for milliseconds from chat
 		timeTracker = new Timer();
-		timeTracker.schedule(task, getTimeDiff(date), periodToRepeat);	
+		timeTracker.schedule(task, getTimeDiff(date));
+	}
+	
+	public void scheduleRepeatedEvent(String r, Calendar d, int f) {
+		
+		task = new TimerTask() {
+			public void run() {
+				//do the thing
+				//this is a test
+				System.out.println("aaaaaa");
+				d.set(f, d.get(f)+1);
+				scheduleRepeatedEvent(r, d, f);
+			}
+		};
+		
+		timeTracker = new Timer();
+		timeTracker.schedule(task, getTimeDiff(date));
 	}
 
 	// temporary constructor for immediate-start scheduled events
