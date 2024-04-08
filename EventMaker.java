@@ -13,7 +13,7 @@ public class EventMaker {
 	}
 
 	public static void makeEvent(String r, Calendar d, long rep) {
-		if(isValid(d)) {
+		if (isValid(d)) {
 			ScheduledEvent a = new ScheduledEvent(r, d, rep);
 		}
 	}
