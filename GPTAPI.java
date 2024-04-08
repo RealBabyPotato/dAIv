@@ -13,7 +13,7 @@ class GPTAPI{
         // we'll use Mr. H's token here
         String token = "YOUR_CHATGPT_API_KEY";
 
-        OpenAiService service = new OpenAiService(token);
+        /*OpenAiService service = new OpenAiService(token);
 
         // this is how we make a basic request. this should be pretty intuitive -- it uses an old version of gpt 3.5 tho!
         CompletionRequest completionRequest = CompletionRequest.builder()
@@ -23,11 +23,13 @@ class GPTAPI{
                 .build();
 
         // this is what we do with the output. for now we just use a method reference to print the response out to the console.
-        service.createCompletion(completionRequest).getChoices().forEach(System.out::println);
+        service.createCompletion(completionRequest).getChoices().forEach(System.out::println);*/
 
 
         // this is a more manual approach, but i think it'll be the way forward. this is gpt-4 and we can customize endpoints, use assistants, and so on.
-        System.out.println(prompt("Tell me a joke."));
+        //System.out.println(prompt("Tell me a joke."));
+        System.out.println(retrieveImage("A cute baby sea otter."));
+        //System.out.println("{\"model\": \"" + "this is model" + "\", \"prompt\": \"" + "this is prompt" + "\", \"n\": \"1\", \"size\": \"1024x1024\"}");
     }
 
     // this is where we are going to be making our other methods that interact with chat.
@@ -46,13 +48,7 @@ class GPTAPI{
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("OpenAI-Beta", "assistants=v1");
 
-            /* The request body
-            String body;
-            if(prompt != ""){
-                body = "{\"role\": \"user\", \"content\": \"" + prompt + "\"}";
-            } else{
-                body = "{\"model\": \"" + model + "\", \"name\": \"Categorizer\", \"instructions\": \"You are a word categorizer. When given a word, you say what the first letter in that word is.\"}";
-            }*/
+            // The request body
             String body = "{\"model\": \"" + model + "\", \"messages\": [{\"role\": \"user\", \"content\": \"" + prompt + "\"}]}";
             connection.setDoOutput(true);
             OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
@@ -73,6 +69,45 @@ class GPTAPI{
 
             // calls the method to extract the message.
             return extractMessageFromJSONResponse(response.toString());
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String retrieveImage(String prompt){
+        String url = "https://api.openai.com/v1/images/generations";
+        String apiKey = "YOUR_CHATGPT_API_KEY";
+        String model = "dall-e-3";
+
+        try {
+            URL obj = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Authorization", "Bearer " + apiKey);
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            // The request body
+            String body = "{\"model\": \"" + model + "\", \"prompt\": \"" + prompt + "\", \"n\": \"1\", \"size\": \"1024x1024\"}";
+            connection.setDoOutput(true);
+            OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+            writer.write(body);
+            writer.flush();
+            writer.close();
+
+            // Response from ChatGPT
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+
+            StringBuffer response = new StringBuffer();
+
+            while ((line = br.readLine()) != null) {
+                response.append(line);
+            }
+            br.close();
+
+            // calls the method to extract the message.
+            return response.toString();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
