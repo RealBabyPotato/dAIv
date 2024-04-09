@@ -16,28 +16,25 @@ public class backup {
 
 
     // Method to add a task with message, time, category, list, and characteristics
-    public void addToJSON(String message, String time, String category, String list, String characteristics) {
+    public void addToJSON(String message, String time, String category, String list) {
         // Create JSON objects for each task component
         JSONObject task = new JSONObject();
         JSONObject messageObj = new JSONObject();
         JSONObject timeObj = new JSONObject();
         JSONObject categoryObj = new JSONObject();
         JSONObject listObj = new JSONObject();
-        JSONObject characteristicsObj = new JSONObject();
 
         // Set values for each component
         messageObj.put("message", message);
         timeObj.put("time", time);
         categoryObj.put("category", category);
         listObj.put("list", list);
-        characteristicsObj.put("characteristics", characteristics);
 
         // Add each component to the task object
         task.put("message", messageObj);
         task.put("time", timeObj);
         task.put("category", categoryObj);
         task.put("list", listObj);
-        task.put("characteristics", characteristicsObj);
 
         // Add the task object to the backup array
         backup.add(task);
@@ -69,18 +66,21 @@ public class backup {
         backup taskManager = new backup();
 
         // Example usage: Adding tasks and saving them to JSON
-        taskManager.addToJSON("Task 1", "2024-04-08T10:00:00", "Category A", "List A", "Characteristic A");
-        taskManager.addToJSON("Task 2", "2024-04-08T10:05:00", "Category B", "List B", "Characteristic B");
+        taskManager.addToJSON("Task 1", "2024-04-08T10:00:00", "Category A", "List A");
+        taskManager.addToJSON("Task 2", "2024-04-08T10:05:00", "Category B", "List B");
         taskManager.saveBackupToJson("backup.json");
 
         // Loading backup from JSON
         taskManager.loadBackupFromJson("backup.json");
     }
 
+    /*
     public static void reset(){
          webScraper.reset();
          users.reset();
          schedule.reset();
          extractor.reset();
     }
+    */
+
 }
