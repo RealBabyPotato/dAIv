@@ -37,4 +37,8 @@ public class EventMaker {
 		
 	}	
 	
+	public static boolean cancelTask(ScheduledEvent s) {
+		return s.getTask().cancel();
+	}
+	
 }
