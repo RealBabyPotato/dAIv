@@ -13,7 +13,7 @@ public class ScheduledEvent{
 	private TimerTask task;
 	private String request;
 	private Calendar date;
-	private int field;
+	private String field;
 	
 	//for one time tasks
 	public ScheduledEvent(String r, Calendar d) {
@@ -25,7 +25,7 @@ public class ScheduledEvent{
 	}
 
 	//for repeated events
-	public ScheduledEvent(String r, Calendar d, int f) {
+	public ScheduledEvent(String r, Calendar d, String f) {
 		request = r;
 		date = d;
 		field = f;
@@ -46,14 +46,24 @@ public class ScheduledEvent{
 		timeTracker.schedule(task, getTimeDiff(date));
 	}
 	
-	public void scheduleRepeatedEvent(String r, Calendar d, int f) {
+	public void scheduleRepeatedEvent(String r, Calendar d, String f) {
 		
 		task = new TimerTask() {
 			public void run() {
 				//do the thing
 				//this is a test
 				System.out.println("aaaaaa");
-				d.set(f, d.get(f)+1);
+				if(f.equals("year")) {
+					d.set(Calendar.YEAR, d.get(Calendar.YEAR)+1);
+				}else if(f.equals("month")) {
+					d.set(Calendar.MONTH, d.get(Calendar.MONTH)+1);
+				}else if(f.equals("week")) {
+					d.set(Calendar.WEEK_OF_YEAR, d.get(Calendar.WEEK_OF_YEAR)+1);
+				}else if(f.equals("day")) {
+					d.set(Calendar.DAY_OF_YEAR, d.get(Calendar.DAY_OF_YEAR)+1);
+				}else if(f.equals("hour")) {
+					d.set(Calendar.HOUR_OF_DAY, d.get(Calendar.HOUR_OF_DAY));
+				}
 				scheduleRepeatedEvent(r, d, f);
 			}
 		};
