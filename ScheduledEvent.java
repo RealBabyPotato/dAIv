@@ -35,7 +35,7 @@ public class ScheduledEvent{
 		
 		scheduleRepeatedEvent(r, d, f);
 	}
-
+	//for one time tasks
 	public void scheduleEvent(String r, Calendar d) {
 		task = new TimerTask() {
 			public void run() {
@@ -48,7 +48,8 @@ public class ScheduledEvent{
 		timeTracker = new Timer();
 		timeTracker.schedule(task, getTimeDiff(date));
 	}
-	
+	//for repeated events
+	// the parameter f is the amount by which the event is repeating
 	public void scheduleRepeatedEvent(String r, Calendar d, String f) {
 		
 		task = new TimerTask() {
