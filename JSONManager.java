@@ -21,6 +21,7 @@ public class JSONManager{
         userObject.put(user, conversation);
         allUser.add(userObject);
     }
+
     public String get_user() {
         return user;
     }
