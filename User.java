@@ -61,11 +61,12 @@ public class User {
         and create new User objects with appropriate information.
          */
 
-        String username;
-        String[] messages;
-        PhoneNumber phonenumber;
-
-        Main.RegisteredUsers.add(new User(username, phonenumber, messages));
+//        String username;
+//        String[] messages;
+//        PhoneNumber phonenumber;
+//
+//        Main.RegisteredUsers.add(new User(username, phonenumber, messages));
+        JSONManager test = new JSONManager("Jaden");
     }
 
 
