@@ -14,6 +14,7 @@ public class backup {
         backup = new JSONArray();
     }
 
+
     // Method to add a task with message, time, category, list, and characteristics
     public void addToJSON(String message, String time, String category, String list, String characteristics) {
         // Create JSON objects for each task component
