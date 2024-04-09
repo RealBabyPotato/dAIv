@@ -3,7 +3,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -15,26 +14,26 @@ public class backup {
     }
 
 
-    // Method to add a task with message, time, category, list, and characteristics
-    public void addToJSON(String message, String time, String category, String list, String characteristics) {
+    // Method to add a task with message, scheduled event, category, list, and characteristics
+    public void addToJSON(String message, String category, String list, String characteristics, scheduleEvent schedEvent) {
         // Create JSON objects for each task component
         JSONObject task = new JSONObject();
         JSONObject messageObj = new JSONObject();
-        JSONObject timeObj = new JSONObject();
+        JSONObject schedEventObj = new JSONObject();
         JSONObject categoryObj = new JSONObject();
         JSONObject listObj = new JSONObject();
         JSONObject characteristicsObj = new JSONObject();
 
         // Set values for each component
         messageObj.put("message", message);
-        timeObj.put("time", time);
+        schedEventObj.put("schedEvent", schedEvent);
         categoryObj.put("category", category);
         listObj.put("list", list);
         characteristicsObj.put("characteristics", characteristics);
 
         // Add each component to the task object
         task.put("message", messageObj);
-        task.put("time", timeObj);
+        task.put("scheduledEvent", schedEventObj);
         task.put("category", categoryObj);
         task.put("list", listObj);
         task.put("characteristics", characteristicsObj);
@@ -76,11 +75,11 @@ public class backup {
         // Loading backup from JSON
         taskManager.loadBackupFromJson("backup.json");
     }
-
-    public static void reset(){
-         webScraper.reset();
-         users.reset();
-         schedule.reset();
-         extractor.reset();
-    }
 }
+//     public static void reset(){
+//          webScraper.reset();
+//          users.reset();
+//          schedule.reset();
+//          extractor.reset();
+//     }
+// }
