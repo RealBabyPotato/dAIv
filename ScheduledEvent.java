@@ -26,6 +26,9 @@ public class ScheduledEvent{
 
 	//for repeated events
 	public ScheduledEvent(String r, Calendar d, String f) {
+		/*
+
+		 */
 		request = r;
 		date = d;
 		field = f;

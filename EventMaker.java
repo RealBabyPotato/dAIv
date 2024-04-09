@@ -12,7 +12,7 @@ public class EventMaker {
 		}
 	}
 
-	public static void makeEvent(String r, Calendar d, long rep) {
+	public static void makeEvent(String r, Calendar d, String rep) {
 		if (isValid(d)) {
 			ScheduledEvent a = new ScheduledEvent(r, d, rep);
 		}
