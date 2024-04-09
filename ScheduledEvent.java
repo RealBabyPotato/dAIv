@@ -108,5 +108,9 @@ public class ScheduledEvent{
 		
 	}	
 	
+	public TimerTask getTask() {
+		return task;
+	}
+	
 	
 }
