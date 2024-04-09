@@ -6,8 +6,13 @@ public class User {
     // Instance Variables
     public PhoneNumber phoneNumber;
     private String userName;
+    private String messages;
 
     // Constructor Methods
+    public User(PhoneNumber phoneNum, String userN, String messages) {
+
+    }
+
     public User(PhoneNumber phoneNum, String userN) {
         this.phoneNumber = phoneNum;
         this.userName = userN;
@@ -18,6 +23,8 @@ public class User {
         this.phoneNumber = phoneNum;
         Main.RegisteredUsers.add(this);
     }
+
+    public User()
 
     // Accessor Methods
     public String getUserName(){
@@ -51,6 +58,12 @@ public class User {
         From conversations directory, loop through all json files
         and create new User objects with appropriate information.
          */
+
+        String username;
+        String[] messages;
+        PhoneNumber phonenumber;
+
+        Main.RegisteredUsers.add(new User(username, phonenumber, messages));
     }
 
 
