@@ -24,7 +24,9 @@ public class User {
         Main.RegisteredUsers.add(this);
     }
 
-    public User()
+    public User(){
+
+    }
 
     // Accessor Methods
     public String getUserName(){
