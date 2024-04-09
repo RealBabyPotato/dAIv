@@ -3,10 +3,11 @@ import com.twilio.type.PhoneNumber;
 import java.io.File;
 
 public class User {
+    // Instance Variables
     public PhoneNumber phoneNumber;
-
     private String userName;
 
+    // Constructor Methods
     public User(PhoneNumber phoneNum, String userN) {
         this.phoneNumber = phoneNum;
         this.userName = userN;
@@ -18,10 +19,13 @@ public class User {
         Main.RegisteredUsers.add(this);
     }
 
+    // Accessor Methods
     public String getUserName(){
         return userName;
     }
 
+
+    // Utility
     public void writeToFile(String message) {
         String reply = "This is where our ChatGPT reply will be handled.";
         FileReadWrite.addToConversation(this, message, reply);
@@ -35,10 +39,19 @@ public class User {
         FileReadWrite.readConversation(this);
     }
 
+    // Twillio Send message
     public void message(String content){
         TwilioSendMessageExample.messageUser(this, content);
         // this.writeToFile(content); uncomment this when we fix file io
     }
 
-    
+    // Reset and Reboot
+    public static void PopulateUsers() {
+        /*
+        From conversations directory, loop through all json files
+        and create new User objects with appropriate information.
+         */
+    }
+
+
 }
