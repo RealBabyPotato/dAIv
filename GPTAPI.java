@@ -7,18 +7,34 @@ import java.net.URL;
 
 import java.util.regex.*;
 
-class OpenAiAssistantsApi {
+class GPTAPI {
 
     private static final String API_KEY = "YOUR_CHATGPT_API_KEY"; // Replace with your actual API key
 
     public static void main(String[] args) {
+        Pattern pattern = Pattern.compile("\"id\": \"([^\"]+)\"");
 
         String assistantId = createAssistant();
+        Matcher match = pattern.matcher(assistantId);
+        if(!match.find()){
+            System.out.println("Couldn't find assistant id");
+            return;
+        } else {
+            assistantId = match.group(1);
+            System.out.println("assistant ID: " + assistantId);
+        }
+
         String threadId = createThread(assistantId);
-        System.out.println(threadId + " " + assistantId);
-        System.out.println(threadId);
-        //addMessageToThread(assistantId, threadId, "I need to solve the equation `3x + 11 = 14`. Can you help me?");
-        //createRun(assistantId, threadId);
+        match = pattern.matcher(threadId);
+        if(!match.find()){
+            System.out.println("Couldn't find assistant id");
+            return;
+        } else {
+            threadId = match.group(1);
+            System.out.println("thread ID: " + threadId);
+        }
+        addMessageToThread(assistantId, threadId, "I need to solve the equation `3x + 11 = 14`. Can you help me?");
+        createRun(assistantId, threadId);
     }
 
     private static String createAssistant() {
@@ -53,7 +69,8 @@ class OpenAiAssistantsApi {
                 + "\"assistant_id\": \"" + assistantId + "\","
                 + "\"instructions\": \"Please address the user as Jane Doe. The user has a premium account.\""
                 + "}";
-        sendPostRequest(url, requestBody);
+        String post = sendPostRequest(url, requestBody);
+        System.out.println(post);
     }
 
     private static String sendPostRequest(String urlString, String body) {
@@ -67,7 +84,6 @@ class OpenAiAssistantsApi {
             connection.setDoOutput(true);
 
             try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())) {
-                System.out.println("writing body");
                 writer.write(body);
             }
 
