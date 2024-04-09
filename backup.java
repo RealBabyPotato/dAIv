@@ -76,11 +76,13 @@ public class backup {
         // Loading backup from JSON
         taskManager.loadBackupFromJson("backup.json");
     }
-
+/*
     public static void reset(){
          webScraper.reset();
          users.reset();
          schedule.reset();
          extractor.reset();
     }
+
+ */
 }
