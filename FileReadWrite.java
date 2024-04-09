@@ -12,7 +12,7 @@ import java.util.Calendar;
 public class FileReadWrite {
 
     public static void addToConversation(User client, String message, String reply) {
-        if(client.getUserName() == null){
+        if (client.getUserName() == null) {
             System.out.println("Can't create a conversation for user with null username!");
             return;
         }
@@ -37,7 +37,7 @@ public class FileReadWrite {
         JSONObject newMessage = new JSONObject();
         newMessage.put("Message", message);
         newMessage.put("Reply", reply);
-    newMessage.put("Time", "" + Calendar.getInstance().getTime() + ""); // change to a calendar object maybe? or whatever dateTime people and file io people agree on
+        newMessage.put("Time", "" + Calendar.getInstance().getTime() + ""); // change to a calendar object maybe? or whatever dateTime people and file io people agree on
         ((JSONArray) conversation.get("Messages")).add(newMessage);
 
         // write the updated conversation back to the file
