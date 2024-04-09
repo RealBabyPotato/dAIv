@@ -1,23 +1,21 @@
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class BackUp {
+public class backup {
     private JSONArray backup; // JSON array to hold all task objects
 
-    public BackUp() {
+    public backup() {
         backup = new JSONArray();
     }
 
     // Method to add a task with message, time, category, list, and characteristics
-    public void addTask(String message, String time, String category, String list, String characteristics) {
+    public void addToJSON(String message, String time, String category, String list, String characteristics) {
         // Create JSON objects for each task component
         JSONObject task = new JSONObject();
         JSONObject messageObj = new JSONObject();
@@ -67,14 +65,21 @@ public class BackUp {
 
     // Main method for testing purposes
     public static void main(String[] args) {
-        BackUp taskManager = new BackUp();
+        backup taskManager = new backup();
 
         // Example usage: Adding tasks and saving them to JSON
-        taskManager.addTask("Task 1", "2024-04-08T10:00:00", "Category A", "List A", "Characteristic A");
-        taskManager.addTask("Task 2", "2024-04-08T10:05:00", "Category B", "List B", "Characteristic B");
+        taskManager.addToJSON("Task 1", "2024-04-08T10:00:00", "Category A", "List A", "Characteristic A");
+        taskManager.addToJSON("Task 2", "2024-04-08T10:05:00", "Category B", "List B", "Characteristic B");
         taskManager.saveBackupToJson("backup.json");
 
         // Loading backup from JSON
         taskManager.loadBackupFromJson("backup.json");
+    }
+
+    public static void reset(){
+         webScraper.reset();
+         users.reset();
+         schedule.reset();
+         extractor.reset();
     }
 }
