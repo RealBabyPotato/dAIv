@@ -23,11 +23,10 @@ public class backup {
         JSONObject timeObj = new JSONObject();
         JSONObject categoryObj = new JSONObject();
         JSONObject listObj = new JSONObject();
-        JSONObject characteristicsObj = new JSONObject();
 
         // Set values for each component
         messageObj.put("message", message);
-        timeObj.put("schedEvent", time);
+        timeObj.put("time", time);
         categoryObj.put("category", category);
         listObj.put("list", list);
 
