@@ -67,6 +67,8 @@ public class ScheduledEvent{
 					d.set(Calendar.DAY_OF_YEAR, d.get(Calendar.DAY_OF_YEAR)+1);
 				}else if(f.equals("hour")) {
 					d.set(Calendar.HOUR_OF_DAY, d.get(Calendar.HOUR_OF_DAY));
+				}else if(f.equals("minute")) {
+					d.set(Calendar.MINUTE, d.get(Calendar.MINUTE)+1);
 				}
 				scheduleRepeatedEvent(r, d, f);
 			}
@@ -105,6 +107,10 @@ public class ScheduledEvent{
 		return Duration.between(start, end).toMillis();
 		
 	}	
+	
+	public TimerTask getTask() {
+		return task;
+	}
 	
 	
 }
