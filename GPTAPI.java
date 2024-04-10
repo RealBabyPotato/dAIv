@@ -1,3 +1,4 @@
+import javax.naming.NameNotFoundException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,31 +11,19 @@ import java.util.regex.*;
 class GPTAPI {
 
     private static final String API_KEY = "YOUR_CHATGPT_API_KEY"; // Replace with your actual API key
-
-    public static void main(String[] args) {
-        Pattern pattern = Pattern.compile("\"id\": \"([^\"]+)\"");
-
-        String assistantId = createAssistant();
-        Matcher match = pattern.matcher(assistantId);
-        if(!match.find()){
-            System.out.println("Couldn't find assistant id");
-            return;
-        } else {
-            assistantId = match.group(1);
-            System.out.println("assistant ID: " + assistantId);
-        }
-
-        String threadId = createThread(assistantId);
-        match = pattern.matcher(threadId);
-        if(!match.find()){
-            System.out.println("Couldn't find assistant id");
-            return;
-        } else {
-            threadId = match.group(1);
-            System.out.println("thread ID: " + threadId);
-        }
+    //private static Pattern pattern = Pattern.compile("\"id\": \"([^\"]+)\"");
+    public static void main(String[] args) throws InterruptedException, NameNotFoundException {
+        String assistantId = regexResponse(createAssistant(), "id");
+        String threadId = regexResponse(createThread(assistantId), "id");
         addMessageToThread(assistantId, threadId, "I need to solve the equation `3x + 11 = 14`. Can you help me?");
-        createRun(assistantId, threadId);
+        String runId = regexResponse(createRun(assistantId, threadId), "id");
+
+        while(true){
+            Thread.sleep(3000);
+            regexResponse(pollRun(threadId, runId), "status");
+            // regexResponse(retrieveMessagesFromThread(threadId), "id");
+            System.out.println(retrieveMessagesFromThread(threadId));
+        }
     }
 
     private static String createAssistant() {
@@ -55,6 +44,18 @@ class GPTAPI {
         return sendPostRequest(url, "{}");
     }
 
+    private static String regexResponse(String response, String filterParameter) throws NameNotFoundException {
+        Pattern pattern = Pattern.compile("\"" + filterParameter + "\": \"([^\"]+)\"");
+        Matcher match = pattern.matcher(response);
+
+        if(!match.find()){
+            throw new NameNotFoundException("Couldn't find regex with given filterParameter!");
+        } else {
+            System.out.println(match.group(1));
+            return match.group(1);
+        }
+    }
+
     private static void addMessageToThread(String assistantId, String threadId, String message) {
         // Implement the message addition logic here
         String url = "https://api.openai.com/v1/threads/" + threadId + "/messages";
@@ -62,7 +63,7 @@ class GPTAPI {
         sendPostRequest(url, requestBody);
     }
 
-    private static void createRun(String assistantId, String threadId) {
+    private static String createRun(String assistantId, String threadId) {
         // Implement the run creation logic here
         String url = "https://api.openai.com/v1/threads/" + threadId + "/runs";
         String requestBody = "{"
@@ -70,7 +71,55 @@ class GPTAPI {
                 + "\"instructions\": \"Please address the user as Jane Doe. The user has a premium account.\""
                 + "}";
         String post = sendPostRequest(url, requestBody);
-        System.out.println(post);
+        //System.out.println(post);
+        return post;
+    }
+
+    private static String pollRun(String threadId, String runId){ // can probably offload lots of this to a get method
+        try {
+            URL url = new URL("https://api.openai.com/v1/threads/" + threadId + "/runs/" + runId);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Authorization", "Bearer " + API_KEY);
+            connection.setRequestProperty("OpenAI-Beta", "assistants=v1");
+
+            StringBuilder response = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+            }
+
+            return response.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
+        }
+    }
+
+    private static String retrieveMessagesFromThread(String threadId){ // can probably offload lots of this to a get method
+        try {
+            URL url = new URL("https://api.openai.com/v1/threads/" + threadId);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Authorization", "Bearer " + API_KEY);
+            connection.setRequestProperty("OpenAI-Beta", "assistants=v1");
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            StringBuilder response = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+            }
+
+            return response.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
+        }
     }
 
     private static String sendPostRequest(String urlString, String body) {
