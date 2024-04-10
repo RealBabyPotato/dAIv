@@ -1,3 +1,5 @@
+import com.twilio.type.PhoneNumber;
+
 import javax.naming.NameNotFoundException;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,21 +13,44 @@ import java.util.regex.*;
 class GPTAPI {
 
     private static final String API_KEY = "YOUR_CHATGPT_API_KEY";
+    public static String assistantId;
     //private static Pattern pattern = Pattern.compile("\"id\": \"([^\"]+)\"");
     public static void main(String[] args) throws InterruptedException, NameNotFoundException {
-        String assistantId = regexResponse(createAssistant(), "id");
-        String threadId = regexResponse(createThread(assistantId), "id");
-        addMessageToThread(assistantId, threadId, "I need to solve the equation `3x + 11 = 14`. Can you help me?");
-        String runId = regexResponse(createRun(assistantId, threadId), "id");
+        // String assistantId = regexResponse(createAssistant(), "id");
+        assistantId = regexResponse(createAssistant(), "id");
+        User j = new User(new PhoneNumber("2508809769"), "jaden");
+        User y = new User(new PhoneNumber("1"), "bob");
+        System.out.println(sendAndReceive(j, "How can I solve 8x^2 + 4 = 0?"));
+        System.out.println(sendAndReceive(j, "What was the last thing I asked you?"));
+        System.out.println(sendAndReceive(y, "What was the last thing I asked you?"));
+    }
 
-        while(true){
-            Thread.sleep(3000);
-            regexResponse(pollRun(threadId, runId), "status");
-            // regexResponse(retrieveMessagesFromThread(threadId), "id");
-            System.out.println(retrieveMessagesFromThread(threadId));
-            regexResponse(retrieveMessagesFromThread(threadId), "value");
-
+    private static String addMessageToUserThread(User user, String message) throws NameNotFoundException {
+        if(user.getThreadId() == null){ // create new thread if one doesn't exist
+            user.setThreadId(regexResponse(createThread(assistantId), "id"));
+            // addMessageToThread(assistantId, user.getThreadId(), "");
         }
+        addMessageToThread(assistantId, user.getThreadId(), message);
+
+        // returns the runID
+        return regexResponse(createRun(assistantId, user.getThreadId()), "id");
+    }
+
+    private static String retrieveFromRun(User user, String runID) throws NameNotFoundException, InterruptedException {
+        String response;
+        for(int i = 0; i < 20; i++){
+            response = regexResponse(pollRun(user.getThreadId(), runID), "status");
+            Thread.sleep(550);
+            if(response.equals("completed")){ // if the server has handled our request, return it
+                return regexResponse(retrieveMessagesFromThread(user.getThreadId()), "value");
+            }
+        }
+        return "There was an error processing this response.";
+    }
+
+    public static String sendAndReceive(User user, String message) throws NameNotFoundException, InterruptedException {
+        System.out.println("Sending message to user with threadId " + user.getThreadId());
+        return retrieveFromRun(user, addMessageToUserThread(user, message));
     }
 
     private static String createAssistant() {
@@ -52,7 +77,7 @@ class GPTAPI {
         if(!match.find()){
             throw new NameNotFoundException("Couldn't find regex with given filterParameter!");
         } else {
-            System.out.println(match.group(1));
+            // System.out.println(match.group(1)); for debugging purposes
             return match.group(1);
         }
     }

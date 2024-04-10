@@ -7,6 +7,7 @@ public class User {
     public PhoneNumber phoneNumber;
     private String userName;
     private String messages;
+    private String threadId;
 
     // Constructor Methods
     public User(PhoneNumber phoneNum, String userN, String messages) {
@@ -27,6 +28,10 @@ public class User {
     // Accessor Methods
     public String getUserName(){
         return userName;
+    }
+    public String getThreadId() { return threadId; }
+    public void setThreadId(String id){
+        this.threadId = id;
     }
 
 
