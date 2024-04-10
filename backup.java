@@ -3,6 +3,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
 
+import com.google.gson.Gson;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -10,10 +11,12 @@ import org.json.simple.JSONObject;
 
 public class backup {
     private JSONArray backup; // JSON array to hold all task objects
+    private final Gson gson = new Gson();
 
     public backup() {
         backup = new JSONArray();
     }
+
 
 
     // Method to add a task with message, scheduled event, category, list, and characteristics
@@ -21,13 +24,14 @@ public class backup {
         // Create JSON objects for each task component
         JSONObject task = new JSONObject();
         JSONObject messageObj = new JSONObject();
+        String scheduledEventString = gson.toJson(scheduledEvent);
         JSONObject scheduledEventObj = new JSONObject();
         JSONObject categoryObj = new JSONObject();
         JSONObject listObj = new JSONObject();
 
         // Set values for each component
         messageObj.put("message", message);
-        scheduledEventObj.put("scheduledEvent", scheduledEvent);
+        scheduledEventObj.put("scheduledEvent", scheduledEventString);
         categoryObj.put("category", category);
         listObj.put("list", list);
 
