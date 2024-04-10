@@ -108,8 +108,16 @@ public class ScheduledEvent{
 		
 	}	
 	
-	public TimerTask getTask() {
+	public TimerTask getObject() {
 		return task;
+	}
+	
+	public String getTask() {
+		return request;
+	}
+	
+	public Calendar getTime() {
+		return date;
 	}
 	
 	
