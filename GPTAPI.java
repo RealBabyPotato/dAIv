@@ -1,6 +1,4 @@
-// import com.theokanning.openai.completion.CompletionRequest;
-// import com.theokanning.openai.service.OpenAiService;
-
+import javax.naming.NameNotFoundException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,118 +6,147 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-class GPTAPI{
-    public static void main(String... args) {
-        // we'll use Mr. H's token here
-        String token = "YOUR_CHATGPT_API_KEY";
+import java.util.regex.*;
 
-        /*OpenAiService service = new OpenAiService(token);
+class GPTAPI {
 
-        // this is how we make a basic request. this should be pretty intuitive -- it uses an old version of gpt 3.5 tho!
-        CompletionRequest completionRequest = CompletionRequest.builder()
-                .prompt("Tell me a joke.")
-                .model("gpt-3.5-turbo-instruct")
-                .echo(true)
-                .build();
+    private static final String API_KEY = "YOUR_CHATGPT_API_KEY";
+    //private static Pattern pattern = Pattern.compile("\"id\": \"([^\"]+)\"");
+    public static void main(String[] args) throws InterruptedException, NameNotFoundException {
+        String assistantId = regexResponse(createAssistant(), "id");
+        String threadId = regexResponse(createThread(assistantId), "id");
+        addMessageToThread(assistantId, threadId, "I need to solve the equation `3x + 11 = 14`. Can you help me?");
+        String runId = regexResponse(createRun(assistantId, threadId), "id");
 
-        // this is what we do with the output. for now we just use a method reference to print the response out to the console.
-        service.createCompletion(completionRequest).getChoices().forEach(System.out::println);*/
-
-
-        // this is a more manual approach, but i think it'll be the way forward. this is gpt-4 and we can customize endpoints, use assistants, and so on.
-        //System.out.println(prompt("Tell me a joke."));
-        System.out.println(retrieveImage("A cute baby sea otter."));
-        //System.out.println("{\"model\": \"" + "this is model" + "\", \"prompt\": \"" + "this is prompt" + "\", \"n\": \"1\", \"size\": \"1024x1024\"}");
+        while(true){
+            Thread.sleep(3000);
+            regexResponse(pollRun(threadId, runId), "status");
+            // regexResponse(retrieveMessagesFromThread(threadId), "id");
+            System.out.println(retrieveMessagesFromThread(threadId));
+        }
     }
 
-    // this is where we are going to be making our other methods that interact with chat.
-    // @ethan & @sophia, take a look at how to use the assistants api.
+    private static String createAssistant() {
+        // Implement the assistant creation logic here
+        String url = "https://api.openai.com/v1/assistants";
+        String requestBody = "{"
+                + "\"instructions\": \"You are a personal math tutor. Write and run code to answer math questions.\","
+                + "\"name\": \"Math Tutor\","
+                + "\"model\": \"gpt-4\""
+                + "}";
+        return sendPostRequest(url, requestBody);
+    }
 
-    public static String prompt(String prompt){
-        String url = "https://api.openai.com/v1/chat/completions"; // assistants api instead later
-        String apiKey = "YOUR_CHATGPT_API_KEY";
-        String model = "gpt-4";
+    private static String createThread(String assistantId) {
+        // Implement the thread creation logic here
+        String url = "https://api.openai.com/v1/threads";
+        return sendPostRequest(url, "{}");
+    }
 
+    private static String regexResponse(String response, String filterParameter) throws NameNotFoundException {
+        Pattern pattern = Pattern.compile("\"" + filterParameter + "\": \"([^\"]+)\"");
+        Matcher match = pattern.matcher(response);
+
+        if(!match.find()){
+            throw new NameNotFoundException("Couldn't find regex with given filterParameter!");
+        } else {
+            System.out.println(match.group(1));
+            return match.group(1);
+        }
+    }
+
+    private static void addMessageToThread(String assistantId, String threadId, String message) {
+        // Implement the message addition logic here
+        String url = "https://api.openai.com/v1/threads/" + threadId + "/messages";
+        String requestBody = "{\"role\": \"user\", \"content\": \"" + message + "\"}";
+        sendPostRequest(url, requestBody);
+    }
+
+    private static String createRun(String assistantId, String threadId) {
+        // Implement the run creation logic here
+        String url = "https://api.openai.com/v1/threads/" + threadId + "/runs";
+        String requestBody = "{"
+                + "\"assistant_id\": \"" + assistantId + "\","
+                + "\"instructions\": \"Please address the user as Jane Doe. The user has a premium account.\""
+                + "}";
+        String post = sendPostRequest(url, requestBody);
+        //System.out.println(post);
+        return post;
+    }
+
+    private static String pollRun(String threadId, String runId){ // can probably offload lots of this to a get method
         try {
-            URL obj = new URL(url);
-            HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Authorization", "Bearer " + apiKey);
-            connection.setRequestProperty("Content-Type", "application/json");
+            URL url = new URL("https://api.openai.com/v1/threads/" + threadId + "/runs/" + runId);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Authorization", "Bearer " + API_KEY);
             connection.setRequestProperty("OpenAI-Beta", "assistants=v1");
 
-            // The request body
-            String body = "{\"model\": \"" + model + "\", \"messages\": [{\"role\": \"user\", \"content\": \"" + prompt + "\"}]}";
-            connection.setDoOutput(true);
-            OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-            writer.write(body);
-            writer.flush();
-            writer.close();
-
-            // Response from ChatGPT
-            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String line;
-
-            StringBuffer response = new StringBuffer();
-
-            while ((line = br.readLine()) != null) {
-                response.append(line);
+            StringBuilder response = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
             }
-            br.close();
 
-            // calls the method to extract the message.
-            return extractMessageFromJSONResponse(response.toString());
-
+            return response.toString();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
         }
     }
 
-    public static String retrieveImage(String prompt){
-        String url = "https://api.openai.com/v1/images/generations";
-        String apiKey = "YOUR_CHATGPT_API_KEY";
-        String model = "dall-e-3";
-
+    private static String retrieveMessagesFromThread(String threadId){ // can probably offload lots of this to a get method
         try {
-            URL obj = new URL(url);
-            HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Authorization", "Bearer " + apiKey);
+            URL url = new URL("https://api.openai.com/v1/threads/" + threadId);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Authorization", "Bearer " + API_KEY);
+            connection.setRequestProperty("OpenAI-Beta", "assistants=v1");
             connection.setRequestProperty("Content-Type", "application/json");
 
-            // The request body
-            String body = "{\"model\": \"" + model + "\", \"prompt\": \"" + prompt + "\", \"n\": \"1\", \"size\": \"1024x1024\"}";
-            connection.setDoOutput(true);
-            OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-            writer.write(body);
-            writer.flush();
-            writer.close();
-
-            // Response from ChatGPT
-            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String line;
-
-            StringBuffer response = new StringBuffer();
-
-            while ((line = br.readLine()) != null) {
-                response.append(line);
+            StringBuilder response = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
             }
-            br.close();
 
-            // calls the method to extract the message.
             return response.toString();
-
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
         }
     }
 
-    public static String extractMessageFromJSONResponse(String response) {
-        int start = response.indexOf("content")+ 11;
+    private static String sendPostRequest(String urlString, String body) {
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Authorization", "Bearer " + API_KEY);
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("OpenAI-Beta", "assistants=v1");
+            connection.setDoOutput(true);
 
-        int end = response.indexOf("\"", start);
+            try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())) {
+                writer.write(body);
+            }
 
-        return response.substring(start, end);
+            StringBuilder response = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+            }
 
+            return response.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
+        }
     }
 }

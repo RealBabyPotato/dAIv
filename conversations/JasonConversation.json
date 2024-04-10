@@ -1,0 +1,20 @@
+{
+  "user": "John Doe",
+  "messages": [
+    {
+      "message": "Hello!",
+      "reply": "Hi there!",
+      "time": "2024-04-08T10:00:00"
+    },
+    {
+      "message": "How are you?",
+      "reply": "I'm doing well, thank you!",
+      "time": "2024-04-08T10:05:00"
+    },
+    {
+      "message": "What are you up to?",
+      "reply": "Just working on some tasks!",
+      "time": "2024-04-08T10:10:00"
+    }
+  ]
+}
