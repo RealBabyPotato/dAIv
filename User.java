@@ -20,11 +20,6 @@ public class User {
         Main.RegisteredUsers.add(this);
     }
 
-    public User(PhoneNumber phoneNum){
-        this.phoneNumber = phoneNum;
-        Main.RegisteredUsers.add(this);
-    }
-
     // Accessor Methods
     public String getUserName(){
         return userName;

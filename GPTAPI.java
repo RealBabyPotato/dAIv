@@ -14,11 +14,20 @@ class GPTAPI {
 
     private static final String API_KEY = "YOUR_CHATGPT_API_KEY";
     public static String assistantId;
+
+    static {
+        try {
+            assistantId = regexResponse(createAssistant(), "id");
+        } catch (NameNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     //private static Pattern pattern = Pattern.compile("\"id\": \"([^\"]+)\"");
     public static void main(String[] args) throws InterruptedException, NameNotFoundException {
         // String assistantId = regexResponse(createAssistant(), "id");
-        assistantId = regexResponse(createAssistant(), "id");
-        User j = new User(new PhoneNumber("2508809769"), "jaden");
+        //assistantId = regexResponse(createAssistant(), "id");
+        User j = new User(new PhoneNumber("2508809769"), "Jaden");
         User y = new User(new PhoneNumber("1"), "bob");
         System.out.println(sendAndReceive(j, "How can I solve 8x^2 + 4 = 0?"));
         System.out.println(sendAndReceive(j, "What was the last thing I asked you?"));
@@ -33,7 +42,7 @@ class GPTAPI {
         addMessageToThread(assistantId, user.getThreadId(), message);
 
         // returns the runID
-        return regexResponse(createRun(assistantId, user.getThreadId()), "id");
+        return regexResponse(createRun(assistantId, user.getThreadId(), user.getUserName()), "id");
     }
 
     private static String retrieveFromRun(User user, String runID) throws NameNotFoundException, InterruptedException {
@@ -49,7 +58,7 @@ class GPTAPI {
     }
 
     public static String sendAndReceive(User user, String message) throws NameNotFoundException, InterruptedException {
-        System.out.println("Sending message to user with threadId " + user.getThreadId());
+        //System.out.println("Sending message to ChatGPT API with threadId " + user.getThreadId());
         return retrieveFromRun(user, addMessageToUserThread(user, message));
     }
 
@@ -89,15 +98,14 @@ class GPTAPI {
         sendPostRequest(url, requestBody);
     }
 
-    private static String createRun(String assistantId, String threadId) {
+    private static String createRun(String assistantId, String threadId, String username) {
         // Implement the run creation logic here
         String url = "https://api.openai.com/v1/threads/" + threadId + "/runs";
         String requestBody = "{"
-                + "\"assistant_id\": \"" + assistantId + "\","
-                + "\"instructions\": \"Please address the user as Jane Doe. The user has a premium account.\""
+                + "\"assistant_id\": \"" + assistantId + "\"," // this is where we can alter our instructions -- this gets run whenever we add a new message to the thread!
+                + "\"instructions\": \"Please address the user as " + username +  ". The user has a premium account.\""
                 + "}";
         String post = sendPostRequest(url, requestBody);
-        //System.out.println(post);
         return post;
     }
 
