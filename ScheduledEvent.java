@@ -108,9 +108,22 @@ public class ScheduledEvent{
 		
 	}	
 	
-	public TimerTask getTask() {
+	public TimerTask getObject() {
 		return task;
 	}
+
+	public String getRequest(){
+		return request;
+	}
+
+	public String getTime(){ // Format as a YYYY-MM-DD HH:mm:ss string
+		return String.format("%04d-%02d-%02d %02d:%02d:%02d", date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH), date.get(Calendar.HOUR_OF_DAY), date.get(Calendar.MINUTE), date.get(Calendar.SECOND)); // Format as YYYY-MM-DD HH:mm:ss string
+	}
+	
+	public String getTask() {
+		return request;
+	}
+
 	
 	
 }

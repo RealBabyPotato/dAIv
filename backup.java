@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Calendar;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -11,12 +12,10 @@ import org.json.simple.JSONObject;
 
 public class backup {
     private JSONArray backup; // JSON array to hold all task objects
-    private final Gson gson = new Gson();
 
     public backup() {
         backup = new JSONArray();
     }
-
 
 
     // Method to add a task with message, scheduled event, category, list, and characteristics
@@ -24,14 +23,14 @@ public class backup {
         // Create JSON objects for each task component
         JSONObject task = new JSONObject();
         JSONObject messageObj = new JSONObject();
-        String scheduledEventString = gson.toJson(scheduledEvent);
         JSONObject scheduledEventObj = new JSONObject();
         JSONObject categoryObj = new JSONObject();
         JSONObject listObj = new JSONObject();
 
         // Set values for each component
         messageObj.put("message", message);
-        scheduledEventObj.put("scheduledEvent", scheduledEventString);
+        scheduledEventObj.put("eventName", scheduledEvent.getRequest());
+        scheduledEventObj.put("eventTime", scheduledEvent.getTime());
         categoryObj.put("category", category);
         listObj.put("list", list);
 
@@ -48,7 +47,10 @@ public class backup {
     // Method to save backup to a JSON file
     public void saveBackupToJson(String filename) {
         try (FileWriter file = new FileWriter(filename)) {
-            file.write(backup.toJSONString());
+            //file.write(backup.toJSONString());
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonOutput = gson.toJson(backup);
+            file.write(jsonOutput);
             System.out.println("Backup saved to " + filename);
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,12 +73,12 @@ public class backup {
         backup taskManager = new backup();
 
         // Example usage: Adding tasks and saving them to JSON
-        ScheduledEvent eventA = new ScheduledEvent("Hello", Calendar.getInstance());
+        ScheduledEvent eventA = new ScheduledEvent("Do homework", Calendar.getInstance());
         taskManager.addToJSON("Sample Task", "Sample Category", "Sample List", eventA);
         taskManager.saveBackupToJson("backup.json");
 
         // Loading backup from JSON
-        //taskManager.loadBackupFromJson("backup.json");
+        taskManager.loadBackupFromJson("backup.json");
     }
 }
 //     public static void reset(){
