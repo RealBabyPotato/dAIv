@@ -25,23 +25,7 @@ class Main{
 
     //region super janky
     // !!! this is a *temporary* workaround to not having access to webhooks and the server while will/mr. h are away! this is a very bad implementation of what it's trying to do. it is for debug purposes only.
-    private void replyAlways(String reply){
-        // if this receives two messages within 5 seconds it will not reply to the first one it receives -- seriously, do not use this!! - jaden
-        ScheduledEvent t = new ScheduledEvent(5000, new Task(){
-            @Override
-            public void execute(){
-                if(refreshMostRecentMessage()){ // if there has been a new message:
-                    // System.out.println(mostRecentMessage.getFrom());
-                    try{
-                        findUser(mostRecentMessage.getFrom()).message("Reply");
-                    } catch(NullPointerException e){
-                        System.out.println("Failed to find reply user phone number");
-                    }
-                }
-                System.out.println("run");
-            }
-        });
-    }
+    // WILL DELETED IT BECAUSE IT WAS BROKE AH
 
     // refreshes the most recent message and tells us if it has changed.
     private boolean refreshMostRecentMessage(){
