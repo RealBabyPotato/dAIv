@@ -25,12 +25,12 @@ public class EventMaker {
 		}
 	}
 
-	//checks if the event is set to run in the future and not the past
+	// Checks if the event is set to run in the future and not the past
 	public static boolean isValid(Calendar c) {
 		return getTimeDiff(c) >= 0;
 	}
 
-	//gets the time difference between the current time and a specified date
+	// Gets the time difference between the current time and a specified date
 	public static long getTimeDiff(Calendar cal) {
 		Clock clocka = Clock.system(ZoneId.of("UTC"));
 		Clock clock = Clock.offset(clocka, Duration.ofHours(-7));
