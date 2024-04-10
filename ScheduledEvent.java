@@ -13,7 +13,7 @@ public class ScheduledEvent{
 	private TimerTask task;
 	private String request;
 	private Calendar date;
-	private int field;
+	private String field;
 	
 	//for one time tasks
 	public ScheduledEvent(String r, Calendar d) {
@@ -25,14 +25,17 @@ public class ScheduledEvent{
 	}
 
 	//for repeated events
-	public ScheduledEvent(String r, Calendar d, int f) {
+	public ScheduledEvent(String r, Calendar d, String f) {
+		/*
+
+		 */
 		request = r;
 		date = d;
 		field = f;
 		
 		scheduleRepeatedEvent(r, d, f);
 	}
-
+	//for one time tasks
 	public void scheduleEvent(String r, Calendar d) {
 		task = new TimerTask() {
 			public void run() {
@@ -45,15 +48,28 @@ public class ScheduledEvent{
 		timeTracker = new Timer();
 		timeTracker.schedule(task, getTimeDiff(date));
 	}
-	
-	public void scheduleRepeatedEvent(String r, Calendar d, int f) {
+	//for repeated events
+	// the parameter f is the amount by which the event is repeating
+	public void scheduleRepeatedEvent(String r, Calendar d, String f) {
 		
 		task = new TimerTask() {
 			public void run() {
 				//do the thing
 				//this is a test
 				System.out.println("aaaaaa");
-				d.set(f, d.get(f)+1);
+				if(f.equals("year")) {
+					d.set(Calendar.YEAR, d.get(Calendar.YEAR)+1);
+				}else if(f.equals("month")) {
+					d.set(Calendar.MONTH, d.get(Calendar.MONTH)+1);
+				}else if(f.equals("week")) {
+					d.set(Calendar.WEEK_OF_YEAR, d.get(Calendar.WEEK_OF_YEAR)+1);
+				}else if(f.equals("day")) {
+					d.set(Calendar.DAY_OF_YEAR, d.get(Calendar.DAY_OF_YEAR)+1);
+				}else if(f.equals("hour")) {
+					d.set(Calendar.HOUR_OF_DAY, d.get(Calendar.HOUR_OF_DAY));
+				}else if(f.equals("minute")) {
+					d.set(Calendar.MINUTE, d.get(Calendar.MINUTE)+1);
+				}
 				scheduleRepeatedEvent(r, d, f);
 			}
 		};
@@ -91,6 +107,23 @@ public class ScheduledEvent{
 		return Duration.between(start, end).toMillis();
 		
 	}	
+	
+	public TimerTask getObject() {
+		return task;
+	}
+
+	public String getRequest(){
+		return request;
+	}
+
+	public String getTime(){ // Format as a YYYY-MM-DD HH:mm:ss string
+		return String.format("%04d-%02d-%02d %02d:%02d:%02d", date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH), date.get(Calendar.HOUR_OF_DAY), date.get(Calendar.MINUTE), date.get(Calendar.SECOND)); // Format as YYYY-MM-DD HH:mm:ss string
+	}
+	
+	public String getTask() {
+		return request;
+	}
+
 	
 	
 }
