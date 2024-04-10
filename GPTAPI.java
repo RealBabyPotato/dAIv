@@ -23,6 +23,8 @@ class GPTAPI {
             regexResponse(pollRun(threadId, runId), "status");
             // regexResponse(retrieveMessagesFromThread(threadId), "id");
             System.out.println(retrieveMessagesFromThread(threadId));
+            regexResponse(retrieveMessagesFromThread(threadId), "value");
+
         }
     }
 
@@ -99,7 +101,7 @@ class GPTAPI {
 
     private static String retrieveMessagesFromThread(String threadId){ // can probably offload lots of this to a get method
         try {
-            URL url = new URL("https://api.openai.com/v1/threads/" + threadId);
+            URL url = new URL("https://api.openai.com/v1/threads/" + threadId + "/messages");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Authorization", "Bearer " + API_KEY);
