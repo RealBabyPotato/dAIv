@@ -10,7 +10,7 @@ import java.util.regex.*;
 
 class GPTAPI {
 
-    private static final String API_KEY = "YOUR_CHATGPT_API_KEY"; // Replace with your actual API key
+    private static final String API_KEY = "YOUR_CHATGPT_API_KEY";
     //private static Pattern pattern = Pattern.compile("\"id\": \"([^\"]+)\"");
     public static void main(String[] args) throws InterruptedException, NameNotFoundException {
         String assistantId = regexResponse(createAssistant(), "id");
@@ -32,7 +32,6 @@ class GPTAPI {
         String requestBody = "{"
                 + "\"instructions\": \"You are a personal math tutor. Write and run code to answer math questions.\","
                 + "\"name\": \"Math Tutor\","
-                // + "\"tools\": [{\"type\": \"code_interpreter\"}],"
                 + "\"model\": \"gpt-4\""
                 + "}";
         return sendPostRequest(url, requestBody);
