@@ -3,6 +3,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -14,6 +16,7 @@ public class backup {
     public backup() {
         backup = new JSONArray();
     }
+
 
     // Method to add a task with message, scheduled event, category, list, and characteristics
     public void addToJSON(String message, String category, String list, ScheduledEvent scheduledEvent) {
@@ -44,7 +47,10 @@ public class backup {
     // Method to save backup to a JSON file
     public void saveBackupToJson(String filename) {
         try (FileWriter file = new FileWriter(filename)) {
-            file.write(backup.toJSONString());
+            //file.write(backup.toJSONString());
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonOutput = gson.toJson(backup);
+            file.write(jsonOutput);
             System.out.println("Backup saved to " + filename);
         } catch (IOException e) {
             e.printStackTrace();
