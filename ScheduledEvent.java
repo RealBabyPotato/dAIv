@@ -123,10 +123,7 @@ public class ScheduledEvent{
 	public String getTask() {
 		return request;
 	}
-	
-	public Calendar getTime() {
-		return date;
-	}
+
 	
 	
 }
