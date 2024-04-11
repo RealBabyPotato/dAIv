@@ -19,38 +19,40 @@ public class backup {
     }
 
     // Method to add a task with message, scheduled event, category, list, and characteristics
-    public void addToJSON(String message, String list, ScheduledEvent scheduledEvent, User user) {
-        // Create JSON objects for each task component
+    public void addToJSON(String message, String reply, ScheduledEvent scheduledEvent, User user) {
+        // Create JSON objects for each component
+        JSONObject client = new JSONObject();
+        JSONObject messages = new JSONObject();
         JSONObject task = new JSONObject();
+        JSONObject userObj = new JSONObject();
         JSONObject messageObj = new JSONObject();
         JSONObject scheduledEventObj = new JSONObject();
-        JSONObject categoryObj = new JSONObject();
         JSONObject listObj = new JSONObject();
-        JSONObject userObj = new JSONObject();
 
         // Set values for each component
-        messageObj.put("message", message);
-        scheduledEventObj.put("eventName", scheduledEvent.getRequest());
-        scheduledEventObj.put("eventTime", scheduledEvent.getTime());
-        listObj.put("list", list);
         userObj.put("phone number", user.phoneNumber.toString());
         userObj.put("thread id", user.getThreadId());
-        userObj.put("name", user.getUserName());
+        userObj.put("username", user.getUserName());
+        messageObj.put("message", message);
+        messageObj.put("reply", reply);
+        messageObj.put("time", scheduledEvent.getTime());
+        scheduledEventObj.put("task", scheduledEvent.getRequest());
+        scheduledEventObj.put("time", scheduledEvent.getTime());
 
         // Add each component to the task object
-        task.put("messages", messageObj);
-        task.put("scheduledEvent", scheduledEventObj);
-        task.put("list", listObj);
-        task.put("user", userObj);
+        client.put("user", userObj);
+        messages.put("messages", messageObj);
+        messages.put("reminders", scheduledEventObj);
+
 
         // Add the task object to the backup array
-        backup.add(task);
+        backup.add(userObj);
+        backup.add(messages);
     }
 
     // Method to save backup to a JSON file
     public void saveBackupToJson(String filename) {
         try (FileWriter file = new FileWriter(filename)) {
-            //file.write(backup.toJSONString());
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String jsonOutput = gson.toJson(backup);
             file.write(jsonOutput);
@@ -78,7 +80,7 @@ public class backup {
         // Example usage: Adding tasks and saving them to JSON
         ScheduledEvent eventA = new ScheduledEvent("Do homework", Calendar.getInstance());
         User sampleUser = new User(new PhoneNumber("123456789"), "John Doe");
-        taskManager.addToJSON("Sample Task", "Sample List", eventA, sampleUser);
+        taskManager.addToJSON("This is a draft of what the final JSON file might look like.", "Both messages and replies will be stored, as well as the time.", eventA, sampleUser);
         taskManager.saveBackupToJson("backup.json");
 
         // Loading backup from JSON
