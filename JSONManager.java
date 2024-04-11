@@ -55,11 +55,11 @@ public class JSONManager{
         }
     }
 
-    public void read_File(String requestedUser) throws org.json.simple.parser.ParseException{
+    public void read_File(String requestedUser, String fileName) throws org.json.simple.parser.ParseException{
 
         JSONParser parser = new JSONParser();
 
-        try (FileReader reader = new FileReader("backup_conversation.json")){
+        try (FileReader reader = new FileReader(fileName)){
             Object obj = parser.parse(reader);
             JSONArray allUsers = (JSONArray) obj;
 
