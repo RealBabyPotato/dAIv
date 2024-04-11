@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.twilio.type.PhoneNumber;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -17,28 +18,30 @@ public class backup {
         backup = new JSONArray();
     }
 
-
     // Method to add a task with message, scheduled event, category, list, and characteristics
-    public void addToJSON(String message, String category, String list, ScheduledEvent scheduledEvent) {
+    public void addToJSON(String message, String list, ScheduledEvent scheduledEvent, User user) {
         // Create JSON objects for each task component
         JSONObject task = new JSONObject();
         JSONObject messageObj = new JSONObject();
         JSONObject scheduledEventObj = new JSONObject();
         JSONObject categoryObj = new JSONObject();
         JSONObject listObj = new JSONObject();
+        JSONObject userObj = new JSONObject();
 
         // Set values for each component
         messageObj.put("message", message);
         scheduledEventObj.put("eventName", scheduledEvent.getRequest());
         scheduledEventObj.put("eventTime", scheduledEvent.getTime());
-        categoryObj.put("category", category);
         listObj.put("list", list);
+        userObj.put("phone number", user.phoneNumber.toString());
+        userObj.put("thread id", user.getThreadId());
+        userObj.put("name", user.getUserName());
 
         // Add each component to the task object
-        task.put("message", messageObj);
+        task.put("messages", messageObj);
         task.put("scheduledEvent", scheduledEventObj);
-        task.put("category", categoryObj);
         task.put("list", listObj);
+        task.put("user", userObj);
 
         // Add the task object to the backup array
         backup.add(task);
@@ -74,7 +77,8 @@ public class backup {
 
         // Example usage: Adding tasks and saving them to JSON
         ScheduledEvent eventA = new ScheduledEvent("Do homework", Calendar.getInstance());
-        taskManager.addToJSON("Sample Task", "Sample Category", "Sample List", eventA);
+        User sampleUser = new User(new PhoneNumber("123456789"), "John Doe");
+        taskManager.addToJSON("Sample Task", "Sample List", eventA, sampleUser);
         taskManager.saveBackupToJson("backup.json");
 
         // Loading backup from JSON
