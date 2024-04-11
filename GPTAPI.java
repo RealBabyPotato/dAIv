@@ -27,7 +27,7 @@ class GPTAPI {
     public static void main(String[] args) throws InterruptedException, NameNotFoundException {
         User j = new User(new PhoneNumber("2508809769"), "Jaden");
         //User y = new User(new PhoneNumber("1"), "bob");
-        System.out.println(sendAndReceive(j, "A uniform, rigid rod of length 2m lies on a horizontal surface. One end of the rod can pivot about an axis that is perpendicular to the rod and along the plane of the page. A 10N force is applied to the rod at its midpoint at an angle of 37 degrees. A second force F is applied to the free end of the rod so that the rod remains at rest. The magnitude of the torque produced by force F is most nearly? Also, tell me some recent news from Victoria, British Columbia."));
+        System.out.println(sendAndReceive(j, "A uniform, rigid rod of length 2m lies on a horizontal surface. One end of the rod can pivot about an axis that is perpendicular to the rod and along the plane of the page. A 10N force is applied to the rod at its midpoint from the bottom right at an angle of 37 degrees. A second force F is applied to the free end of the rod downward so that the rod remains at rest. The magnitude of the torque produced by force F is most nearly?"));
         // System.out.println(sendAndReceive(j, "What was the last thing I asked you?"));
         // System.out.println(sendAndReceive(y, "What was the last thing I asked you?"));
     }
