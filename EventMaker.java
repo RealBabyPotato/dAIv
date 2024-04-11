@@ -45,7 +45,7 @@ public class EventMaker {
 	}	
 
 	// Cancels an event
-	public static boolean cancelTask(ScheduledEvent s) {
-		return s.getObject().cancel();
-	}
+//	public static boolean cancelTask(ScheduledEvent s) {
+//		return s.getObject().cancel();
+//	}
 }

@@ -1,15 +1,15 @@
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Calendar;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.twilio.type.PhoneNumber;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.json.simple.JSONObject;
+
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Calendar;
 
 public class backup {
     private JSONArray backup; // JSON array to hold all task objects
@@ -79,7 +79,7 @@ public class backup {
 
         // Example usage: Adding tasks and saving them to JSON
         ScheduledEvent eventA = new ScheduledEvent("Do homework", Calendar.getInstance());
-        User sampleUser = new User(new PhoneNumber("123456789"), "John Doe");
+        User sampleUser = new User(new PhoneNumber("0000000000"), "zachary");
         taskManager.addToJSON("This is a draft of what the final JSON file might look like.", "Both messages and replies will be stored, as well as the time.", eventA, sampleUser);
         taskManager.saveBackupToJson("backup.json");
 
@@ -87,10 +87,3 @@ public class backup {
         taskManager.loadBackupFromJson("backup.json");
     }
 }
-//     public static void reset(){
-//          webScraper.reset();
-//          users.reset();
-//          schedule.reset();
-//          extractor.reset();
-//     }
-// }
