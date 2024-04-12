@@ -18,7 +18,8 @@ class Main{
         User ethan = new User(new PhoneNumber("7785334028"), "Ethan");
 
         // here is how we can use both twilio and chatgpt to send a message from chatgpt through twilio through our user! very cool!
-        jaden.message(GPTAPI.sendAndReceive(jaden, "How do I solve x^2 + 6x + 9?").replaceAll("\\\\n", "\n")); // the replaceAll here just makes the \n function properly
+        //jaden.message(GPTAPI.sendAndReceive(jaden, "How much wood would a woodchuck chuck if a woodchuck could chuck wood?").replaceAll("\\\\n", "\n")); // the replaceAll here just makes the \n function properly
+        //jaden.message("guess who has written a script for the server and will now make a working console for it");
         // System.out.println(GPTAPI.sendAndReceive(ethan, "What was the last thing I asked you? Also, what is my name?"));
         // System.out.println(GPTAPI.sendAndReceive(jaden, "What was the last thing I asked you? Also, what is my name?"));
 
