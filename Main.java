@@ -1,72 +1,38 @@
 import com.twilio.Twilio;
-import com.twilio.base.ResourceSet;
 import com.twilio.type.PhoneNumber;
 import com.twilio.rest.api.v2010.account.Message;
 
+import javax.naming.NameNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner
 
 class Main{
 
     Message mostRecentMessage = null;
     public static ArrayList<User> RegisteredUsers = new ArrayList<User>(); // not sure if we should keep this...
 
-    public static void main(String[] args){
-        Twilio.init(TwilioSendMessageExample.ACCOUNT_SID, TwilioSendMessageExample.AUTH_TOKEN);
-
+    public static void main(String[] args) throws NameNotFoundException, InterruptedException {
+        //Twilio.init(TwilioSendMessageExample.ACCOUNT_SID, TwilioSendMessageExample.AUTH_TOKEN);
+        //Scanner kboard = new Scanner(System.in);
+        //final String INFO = ""
+        //while (true){
+        //    System.out.println();
+        //    cmd = kboard.nextLine();
+        //}
         // this is how we register a new user atm
-        User jaden = new User(new PhoneNumber("2508809769"), "Jaden");
-        // User ethan = new User(new PhoneNumber("7785334028"));
+        //User jaden = new User(new PhoneNumber("2508809769"), "Jaden");
+        //User ethan = new User(new PhoneNumber("7785334028"), "Ethan");
 
-        // this is how we can send a message to a user
-        jaden.message("asdf");
-        jaden.writeToFile("Test");
-        jaden.readFromFile();
+        // here is how we can use both twilio and chatgpt to send a message from chatgpt through twilio through our user! very cool!
+        //jaden.message(GPTAPI.sendAndReceive(jaden, "How much wood would a woodchuck chuck if a woodchuck could chuck wood?").replaceAll("\\\\n", "\n")); // the replaceAll here just makes the \n function properly
+        //jaden.message("guess who has written a script for the server and will now make a working console for it");
+        // System.out.println(GPTAPI.sendAndReceive(ethan, "What was the last thing I asked you? Also, what is my name?"));
+        // System.out.println(GPTAPI.sendAndReceive(jaden, "What was the last thing I asked you? Also, what is my name?"));
+
+
+        // this is how we can send a message to a user, write to their file, and read from that file.
+        // jaden.message()
+        // jaden.writeToFile("Test");
+        // jaden.readFromFile();
     }
-
-    //region super janky
-    // !!! this is a *temporary* workaround to not having access to webhooks and the server while will/mr. h are away! this is a very bad implementation of what it's trying to do. it is for debug purposes only.
-    private void replyAlways(String reply){
-        // if this receives two messages within 5 seconds it will not reply to the first one it receives -- seriously, do not use this!! - jaden
-        ScheduledEvent t = new ScheduledEvent(5000, new Task(){
-            @Override
-            public void execute(){
-                if(refreshMostRecentMessage()){ // if there has been a new message:
-                    // System.out.println(mostRecentMessage.getFrom());
-                    try{
-                        findUser(mostRecentMessage.getFrom()).message("Reply");
-                    } catch(NullPointerException e){
-                        System.out.println("Failed to find reply user phone number");
-                    }
-                }
-                System.out.println("run");
-            }
-        });
-    }
-
-    // refreshes the most recent message and tells us if it has changed.
-    private boolean refreshMostRecentMessage(){
-        ResourceSet<Message> messages = Message.reader().limit(1).read();
-
-        for(Message record : messages) {
-            if(!record.equals(mostRecentMessage)){
-                this.mostRecentMessage = record;
-                System.out.println("Updating MRM");
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }
-
-    private User findUser(PhoneNumber num){
-        for(User user : RegisteredUsers){
-            System.out.println(user.phoneNumber);
-            if(user.phoneNumber.equals(num)){
-                return user;
-            }
-        }
-
-        return null;
-    }
-    //endregion
 }

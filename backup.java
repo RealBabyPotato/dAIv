@@ -1,84 +1,56 @@
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Calendar;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.twilio.type.PhoneNumber;
 
-import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.json.simple.JSONObject;
+import java.io.*;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class backup {
-    private JSONArray backup; // JSON array to hold all task objects
+    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    public backup() {
-        backup = new JSONArray();
-    }
-
-    // Method to add a task with message, scheduled event, category, list, and characteristics
-    public void addToJSON(String message, String category, String list, ScheduledEvent scheduledEvent) {
-        // Create JSON objects for each task component
-        JSONObject task = new JSONObject();
-        JSONObject messageObj = new JSONObject();
-        JSONObject scheduledEventObj = new JSONObject();
-        JSONObject categoryObj = new JSONObject();
-        JSONObject listObj = new JSONObject();
-
-        // Set values for each component
-        messageObj.put("message", message);
-        scheduledEventObj.put("eventName", scheduledEvent.getRequest());
-        scheduledEventObj.put("eventTime", scheduledEvent.getTime());
-        categoryObj.put("category", category);
-        listObj.put("list", list);
-
-        // Add each component to the task object
-        task.put("message", messageObj);
-        task.put("scheduledEvent", scheduledEventObj);
-        task.put("category", categoryObj);
-        task.put("list", listObj);
-
-        // Add the task object to the backup array
-        backup.add(task);
-    }
-
-    // Method to save backup to a JSON file
-    public void saveBackupToJson(String filename) {
-        try (FileWriter file = new FileWriter(filename)) {
-            file.write(backup.toJSONString());
-            System.out.println("Backup saved to " + filename);
+    // Method to save a list of User objects to a JSON file
+    public void saveUsersToJSON(ArrayList<User> users) {
+        try (FileWriter writer = new FileWriter("users.json")) {
+            gson.toJson(users, writer);
+            System.out.println("User objects saved to users.json");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // Method to load backup from a JSON file
-    public void loadBackupFromJson(String filename) {
-        try (FileReader reader = new FileReader(filename)) {
-            JSONParser parser = new JSONParser();
-            backup = (JSONArray) parser.parse(reader);
-            System.out.println("Backup loaded from " + filename);
-        } catch (IOException | ParseException e) {
+    // Method to add a User object to JSON
+    public void addUserToJSON(User user) {
+        ArrayList<User> users = getUsersFromJSON();
+        if(!users.contains(user)) {
+            users.add(user);
+            saveUsersToJSON(users);
+        }
+    }
+
+    // Method to return a list of User objects from JSON file
+    public ArrayList<User> getUsersFromJSON() {
+        ArrayList<User> users = new ArrayList<>();
+        try (Reader reader = new FileReader("users.json")) {
+            Type userListType = new TypeToken<ArrayList<User>>() {}.getType();
+            users = gson.fromJson(reader, userListType);
+        } catch (IOException e) {
             e.printStackTrace();
         }
+        return users;
     }
 
     // Main method for testing purposes
     public static void main(String[] args) {
-        backup taskManager = new backup();
-
-        // Example usage: Adding tasks and saving them to JSON
-        ScheduledEvent eventA = new ScheduledEvent("Do homework", Calendar.getInstance());
-        taskManager.addToJSON("Sample Task", "Sample Category", "Sample List", eventA);
-        taskManager.saveBackupToJson("backup.json");
-
-        // Loading backup from JSON
-        taskManager.loadBackupFromJson("backup.json");
+        backup backup = new backup();
+        User zachary = new User(new PhoneNumber("000000000"), "zachary");
+        User hanson = new User(new PhoneNumber("123456789"), "hanson");
+        backup.addUserToJSON(zachary);
+        backup.addUserToJSON(hanson);
+        ArrayList<User> loadedUsers = backup.getUsersFromJSON();
+        for (User user : loadedUsers) {
+            System.out.println("Loaded user: " + user.getUserName());
+        }
     }
 }
-//     public static void reset(){
-//          webScraper.reset();
-//          users.reset();
-//          schedule.reset();
-//          extractor.reset();
-//     }
-// }
