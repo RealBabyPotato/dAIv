@@ -22,7 +22,7 @@ public class EventMaker {
 	//int a is the amount of time units
 	public static void makeEvent(String r, Calendar d, String f, int a) {
 		if (isValid(d)) {
-			ScheduledEvent a = new ScheduledEvent(r, d, f, a);
+			ScheduledEvent b = new ScheduledEvent(r, d, f, a);
 		}
 	}
 
