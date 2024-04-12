@@ -27,6 +27,21 @@ To power its intelligent responses, dAIv relies on OpenAI, a leading AI research
 - **OpenAI Documentation**: Dive deeper into OpenAI's capabilities and explore how you can leverage its AI models in your applications.
     - [OpenAI Documentation](https://platform.openai.com/docs/overview)
 
+## Install & Run
+### Requirements:
+A Unix-based server
+Maven (4+)
+Java (17+)
+GNU coreutils
+curl
+Python 3
+
+1. Run `git clone https://github.com/DaveSMUS/dAIv.git` or clone the repository from Github Desktop.
+
+2. Run `cd dAIv && chmod +x server.py`
+
+3. Run `./server.py` to run your dAIv server! dAIv will be built and run automatically!
+
 ## Community
 
 Join our Discord server to connect with other users, share experiences, and get support for dAIv.
