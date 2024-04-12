@@ -4,15 +4,13 @@ import com.twilio.rest.api.v2010.account.Message;
 
 import javax.naming.NameNotFoundException;
 import java.util.ArrayList;
-import java.util.Scanner
+import java.util.Scanner;
 
 class Main{
-
-    Message mostRecentMessage = null;
     public static ArrayList<User> RegisteredUsers = new ArrayList<User>(); // not sure if we should keep this...
 
     public static void main(String[] args) throws NameNotFoundException, InterruptedException {
-        //Twilio.init(TwilioSendMessageExample.ACCOUNT_SID, TwilioSendMessageExample.AUTH_TOKEN);
+        Twilio.init(TwilioSendMessageExample.ACCOUNT_SID, TwilioSendMessageExample.AUTH_TOKEN);
         //Scanner kboard = new Scanner(System.in);
         //final String INFO = ""
         //while (true){
