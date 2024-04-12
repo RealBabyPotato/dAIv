@@ -11,6 +11,7 @@ public class User {
     private String userName;
     ArrayList<ScheduledEvent> events = new ArrayList<ScheduledEvent>();
     private String threadId;
+    private int testInt;
 
     // Constructor Methods
     public User(PhoneNumber phoneNum, String userN, String messages) {
