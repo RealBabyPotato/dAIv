@@ -1,17 +1,17 @@
 [
   {
-    "scheduledEvent": {
-      "eventTime": "2024-03-10 09:39:45",
-      "eventName": "Do homework"
+    "phone number": "123456789",
+    "username": "John Doe"
+  },
+  {
+    "reminders": {
+      "task": "Do homework",
+      "time": "2024-03-10 20:03:32"
     },
-    "message": {
-      "message": "Sample Task"
-    },
-    "category": {
-      "category": "Sample Category"
-    },
-    "list": {
-      "list": "Sample List"
+    "messages": {
+      "time": "2024-03-10 20:03:32",
+      "message": "This is a draft of what the final JSON file might look like.",
+      "reply": "Both messages and replies will be stored, as well as the time."
     }
   }
 ]
