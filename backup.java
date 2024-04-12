@@ -23,8 +23,10 @@ public class backup {
     // Method to add a User object to JSON
     public void addUserToJSON(User user) {
         ArrayList<User> users = getUsersFromJSON();
-        users.add(user);
-        saveUsersToJSON(users);
+        if(!users.contains(user)) {
+            users.add(user);
+            saveUsersToJSON(users);
+        }
     }
 
     // Method to return a list of User objects from JSON file
@@ -43,13 +45,12 @@ public class backup {
     public static void main(String[] args) {
         backup backup = new backup();
         User zachary = new User(new PhoneNumber("000000000"), "zachary");
-        User hansen = new User(new PhoneNumber("111111111"), "hansen");
+        User hanson = new User(new PhoneNumber("123456789"), "hanson");
         backup.addUserToJSON(zachary);
-        backup.addUserToJSON(hansen);
+        backup.addUserToJSON(hanson);
         ArrayList<User> loadedUsers = backup.getUsersFromJSON();
         for (User user : loadedUsers) {
             System.out.println("Loaded user: " + user.getUserName());
         }
-        System.out.print(loadedUsers);
     }
 }
