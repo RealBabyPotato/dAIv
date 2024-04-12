@@ -24,7 +24,11 @@ public class User {
     public String getUserName(){
         return userName;
     }
-    public String getThreadId() { return threadId; }
+
+    public String getThreadId() {
+        return threadId;
+    }
+
 
     public void setThreadId(String id){
         this.threadId = id;
