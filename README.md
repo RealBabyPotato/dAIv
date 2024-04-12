@@ -29,18 +29,38 @@ To power its intelligent responses, dAIv relies on OpenAI, a leading AI research
 
 ## Install & Run
 ### Requirements:
-A Unix-based server
 Maven (4+)
 Java (17+)
+git
+### Additional requirements for server.py helper script
 GNU coreutils
+A Unix-based server
 curl
-Python 3
+python3 (for install script)
 
 1. Run `git clone https://github.com/DaveSMUS/dAIv.git` or clone the repository from Github Desktop.
 
 2. Run `cd dAIv && chmod +x server.py`
 
 3. Run `./server.py` to run your dAIv server! dAIv will be built and run automatically!
+
+### But I want to run it on Windows!
+Never fear, it is possible, but a bit more involved.
+
+1. Open Command Prompt or Powershell, I don't know which is better
+
+2. Run `git clone https://github.com/DaveSMUS/dAIv.git` or clone the repository from Github Desktop, and enter the directory in Command Prompt.
+
+3. Run `mvn dependency:build-classpath` and copy the really long line that should look something like this:
+`/home/will/.m2/repository/com/theokanning/openai-gpt3-java/service/0.18.2/service-0.18.2.jar:/home/will/.m2/repository/com/theokanning/openai-gpt3-java/client/0.18.2/client-0.18.2.jar...`
+
+4. Run `mvn package`.
+
+5. Find the latest version of dAIv in the `target/` directory and take note of it.
+
+5. Run `java -cp target/dAIV-$VERSION.jar:$CLASSPATH Main.java`
+
+Please note, I am completely guessing on this part - don't @ me.
 
 ## Community
 

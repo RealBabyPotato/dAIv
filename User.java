@@ -1,13 +1,17 @@
 import com.twilio.type.PhoneNumber;
+import org.json.simple.parser.ParseException;
 
+import java.util.ArrayList;
 import java.io.File;
+
 
 public class User {
     // Instance Variables
     public PhoneNumber phoneNumber;
     private String userName;
-    private String messages;
+    ArrayList<ScheduledEvent> events = new ArrayList<ScheduledEvent>();
     private String threadId;
+    private int testInt;
 
     // Constructor Methods
     public User(PhoneNumber phoneNum, String userN, String messages) {
@@ -25,12 +29,17 @@ public class User {
         return userName;
     }
     public String getThreadId() { return threadId; }
+
     public void setThreadId(String id){
         this.threadId = id;
     }
 
 
     // Utility
+    public String toString() {
+        return "PN:" + phoneNumber.toString() + "," + "userName:" + userName + "," + "threadID:" + threadId;
+    }
+
     public void writeToFile(String message) {
         String reply = "This is where our ChatGPT reply will be handled.";
         FileReadWrite.addToConversation(this, message, reply);
@@ -62,7 +71,11 @@ public class User {
 //        PhoneNumber phonenumber;
 //
 //        Main.RegisteredUsers.add(new User(username, phonenumber, messages));
-        JSONManager test = new JSONManager("Jaden");
+
+    }
+
+    public static void main(String[] args) {
+        PopulateUsers();
     }
 
 
