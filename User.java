@@ -27,10 +27,7 @@ public class User {
     public String getUserName(){
         return userName;
     }
-
-    public String getThreadId() {
-        return threadId;
-    }
+    public String getThreadId() { return threadId; }
 
     public void setThreadId(String id){
         this.threadId = id;
@@ -39,7 +36,7 @@ public class User {
 
     // Utility
     public String toString() {
-        return "PN:" + phoneNumber.toString() + "," + "userName:" + userName + "," + "threadID:" + threadID;
+        return "PN:" + phoneNumber.toString() + "," + "userName:" + userName + "," + "threadID:" + threadId;
     }
 
     public void writeToFile(String message) {
