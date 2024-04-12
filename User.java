@@ -1,6 +1,7 @@
 import com.twilio.type.PhoneNumber;
 
 import java.io.File;
+import java.util.Objects;
 
 public class User {
     // Instance Variables
@@ -28,6 +29,13 @@ public class User {
 
     public void setThreadId(String id){
         this.threadId = id;
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(userName, user.userName);
     }
 
 
