@@ -22,12 +22,14 @@ public class User {
     public User(PhoneNumber phoneNum, String userN) {
         this.phoneNumber = phoneNum;
         this.userName = userN;
-        Main.RegisteredUsers.add(this);
     }
 
     // Accessor Methods
     public String getUserName(){
         return userName;
+    }
+    public PhoneNumber getPhoneNumber(){
+        return phoneNumber;
     }
     public String getThreadId() { return threadId; }
 
