@@ -19,6 +19,8 @@ class Main{
         //}
         // this is how we register a new user atm
         //User jaden = new User(new PhoneNumber("2508809769"), "Jaden");
+        User mrH = new User(new PhoneNumber("2506613358"), "David");
+        mrH.message(GPTAPI.sendAndReceive(mrH, "How much wood would a woodchuck chuck if a woodchuck could chuck wood?").replaceAll("\\\\n", "\n")); // the replaceAll here just makes the \n function properly
         //User ethan = new User(new PhoneNumber("7785334028"), "Ethan");
 
         // here is how we can use both twilio and chatgpt to send a message from chatgpt through twilio through our user! very cool!
