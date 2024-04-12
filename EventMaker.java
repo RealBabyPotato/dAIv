@@ -19,9 +19,10 @@ public class EventMaker {
 	// Makes an event that runs at date and time of calendar and then repeats in a unit of time, specified by String f
 	// String f takes "year", "month", "week", "day", "hour", or "minute" as input
 	// d must be set in the future
-	public static void makeEvent(String r, Calendar d, String f) {
+	//int a is the amount of time units
+	public static void makeEvent(String r, Calendar d, String f, int a) {
 		if (isValid(d)) {
-			ScheduledEvent a = new ScheduledEvent(r, d, f);
+			ScheduledEvent a = new ScheduledEvent(r, d, f, a);
 		}
 	}
 
