@@ -4,6 +4,7 @@ import com.twilio.rest.api.v2010.account.Message;
 
 import javax.naming.NameNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner
 
 class Main{
 
@@ -11,11 +12,16 @@ class Main{
     public static ArrayList<User> RegisteredUsers = new ArrayList<User>(); // not sure if we should keep this...
 
     public static void main(String[] args) throws NameNotFoundException, InterruptedException {
-        Twilio.init(TwilioSendMessageExample.ACCOUNT_SID, TwilioSendMessageExample.AUTH_TOKEN);
-
+        //Twilio.init(TwilioSendMessageExample.ACCOUNT_SID, TwilioSendMessageExample.AUTH_TOKEN);
+        //Scanner kboard = new Scanner(System.in);
+        //final String INFO = ""
+        //while (true){
+        //    System.out.println();
+        //    cmd = kboard.nextLine();
+        //}
         // this is how we register a new user atm
-        User jaden = new User(new PhoneNumber("2508809769"), "Jaden");
-        User ethan = new User(new PhoneNumber("7785334028"), "Ethan");
+        //User jaden = new User(new PhoneNumber("2508809769"), "Jaden");
+        //User ethan = new User(new PhoneNumber("7785334028"), "Ethan");
 
         // here is how we can use both twilio and chatgpt to send a message from chatgpt through twilio through our user! very cool!
         //jaden.message(GPTAPI.sendAndReceive(jaden, "How much wood would a woodchuck chuck if a woodchuck could chuck wood?").replaceAll("\\\\n", "\n")); // the replaceAll here just makes the \n function properly
