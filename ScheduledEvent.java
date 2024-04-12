@@ -14,6 +14,7 @@ public class ScheduledEvent{
 	private String request;
 	private Calendar date;
 	private String field;
+	private int amount;
 	
 	//for one time tasks
 	public ScheduledEvent(String r, Calendar d) {
@@ -25,15 +26,16 @@ public class ScheduledEvent{
 	}
 
 	//for repeated events
-	public ScheduledEvent(String r, Calendar d, String f) {
+	public ScheduledEvent(String r, Calendar d, String f, int a) {
 		/*
 
 		 */
 		request = r;
 		date = d;
 		field = f;
+		amount = a;
 		
-		scheduleRepeatedEvent(r, d, f);
+		scheduleRepeatedEvent(r, d, f, a);
 	}
 	//for one time tasks
 	public void scheduleEvent(String r, Calendar d) {
@@ -49,8 +51,9 @@ public class ScheduledEvent{
 		timeTracker.schedule(task, getTimeDiff(date));
 	}
 	//for repeated events
-	// the parameter f is the amount by which the event is repeating
-	public void scheduleRepeatedEvent(String r, Calendar d, String f) {
+	// the parameter f is the time unit by which the event is repeating
+	//a is the amount of time units (eg. 2 minutes, 3 hours, 5 days)
+	public void scheduleRepeatedEvent(String r, Calendar d, String f, int a) {
 		
 		task = new TimerTask() {
 			public void run() {
@@ -58,19 +61,21 @@ public class ScheduledEvent{
 				//this is a test
 				System.out.println("aaaaaa");
 				if(f.equals("year")) {
-					d.set(Calendar.YEAR, d.get(Calendar.YEAR)+1);
+					d.set(Calendar.YEAR, d.get(Calendar.YEAR)+a);
 				}else if(f.equals("month")) {
-					d.set(Calendar.MONTH, d.get(Calendar.MONTH)+1);
+					d.set(Calendar.MONTH, d.get(Calendar.MONTH)+a);
 				}else if(f.equals("week")) {
-					d.set(Calendar.WEEK_OF_YEAR, d.get(Calendar.WEEK_OF_YEAR)+1);
+					d.set(Calendar.WEEK_OF_YEAR, d.get(Calendar.WEEK_OF_YEAR)+a);
 				}else if(f.equals("day")) {
-					d.set(Calendar.DAY_OF_YEAR, d.get(Calendar.DAY_OF_YEAR)+1);
+					d.set(Calendar.DAY_OF_YEAR, d.get(Calendar.DAY_OF_YEAR)+a);
 				}else if(f.equals("hour")) {
-					d.set(Calendar.HOUR_OF_DAY, d.get(Calendar.HOUR_OF_DAY));
+					d.set(Calendar.HOUR_OF_DAY, d.get(Calendar.HOUR_OF_DAY)+a);
 				}else if(f.equals("minute")) {
-					d.set(Calendar.MINUTE, d.get(Calendar.MINUTE)+1);
+					d.set(Calendar.MINUTE, d.get(Calendar.MINUTE)+a);
+				}else if(f.equals("second")){
+					d.set(Calendar.SECOND, d.get(Calendar.SECOND)+a)
 				}
-				scheduleRepeatedEvent(r, d, f);
+				scheduleRepeatedEvent(r, d, f, a);
 			}
 		};
 		
