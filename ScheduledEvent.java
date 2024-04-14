@@ -73,7 +73,7 @@ public class ScheduledEvent{
 				}else if(f.equals("minute")) {
 					d.set(Calendar.MINUTE, d.get(Calendar.MINUTE)+a);
 				}else if(f.equals("second")){
-					d.set(Calendar.SECOND, d.get(Calendar.SECOND)+a)
+					d.set(Calendar.SECOND, d.get(Calendar.SECOND)+a);
 				}
 				scheduleRepeatedEvent(r, d, f, a);
 			}

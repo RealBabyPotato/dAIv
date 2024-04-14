@@ -3,6 +3,7 @@ import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
 import java.io.File;
+import java.util.Objects;
 
 
 public class User {
@@ -21,21 +22,27 @@ public class User {
     public User(PhoneNumber phoneNum, String userN) {
         this.phoneNumber = phoneNum;
         this.userName = userN;
-        Main.RegisteredUsers.add(this);
     }
 
     // Accessor Methods
     public String getUserName(){
         return userName;
     }
-
-    public String getThreadId() {
-        return threadId;
+    public PhoneNumber getPhoneNumber(){
+        return phoneNumber;
     }
-
+    public String getThreadId() { return threadId; }
 
     public void setThreadId(String id){
         this.threadId = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(userName, user.userName);
     }
 
 
