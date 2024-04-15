@@ -33,14 +33,14 @@ print(col.INFO + "[ INFO ] Packaging complete!" + col.CLEAR)
 print(col.INFO + "[ INFO ] Starting server...")
 # Find dependencies
 dependencies = os.popen("mvn dependency:build-classpath | grep -e Dependencies --after-context 1 | tail -n 1").read().strip()
+print(col.INFO + "[ INFO ] Server running! Your IP address is " + ip + "." + col.CLEAR)
+print(col.INFO + "[ INFO ] Handing control to server!" + col.CLEAR)
 status = os.system("java -cp target/dAIv-" + version + ".jar:" + dependencies + " Main.java")
 if status != 0:
     print(col.ERR + "[ ERROR ] Server start failed with error code " + str(status) + "." + col.CLEAR)
     exit()
-print(col.INFO + "[ INFO ] Server running! Your IP address is " + ip + "." + col.CLEAR)
+print(col.INFO + "[ INFO ] Server stopped!" + col.CLEAR)
+
 
 #TODO make a real console here and add support for adding users and the like from the console
-while True:
-    cmd = input(col.INFO + "dAIv version " + version + "> " + col.CLEAR)
-    if cmd == "exit":
-        exit()
+
