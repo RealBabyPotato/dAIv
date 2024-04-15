@@ -28,6 +28,7 @@ public class User {
     public String getUserName(){
         return userName;
     }
+
     public PhoneNumber getPhoneNumber(){
         return phoneNumber;
     }
@@ -88,6 +89,4 @@ public class User {
     public static void main(String[] args) {
         PopulateUsers();
     }
-
-
 }
