@@ -11,16 +11,40 @@ class Main{
 
     public static void main(String[] args) throws NameNotFoundException, InterruptedException {
         Twilio.init(TwilioSendMessageExample.ACCOUNT_SID, TwilioSendMessageExample.AUTH_TOKEN);
-        //Scanner kboard = new Scanner(System.in);
-        //final String INFO = ""
-        //while (true){
-        //    System.out.println();
-        //    cmd = kboard.nextLine();
-        //}
+        User mrH = new User(new PhoneNumber("2506613358"), "David");
+        mrH.message(GPTAPI.sendAndReceive(mrH, "How much wood would a woodchuck chuck if a woodchuck could chuck wood?").replaceAll("\\\\n", "\n")); // the replaceAll here just makes the \n function properlyTwilio.init(TwilioSendMessageExample.ACCOUNT_SID, TwilioSendMessageExample.AUTH_TOKEN);
+        Scanner kboard = new Scanner(System.in);
+        final String INFO = "";
+        while (true) {
+            System.out.println();
+            String[] cmd = kboard.nextLine().strip().split("\\s+");
+            switch (cmd[0]) {
+                case "exit":
+                    kboard.close();
+                    System.exit(0);
+                case "user":
+                    switch (cmd[1]) {
+                        case "add":
+                            // FIXME This adds users to the RegisteredUsers ArrayList - we may remove it
+                            RegisteredUsers.add(new User(new PhoneNumber(cmd[3]), cmd[2]));
+                        case "remove":
+                            for (int i = 0; i < RegisteredUsers.size(); i++) {
+                                if (RegisteredUsers.get(i).phoneNumber.equals(new PhoneNumber(cmd[2]))) {
+                                    RegisteredUsers.remove(i);
+                                    i = RegisteredUsers.size();
+                                }
+
+                            }
+                        case "list":
+                            for (User user : RegisteredUsers) {
+                                System.out.println(user.getPhoneNumber() + " " + user.getUserName());
+                            }
+                    }
+            }
+        }
+
         // this is how we register a new user atm
         //User jaden = new User(new PhoneNumber("2508809769"), "Jaden");
-        User mrH = new User(new PhoneNumber("2506613358"), "David");
-        mrH.message(GPTAPI.sendAndReceive(mrH, "How much wood would a woodchuck chuck if a woodchuck could chuck wood?").replaceAll("\\\\n", "\n")); // the replaceAll here just makes the \n function properly
         //User ethan = new User(new PhoneNumber("7785334028"), "Ethan");
 
         // here is how we can use both twilio and chatgpt to send a message from chatgpt through twilio through our user! very cool!

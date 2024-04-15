@@ -19,7 +19,8 @@ public class WebScrape{
     }
 
     public static String getLink(){
-        Document doc = Jsoup.connect(initialUrl)
+        Document doc = (Document) Jsoup.connect(initialUrl);
+        return ""; // fix this @aaron/friends
     }
 
 

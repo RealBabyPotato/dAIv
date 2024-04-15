@@ -22,7 +22,6 @@ public class User {
     public User(PhoneNumber phoneNum, String userN) {
         this.phoneNumber = phoneNum;
         this.userName = userN;
-        Main.RegisteredUsers.add(this);
     }
 
     // Accessor Methods
@@ -30,10 +29,10 @@ public class User {
         return userName;
     }
 
-    public String getThreadId() {
-        return threadId;
+    public PhoneNumber getPhoneNumber(){
+        return phoneNumber;
     }
-
+    public String getThreadId() { return threadId; }
 
     public void setThreadId(String id){
         this.threadId = id;
@@ -90,6 +89,4 @@ public class User {
     public static void main(String[] args) {
         PopulateUsers();
     }
-
-
 }
