@@ -4,6 +4,7 @@ import com.twilio.rest.api.v2010.account.Message;
 
 import javax.naming.NameNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 class Main{
@@ -11,8 +12,7 @@ class Main{
 
     public static void main(String[] args) throws NameNotFoundException, InterruptedException {
         Twilio.init(TwilioSendMessageExample.ACCOUNT_SID, TwilioSendMessageExample.AUTH_TOKEN);
-        User mrH = new User(new PhoneNumber("2506613358"), "David");
-        mrH.message(GPTAPI.sendAndReceive(mrH, "How much wood would a woodchuck chuck if a woodchuck could chuck wood?").replaceAll("\\\\n", "\n")); // the replaceAll here just makes the \n function properlyTwilio.init(TwilioSendMessageExample.ACCOUNT_SID, TwilioSendMessageExample.AUTH_TOKEN);
+
         Scanner kboard = new Scanner(System.in);
         final String INFO = "";
         while (true) {
@@ -33,7 +33,6 @@ class Main{
                                     RegisteredUsers.remove(i);
                                     i = RegisteredUsers.size();
                                 }
-
                             }
                         case "list":
                             for (User user : RegisteredUsers) {
