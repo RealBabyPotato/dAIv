@@ -13,35 +13,6 @@ class Main{
     public static void main(String[] args) throws NameNotFoundException, InterruptedException {
         Twilio.init(TwilioSendMessageExample.ACCOUNT_SID, TwilioSendMessageExample.AUTH_TOKEN);
 
-        Scanner kboard = new Scanner(System.in);
-        final String INFO = "";
-        while (true) {
-            System.out.println();
-            String[] cmd = kboard.nextLine().strip().split("\\s+");
-            switch (cmd[0]) {
-                case "exit":
-                    kboard.close();
-                    System.exit(0);
-                case "user":
-                    switch (cmd[1]) {
-                        case "add":
-                            // FIXME This adds users to the RegisteredUsers ArrayList - we may remove it
-                            RegisteredUsers.add(new User(new PhoneNumber(cmd[3]), cmd[2]));
-                        case "remove":
-                            for (int i = 0; i < RegisteredUsers.size(); i++) {
-                                if (RegisteredUsers.get(i).phoneNumber.equals(new PhoneNumber(cmd[2]))) {
-                                    RegisteredUsers.remove(i);
-                                    i = RegisteredUsers.size();
-                                }
-                            }
-                        case "list":
-                            for (User user : RegisteredUsers) {
-                                System.out.println(user.getPhoneNumber() + " " + user.getUserName());
-                            }
-                    }
-            }
-        }
-
         // this is how we register a new user atm
         //User jaden = new User(new PhoneNumber("2508809769"), "Jaden");
         //User ethan = new User(new PhoneNumber("7785334028"), "Ethan");
@@ -57,8 +28,7 @@ class Main{
         // jaden.message()
         // jaden.writeToFile("Test");
         // jaden.readFromFile();
-<<<<<<< Updated upstream
-=======
+
         Scanner kboard = new Scanner(System.in);
         final String INFO = "\033[1;34m";
         final String ERR = "\033[1;31m";
@@ -91,6 +61,5 @@ class Main{
 
             }
         }
->>>>>>> Stashed changes
     }
 }
