@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class backup {
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+     Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     // Method to save a list of User objects to a JSON file
     public void saveUsersToJSON(ArrayList<User> users) {
