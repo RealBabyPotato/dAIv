@@ -38,18 +38,28 @@ class Main{
         final String ERR = "\033[1;31m";
         final String CLR = "\033[0;0m";
         while (true){
-            String[] cmd = kboard.nextLine().strip().split("\\s+");
+            String line = kboard.nextLine().strip();
+            String[] cmd = line.strip().split("\\s+");
             switch (cmd[0]){
-                case "help":
-                    //System.out.println(INFO + "~dAIv help~\ncommands: " + CLR + "\nhelp: you already found this one\nexit: stop the dAIv server and exit this console\nuser: \nuser add $name $phoneNumber: create a new user object with phone number $phoneNumber and name $name\nuser remove $phoneNumber: remove the user with phone number $phoneNumber\nuser list: list all users with phone numbers and names");
                 case "exit":
                     kboard.close();
                     System.exit(0);
+                case "help":
+                    System.out.println(INFO + "~dAIv help~\ncommands: " + CLR + "\nhelp: you already found this one\nexit: stop the dAIv server and exit this console\nuser: \nuser add $name $phoneNumber: create a new user object with phone number $phoneNumber and name $name\nuser remove $phoneNumber: remove the user with phone number $phoneNumber\nuser list: list all users with phone numbers and names\nsend $phoneNumber $message: Send $message to $phoneNumber");
+                    break;
+                case "send":
+                    for (User user : RegisteredUsers){
+                        if (user.getPhoneNumber().toString().equals(new PhoneNumber(cmd[1]).toString())){
+                            user.message(line.split("\\s+", 3)[2]);
+                        }
+                    }
+                    break;
                 case "user":
                     switch (cmd[1]){
                         case "add":
                             // FIXME This adds users to the RegisteredUsers ArrayList - we may remove it
                             RegisteredUsers.add(new User(new PhoneNumber(cmd[3]), cmd[2]));
+                            break;
                         case "remove":
                             for (int i = 0; i < RegisteredUsers.size(); i++){
                                 if (RegisteredUsers.get(i).phoneNumber.equals(new PhoneNumber(cmd[2]))){
@@ -57,11 +67,20 @@ class Main{
                                     i = RegisteredUsers.size();
                                 }
                             }
+                            break;
                         case "list":
                             for (User user : RegisteredUsers){
                                 System.out.println(user.getPhoneNumber() + " " + user.getUserName());
                             }
+                            break;
+                        default:
+                            System.out.println("Invalid command.");
+                            break;
                     }
+                    break;
+                default:
+                    System.out.println("Invalid command.");
+                    break;
 
             }
         }
