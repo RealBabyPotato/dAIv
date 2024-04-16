@@ -19,11 +19,9 @@ public class WebScrape{
     }
 
     public static String getLink(){
-        Document doc = Jsoup.connect(initialUrl)
+        Document doc = (Document) Jsoup.connect(initialUrl);
+        return ""; // whoever is working on this method make sure it runs (i.e. semicolon on line above and make sure this method actually returns a string so that we don't get any errors when running Main.java
     }
-
-
-
 
     public WebScrape(String keywordsString){
         this.keywordsString = keywordsString;
