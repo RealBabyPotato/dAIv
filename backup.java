@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class backup {
-    private final Gson gson = new GsonBuilder().setPrettyPrinting()
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting()
             .excludeFieldsWithoutExposeAnnotation()
             .create();
 
@@ -40,12 +40,8 @@ public class backup {
         saveUsersToJSON(users);
     }
 
-
-
-
-
     // Method to return a list of User objects from JSON file
-    public ArrayList<User> getUsersFromJSON() {
+    public static ArrayList<User> getUsersFromJSON() {
         ArrayList<User> users = new ArrayList<>();
         try (Reader reader = new FileReader("users.json")) {
             Type userListType = new TypeToken<ArrayList<User>>() {}.getType();
