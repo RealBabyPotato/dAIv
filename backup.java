@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import com.twilio.type.PhoneNumber;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -52,17 +53,23 @@ public class backup {
         return users;
     }
 
+
     // Main method for testing purposes
     public static void main(String[] args) {
         User zachary = new User(new PhoneNumber("000000000"), "zachary");
         User hanson = new User(new PhoneNumber("123456789"), "hanson");
         User hanson2 = new User(new PhoneNumber("123456789"), "hanson");
+        ArrayList users = new ArrayList<>();
+
+
+
         backup.updateAndSaveUser(zachary);
         backup.updateAndSaveUser(hanson);
         backup.updateAndSaveUser(hanson2);
         ArrayList<User> loadedUsers = backup.getUsersFromJSON();
         for (User user : loadedUsers) {
             System.out.println("Loaded user: " + user.getUserName());
+            System.out.println("Loaded number: " +user. getPhoneNumber());
         }
     }
 }
