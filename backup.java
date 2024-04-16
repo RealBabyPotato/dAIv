@@ -14,7 +14,7 @@ public class backup {
             .create();
 
     // Method to save a list of User objects to a JSON file
-    public void saveUsersToJSON(ArrayList<User> users) {
+    public static void saveUsersToJSON(ArrayList<User> users) {
         try (FileWriter writer = new FileWriter("users.json")) {
             gson.toJson(users, writer);
             System.out.println("User objects saved to users.json");
@@ -25,7 +25,7 @@ public class backup {
 
     // Method to add a User object to JSON
 
-    public void updateAndSaveUser(User newUser) {
+    public static void updateAndSaveUser(User newUser) {
         ArrayList<User> users = getUsersFromJSON();
         Iterator<User> iterator = users.iterator();
         if(!getUsersFromJSON().isEmpty()) {
@@ -37,14 +37,14 @@ public class backup {
             }
         }
         users.add(newUser);
-        saveUsersToJSON(users);
+        backup.saveUsersToJSON(users);
     }
 
     // Method to return a list of User objects from JSON file
     public static ArrayList<User> getUsersFromJSON() {
         ArrayList<User> users = new ArrayList<>();
         try (Reader reader = new FileReader("users.json")) {
-            Type userListType = new TypeToken<ArrayList<User>>() {}.getType();
+            Type userListType = new TypeToken<ArrayList<User>>(){}.getType();
             users = gson.fromJson(reader, userListType);
         } catch (IOException e) {
             e.printStackTrace();
@@ -54,7 +54,6 @@ public class backup {
 
     // Main method for testing purposes
     public static void main(String[] args) {
-        backup backup = new backup();
         User zachary = new User(new PhoneNumber("000000000"), "zachary");
         User hanson = new User(new PhoneNumber("123456789"), "hanson");
         User hanson2 = new User(new PhoneNumber("123456789"), "hanson");
