@@ -12,6 +12,10 @@ class Main{
 
     public static void main(String[] args) throws NameNotFoundException, InterruptedException {
         Twilio.init(TwilioSendMessageExample.ACCOUNT_SID, TwilioSendMessageExample.AUTH_TOKEN);
+        User.PopulateUsers();
+        for(User user : RegisteredUsers){
+            System.out.println(user.getUserName());
+        }
 
         // this is how we register a new user atm
         //User jaden = new User(new PhoneNumber("2508809769"), "Jaden");

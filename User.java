@@ -16,12 +16,6 @@ public class User {
     ArrayList<ScheduledEvent> events = new ArrayList<ScheduledEvent>();
     @Expose
     private String threadId;
-    private int testInt;
-
-    // Constructor Methods
-    public User(PhoneNumber phoneNum, String userN, String messages) {
-
-    }
 
     public User(PhoneNumber phoneNum, String userN) {
         this.phoneNumber = phoneNum;
@@ -50,7 +44,6 @@ public class User {
         User user = (User) o;
         return Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(userName, user.userName);
     }
-
 
     // Utility
     public String toString() {
@@ -82,13 +75,10 @@ public class User {
         From conversations directory, loop through all json files
         and create new User objects with appropriate information.
          */
-
-//        String username;
-//        String[] messages;
-//        PhoneNumber phonenumber;
-//
-//        Main.RegisteredUsers.add(new User(username, phonenumber, messages));
-
+        ArrayList<User> users = backup.getUsersFromJSON();
+        for(User user : users){
+            Main.RegisteredUsers.add(user);
+        }
     }
 
     public static void main(String[] args) {
