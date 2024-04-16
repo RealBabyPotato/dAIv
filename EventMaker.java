@@ -6,25 +6,29 @@ import java.util.Calendar;
 
 public class EventMaker {
 
-	// Takes a string r and a calendar d for request and date and time
+	// Takes a string m for message sent to chatgpt
+	//n for the phone number
+	//u for user's name
+	//a calendar d for request and date and time
 	// and turns them into an event that will run at the date and time specified by the calendar
 	// d must be set in the future
-	public static void makeEvent(String r, Calendar d) {
+	public static void makeEvent(String m, String n, String u, Calendar d) {
 		if (isValid(d)) {
- 			System.out.println("ATTEMPTING TO MAKE SCHEDULED EVENT WITH INVALID CONSTRUCTOR -- fix this in EventMaker.java!");
-			//ScheduledEvent a = new ScheduledEvent(r, d); // fix this!
+			ScheduledEvent a = new ScheduledEvent(m, n, u, d);
 		}
 	}
-
-	// Takes a string r for request and calendar d for a date and time
+	
+	// Takes a string m for message sent to chatgpt
+	//n for the phone number
+	//u for user's name
+	//calendar d for a date and time
 	// Makes an event that runs at date and time of calendar and then repeats in a unit of time, specified by String f
 	// String f takes "year", "month", "week", "day", "hour", or "minute" as input
 	// d must be set in the future
 	//int a is the amount of time units
-	public static void makeEvent(String r, Calendar d, String f, int a) {
+	public static void makeEvent(String m, String n, String u, Calendar d, String f, int a) {
 		if (isValid(d)) {
-			// ScheduledEvent b = new ScheduledEvent(r, d, f, a); // fix this!
-			System.out.println("(CONSTRUCTOR WITH 4 PARAMS) ATTEMPTING TO MAKE SCHEDULED EVENT WITH INVALID CONSTRUCTOR -- fix this in EventMaker.java!");
+			ScheduledEvent b = new ScheduledEvent(m, n, u, d, f, a);
 		}
 	}
 
