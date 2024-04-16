@@ -1,3 +1,4 @@
+import com.google.gson.annotations.Expose;
 import com.twilio.type.PhoneNumber;
 import org.json.simple.parser.ParseException;
 
@@ -8,9 +9,12 @@ import java.util.Objects;
 
 public class User {
     // Instance Variables
+    @Expose
     public PhoneNumber phoneNumber;
+    @Expose
     private String userName;
     ArrayList<ScheduledEvent> events = new ArrayList<ScheduledEvent>();
+    @Expose
     private String threadId;
     private int testInt;
 

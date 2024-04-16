@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class backup {
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final Gson gson = new GsonBuilder().setPrettyPrinting()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create();
 
     // Method to save a list of User objects to a JSON file
     public void saveUsersToJSON(ArrayList<User> users) {
@@ -26,16 +28,18 @@ public class backup {
     public void updateAndSaveUser(User newUser) {
         ArrayList<User> users = getUsersFromJSON();
         Iterator<User> iterator = users.iterator();
-        while (iterator.hasNext()) {
-            User existingUser = iterator.next();
-            if (existingUser.getUserName().equals(newUser.getUserName()) &&
-                    existingUser.getUserName().equals(newUser.getUserName())) {
-                iterator.remove();
+        if(!getUsersFromJSON().isEmpty()) {
+            while (iterator.hasNext()) {
+                User existingUser = iterator.next();
+                if (existingUser.getUserName().equals(newUser.getUserName())) {
+                    iterator.remove();
+                }
             }
         }
         users.add(newUser);
         saveUsersToJSON(users);
     }
+
 
 
 
