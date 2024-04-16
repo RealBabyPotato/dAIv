@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class User {
     // Instance Variables
-    @Expose
+    @Expose // This tag is for the backup group
     public PhoneNumber phoneNumber;
     @Expose
     private String userName;
@@ -36,6 +36,7 @@ public class User {
     public PhoneNumber getPhoneNumber(){
         return phoneNumber;
     }
+
     public String getThreadId() { return threadId; }
 
     public void setThreadId(String id){

@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class backup {
-    private final Gson gson = new GsonBuilder().setPrettyPrinting()
+    private final Gson gson = new GsonBuilder()
+            .setPrettyPrinting()
             .excludeFieldsWithoutExposeAnnotation()
             .create();
 
@@ -28,6 +29,7 @@ public class backup {
     public void updateAndSaveUser(User newUser) {
         ArrayList<User> users = getUsersFromJSON();
         Iterator<User> iterator = users.iterator();
+
         if(!getUsersFromJSON().isEmpty()) {
             while (iterator.hasNext()) {
                 User existingUser = iterator.next();
@@ -36,6 +38,7 @@ public class backup {
                 }
             }
         }
+
         users.add(newUser);
         saveUsersToJSON(users);
     }
