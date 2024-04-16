@@ -11,7 +11,8 @@ public class EventMaker {
 	// d must be set in the future
 	public static void makeEvent(String r, Calendar d) {
 		if (isValid(d)) {
-			ScheduledEvent a = new ScheduledEvent(r, d);
+ 			System.out.println("ATTEMPTING TO MAKE SCHEDULED EVENT WITH INVALID CONSTRUCTOR -- fix this in EventMaker.java!");
+			//ScheduledEvent a = new ScheduledEvent(r, d); // fix this!
 		}
 	}
 
@@ -22,7 +23,8 @@ public class EventMaker {
 	//int a is the amount of time units
 	public static void makeEvent(String r, Calendar d, String f, int a) {
 		if (isValid(d)) {
-			ScheduledEvent b = new ScheduledEvent(r, d, f, a);
+			// ScheduledEvent b = new ScheduledEvent(r, d, f, a); // fix this!
+			System.out.println("(CONSTRUCTOR WITH 4 PARAMS) ATTEMPTING TO MAKE SCHEDULED EVENT WITH INVALID CONSTRUCTOR -- fix this in EventMaker.java!");
 		}
 	}
 
