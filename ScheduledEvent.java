@@ -11,34 +11,38 @@ public class ScheduledEvent{
 	
 	private Timer timeTracker;
 	private TimerTask task;
-	private String request;
+	private String message;
 	private Calendar date;
 	private String field;
 	private int amount;
+	private String phonenum;
+	private String user;
 	
 	//for one time tasks
-	public ScheduledEvent(String r, Calendar d) {
+	public ScheduledEvent(String m, String n, String u, Calendar d) {
 		
-		request = r;
+		message = m;
+		phonenum = n;
+		user = u;
 		date = d;
 		
-		scheduleEvent(r, d);
+		scheduleEvent(message, phonenum, user, date);
 	}
 
 	//for repeated events
-	public ScheduledEvent(String r, Calendar d, String f, int a) {
-		/*
-
-		 */
-		request = r;
+	public ScheduledEvent(String m, String n, String u, Calendar d, String f, int a) {
+		message = m;
+		phonenum = n;
+		user = u;
 		date = d;
 		field = f;
 		amount = a;
 		
-		scheduleRepeatedEvent(r, d, f, a);
+		scheduleRepeatedEvent(message, phonenum, user, date, field, amount);
 	}
+	
 	//for one time tasks
-	public void scheduleEvent(String r, Calendar d) {
+	public void scheduleEvent(String m, String n, String u, Calendar d) {
 		task = new TimerTask() {
 			public void run() {
 				//do the thing
@@ -50,32 +54,34 @@ public class ScheduledEvent{
 		timeTracker = new Timer();
 		timeTracker.schedule(task, getTimeDiff(date));
 	}
+	
 	//for repeated events
 	// the parameter f is the time unit by which the event is repeating
 	//a is the amount of time units (eg. 2 minutes, 3 hours, 5 days)
-	public void scheduleRepeatedEvent(String r, Calendar d, String f, int a) {
+	public void scheduleRepeatedEvent(String m, String n, String u, Calendar d, String f, int a) {
 		
 		task = new TimerTask() {
 			public void run() {
-				//do the thing
+				//do the thing	
+				
 				//this is a test
 				System.out.println("aaaaaa");
 				if(f.equals("year")) {
-					d.set(Calendar.YEAR, d.get(Calendar.YEAR)+a);
+					date.set(Calendar.YEAR, date.get(Calendar.YEAR)+amount);
 				}else if(f.equals("month")) {
-					d.set(Calendar.MONTH, d.get(Calendar.MONTH)+a);
+					date.set(Calendar.MONTH, date.get(Calendar.MONTH)+amount);
 				}else if(f.equals("week")) {
-					d.set(Calendar.WEEK_OF_YEAR, d.get(Calendar.WEEK_OF_YEAR)+a);
+					date.set(Calendar.WEEK_OF_YEAR, date.get(Calendar.WEEK_OF_YEAR)+amount);
 				}else if(f.equals("day")) {
-					d.set(Calendar.DAY_OF_YEAR, d.get(Calendar.DAY_OF_YEAR)+a);
+					date.set(Calendar.DAY_OF_YEAR, date.get(Calendar.DAY_OF_YEAR)+amount);
 				}else if(f.equals("hour")) {
-					d.set(Calendar.HOUR_OF_DAY, d.get(Calendar.HOUR_OF_DAY)+a);
+					date.set(Calendar.HOUR_OF_DAY, date.get(Calendar.HOUR_OF_DAY)+amount);
 				}else if(f.equals("minute")) {
-					d.set(Calendar.MINUTE, d.get(Calendar.MINUTE)+a);
+					date.set(Calendar.MINUTE, date.get(Calendar.MINUTE)+a);
 				}else if(f.equals("second")){
-					d.set(Calendar.SECOND, d.get(Calendar.SECOND)+a);
+					date.set(Calendar.SECOND, date.get(Calendar.SECOND)+a);
 				}
-				scheduleRepeatedEvent(r, d, f, a);
+				scheduleRepeatedEvent(message, phonenum, user, date, field, amount);
 			}
 		};
 		
@@ -117,8 +123,8 @@ public class ScheduledEvent{
 		return task;
 	}
 	
-	public String getRequest() {
-		return request;
+	public String getMessage() {
+		return message;
 	}
 
 	public String getTime(){ // Format as a YYYY-MM-DD HH:mm:ss string
