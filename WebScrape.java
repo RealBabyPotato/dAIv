@@ -8,8 +8,13 @@ import java.io.IOException;
 public class WebScrape{
     //search query
     private static String search;
-    private static String initialUrl = "https://www.google.com/search?client=firefox-b-d&q=" + search;
+    private static String initialUrl;
     private static String websiteURL;
+
+    public WebScrape(String search){
+        this.search = search;
+        this.initialUrl = "https://www.google.com/search?client=firefox-b-d&q=" + search;
+    }
 
     public static void getLink() throws IOException{
         Document doc = Jsoup.connect(initialUrl).get();
@@ -33,13 +38,44 @@ public class WebScrape{
         }
     }
 
-    public WebScrape(String search){
-        this.search = search;
+    public static String scrapeTitleAndSummary(String url) {
+        try {
+            Document doc = Jsoup.connect(url).timeout(6000).get();
+            Element titleElement = doc.head().select("title").first();
+            String title = titleElement.text();
+            System.out.println("Title: " + title);
+
+
+            Element body = doc.body();
+            Element firstParagraph = body.select("p").first();
+            if (firstParagraph != null) {
+                String summary = firstParagraph.text();
+                System.out.println("Summary: " + summary);
+                return summary;
+            }
+            else {
+                System.out.println("No summary found.");
+                return null;
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
     }
 
     //main for testing purposes
     public static void main(String[] args) throws IOException {
-        WebScrape c = new WebScrape("top news");
-        WebScrape.getLink();
+        try {
+            WebScrape c = new WebScrape("top news");
+            WebScrape.getLink();
+            // Pass the websiteURL to the scrapeTitleAndSummary method
+            scrapeTitleAndSummary(websiteURL);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
