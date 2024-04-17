@@ -13,6 +13,7 @@ public class User {
     public PhoneNumber phoneNumber;
     @Expose
     private String userName;
+    @Expose
     ArrayList<ScheduledEvent> events = new ArrayList<ScheduledEvent>();
     @Expose
     private String threadId;
@@ -29,6 +30,10 @@ public class User {
 
     public PhoneNumber getPhoneNumber(){
         return phoneNumber;
+    }
+
+    public String getPhoneNumberAsString(){
+        return  phoneNumber.toString();
     }
 
     public String getThreadId() { return threadId; }

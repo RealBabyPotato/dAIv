@@ -32,11 +32,7 @@ public class TwilioSendMessageExample {
   public static void messageUser(User user, String text){
     try {
       Message message = Message
-              .creator(
-                      user.phoneNumber,
-                      serverPhoneNumber,
-                      text
-              )
+              .creator(user.getPhoneNumber(), serverPhoneNumber, text)
               .create();
       System.out.println("Message sent with ID: " + message.getSid());
     } catch (final ApiException e) {
