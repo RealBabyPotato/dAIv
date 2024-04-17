@@ -35,7 +35,7 @@ class GPTAPI {
             user.setThreadId(regexResponse(createThread(assistantId), "id"));
             // addMessageToThread(assistantId, user.getThreadId(), "");
         }
-        addMessageToThread(assistantId, user.getThreadId(), message);
+        addMessageToThread(user.getThreadId(), message);
 
         // returns the runID
         return regexResponse(createRun(assistantId, user.getThreadId(), user.getUserName()), "id");
@@ -92,7 +92,7 @@ class GPTAPI {
         }
     }
 
-    private static void addMessageToThread(String assistantId, String threadId, String message) {
+    private static void addMessageToThread(String threadId, String message) {
         // Implement the message addition logic here
         String url = "https://api.openai.com/v1/threads/" + threadId + "/messages";
         String requestBody = "{\"role\": \"user\", \"content\": \"" + message + "\"}";
