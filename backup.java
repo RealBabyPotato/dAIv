@@ -59,10 +59,7 @@ public class backup {
         User zachary = new User(new PhoneNumber("000000000"), "zachary");
         User hanson = new User(new PhoneNumber("123456789"), "hanson");
         User hanson2 = new User(new PhoneNumber("123456789"), "hanson");
-        ArrayList users = new ArrayList<>();
-
-
-
+        ArrayList<User> users = new ArrayList<>();
         backup.updateAndSaveUser(zachary);
         backup.updateAndSaveUser(hanson);
         backup.updateAndSaveUser(hanson2);
