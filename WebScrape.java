@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class WebScrape{
     //search query
-    private static String search = "hollow knight silksong";
+    private static String search;
     private static String initialUrl = "https://www.google.com/search?client=firefox-b-d&q=" + search;
     private static String websiteURL;
 
