@@ -26,10 +26,8 @@ class GPTAPI {
     //private static Pattern pattern = Pattern.compile("\"id\": \"([^\"]+)\"");
     public static void main(String[] args) throws InterruptedException, NameNotFoundException {
         User j = new User(new PhoneNumber("2508809769"), "Jaden");
-        //User y = new User(new PhoneNumber("1"), "bob");
-        System.out.println(sendAndReceive(j, "A uniform, rigid rod of length 2m lies on a horizontal surface. One end of the rod can pivot about an axis that is perpendicular to the rod and along the plane of the page. A 10N force is applied to the rod at its midpoint from the bottom right at an angle of 37 degrees. A second force F is applied to the free end of the rod downward so that the rod remains at rest. The magnitude of the torque produced by force F is most nearly?"));
-        // System.out.println(sendAndReceive(j, "What was the last thing I asked you?"));
-        // System.out.println(sendAndReceive(y, "What was the last thing I asked you?"));
+        // System.out.println(sendAndReceive(j, "A uniform, rigid rod of length 2m lies on a horizontal surface. One end of the rod can pivot about an axis that is perpendicular to the rod and along the plane of the page. A 10N force is applied to the rod at its midpoint from the bottom right at an angle of 37 degrees. A second force F is applied to the free end of the rod downward so that the rod remains at rest. The magnitude of the torque produced by force F is most nearly?"));
+        System.out.println(sendAndReceive(j, "What's the first law in the book 48 laws of power by Robert Green?"));
     }
 
     private static String addMessageToUserThread(User user, String message) throws NameNotFoundException {
@@ -37,7 +35,7 @@ class GPTAPI {
             user.setThreadId(regexResponse(createThread(assistantId), "id"));
             // addMessageToThread(assistantId, user.getThreadId(), "");
         }
-        addMessageToThread(assistantId, user.getThreadId(), message);
+        addMessageToThread(user.getThreadId(), message);
 
         // returns the runID
         return regexResponse(createRun(assistantId, user.getThreadId(), user.getUserName()), "id");
@@ -50,6 +48,7 @@ class GPTAPI {
             Thread.sleep(550);
             if(response.equals("completed")){ // if the server has handled our request, return it
                 return regexResponse(retrieveMessagesFromThread(user.getThreadId()), "value");
+                //return retrieveMessagesFromThread(user.getThreadId());
             }
         }
         return "There was an error processing this response.";
@@ -78,7 +77,11 @@ class GPTAPI {
     }
 
     private static String regexResponse(String response, String filterParameter) throws NameNotFoundException {
-        Pattern pattern = Pattern.compile("\"" + filterParameter + "\": \"([^\"]+)\"");
+        //Pattern pattern = Pattern.compile("\"" + filterParameter + "\": \"([^\"]+)\"");
+        //Pattern pattern = Pattern.compile("\"" + filterParameter + "\": \"(.*?)\"");
+        Pattern pattern = Pattern.compile("\"" + filterParameter + "\": \"((?:[^\"\\\\]|\\\\.)*)\"");
+        //Pattern pattern = Pattern.compile("\"" + filterParameter + "\": \"((?:[^\"\\\\]|\\\\.)*?)\"");
+
         Matcher match = pattern.matcher(response);
 
         if(!match.find()){
@@ -89,7 +92,7 @@ class GPTAPI {
         }
     }
 
-    private static void addMessageToThread(String assistantId, String threadId, String message) {
+    private static void addMessageToThread(String threadId, String message) {
         // Implement the message addition logic here
         String url = "https://api.openai.com/v1/threads/" + threadId + "/messages";
         String requestBody = "{\"role\": \"user\", \"content\": \"" + message + "\"}";

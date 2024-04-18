@@ -1,3 +1,4 @@
+import com.google.gson.annotations.Expose;
 import com.twilio.type.PhoneNumber;
 import org.json.simple.parser.ParseException;
 
@@ -8,16 +9,14 @@ import java.util.Objects;
 
 public class User {
     // Instance Variables
+    @Expose // This tag is for the backup group
     public PhoneNumber phoneNumber;
+    @Expose
     private String userName;
+    @Expose
     ArrayList<ScheduledEvent> events = new ArrayList<ScheduledEvent>();
+    @Expose
     private String threadId;
-    private int testInt;
-
-    // Constructor Methods
-    public User(PhoneNumber phoneNum, String userN, String messages) {
-
-    }
 
     public User(PhoneNumber phoneNum, String userN) {
         this.phoneNumber = phoneNum;
@@ -32,6 +31,11 @@ public class User {
     public PhoneNumber getPhoneNumber(){
         return phoneNumber;
     }
+
+    public String getPhoneNumberAsString(){
+        return  phoneNumber.toString();
+    }
+
     public String getThreadId() { return threadId; }
 
     public void setThreadId(String id){
@@ -45,7 +49,6 @@ public class User {
         User user = (User) o;
         return Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(userName, user.userName);
     }
-
 
     // Utility
     public String toString() {
@@ -77,13 +80,10 @@ public class User {
         From conversations directory, loop through all json files
         and create new User objects with appropriate information.
          */
-
-//        String username;
-//        String[] messages;
-//        PhoneNumber phonenumber;
-//
-//        Main.RegisteredUsers.add(new User(username, phonenumber, messages));
-
+        ArrayList<User> users = backup.getUsersFromJSON();
+        for(User user : users){
+            Main.RegisteredUsers.add(user);
+        }
     }
 
     public static void main(String[] args) {

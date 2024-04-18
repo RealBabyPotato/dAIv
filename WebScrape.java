@@ -1,35 +1,61 @@
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 
 public class WebScrape{
-    // Response from ChatGPT
-    private static String keywordsString;
-    // Extract keywords from response
-//    private static String[] keywords = keywordsString.split(",");
-    static String[] keywords = {"mallard" , "duck"};
-    private static String initialUrl = "https://www.google.com/search?client=firefox-b-d&q=";
+    //search query
+    private static String search;
+    private static String initialUrl;
+    private static String websiteURL;
 
-    public static String setURL(){
-        for(int j = 0; j<keywords.length-1; j++){
-            initialUrl+=keywords[j];
-            initialUrl+="+";
+    public WebScrape(String search){
+        this.search = search;
+        this.initialUrl = "https://www.google.com/search?client=firefox-b-d&q=" + search;
+    }
+
+    public static void getLink() throws IOException{
+        Document doc = Jsoup.connect(initialUrl).get();
+
+        Elements results = doc.select("div.g");
+
+        for (Element result : results) {
+            Element urlElement = result.selectFirst("a[href]");
+            String link = urlElement.attr("href");
+
+            //remove random google links from our search
+            if (link.startsWith("/url?q=")) {
+                link = link.substring(7);
+                int endIndex = link.indexOf("&");
+                if (endIndex != -1) {
+                    link = link.substring(0, endIndex);
+                }
+            }
+            websiteURL = link;
+            break;
         }
-        initialUrl+=keywords[keywords.length-1];
-        return initialUrl;
     }
 
-    public static String getLink(){
-        Document doc = (Document) Jsoup.connect(initialUrl);
-        return ""; // whoever is working on this method make sure it runs (i.e. semicolon on line above and make sure this method actually returns a string so that we don't get any errors when running Main.java
-    }
+    public static String summary() throws IOException{
+        Document doc = Jsoup.connect(websiteURL).get();
+        Element titleElement = doc.head().select("title").first();
+        String title = titleElement.text();
+        System.out.println("Title: " + title);
 
-    public WebScrape(String keywordsString){
-        this.keywordsString = keywordsString;
+        Element body = doc.body();
+        Element firstParagraph = body.select("p").first();
+
+        String summary = firstParagraph.text();
+        System.out.println("Summary: " + summary);
+        return summary;
     }
 
     //main for testing purposes
-    public static void main(String[] args){
-        WebScrape c = new WebScrape("mallard,duck");
-        System.out.println(WebScrape.setURL());
+    public static void main(String[] args) throws IOException {
+        WebScrape c = new WebScrape("top news");
+        WebScrape.getLink();
+        WebScrape.summary();
     }
 }
