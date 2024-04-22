@@ -23,6 +23,8 @@ public class User {
         this.userName = userN;
     }
 
+    //public
+
     // Accessor Methods
     public String getUserName(){
         return userName;

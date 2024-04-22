@@ -57,13 +57,15 @@ public class backup {
     // Main method for testing purposes
     public static void main(String[] args) {
         User zachary = new User(new PhoneNumber("000000000"), "zachary");
-        User hanson = new User(new PhoneNumber("123456789"), "hanson");
-        User hanson2 = new User(new PhoneNumber("123456789"), "hanson");
-        ArrayList users = new ArrayList<>();
+        zachary.events.add(new ScheduledEvent(5000, new Task(){
+            @Override
+            public void execute(){
+                System.out.println("beh");
+            }
+        }));
+        ArrayList<User> users = new ArrayList<>();
 
         backup.updateAndSaveUser(zachary);
-        backup.updateAndSaveUser(hanson);
-        backup.updateAndSaveUser(hanson2);
         ArrayList<User> loadedUsers = backup.getUsersFromJSON();
         for (User user : loadedUsers) {
             System.out.println("Loaded user: " + user.getUserName());
