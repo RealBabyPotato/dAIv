@@ -15,11 +15,11 @@ public class ScheduledEvent{
 	private Calendar date;
 	private String field;
 	private int amount;
-	private String phonenum;
-	private String user;
+	private PhoneNumber phonenum;
+	private User user;
 	
 	//for one time tasks
-	public ScheduledEvent(String m, String n, String u, Calendar d) {
+	public ScheduledEvent(String m, PhoneNumber n, User u, Calendar d) {
 		
 		message = m;
 		phonenum = n;
@@ -30,7 +30,7 @@ public class ScheduledEvent{
 	}
 
 	//for repeated events
-	public ScheduledEvent(String m, String n, String u, Calendar d, String f, int a) {
+	public ScheduledEvent(String m, PhoneNumber n, User u, Calendar d, String f, int a) {
 		message = m;
 		phonenum = n;
 		user = u;
