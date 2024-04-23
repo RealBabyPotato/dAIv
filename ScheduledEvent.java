@@ -111,7 +111,7 @@ public class ScheduledEvent{
 		
 		Instant start = Instant.now(clock);
 
-    CharSequence cs = cal.toInstant().toString();
+		CharSequence cs = cal.toInstant().toString();
 		Instant end = Instant.parse(cs);
 
 		return Duration.between(start, end).toMillis();	
