@@ -86,7 +86,7 @@ public class ScheduledEvent{
 		};
 		
 		timeTracker = new Timer();
-		timeTracker.schedule(task, getTimeDiff(date));
+		timeTracker.schedule(task, fixTime(date);
 	}
 
 	// temporary constructor for immediate-start scheduled events
@@ -111,9 +111,51 @@ public class ScheduledEvent{
 		
 		Instant start = Instant.now(clock);
 
-        CharSequence cs = cal.toInstant().toString();
+    CharSequence cs = cal.toInstant().toString();
 		Instant end = Instant.parse(cs);
+
+		return Duration.between(start, end).toMillis();	
+	}	
+
+	//allows repeating events to keep running after a restart
+	public long fixTime(Calendar cal) {
+		Clock clocka = Clock.system(ZoneId.of("UTC"));
+		Clock clock = Clock.offset(clocka, Duration.ofHours(-7));
 		
+		Instant start = Instant.now(clock);
+		
+		String s = cal.toInstant().toString();
+		CharSequence cs = s;
+		Instant end = Instant.parse(cs);
+
+		if(getTimeDiff(cal) < 0) {
+			while(Duration.between(start, end).toMillis() < 0) {
+				if(field == "second") {
+					cal.set(Calendar.SECOND, (int) (cal.get(Calendar.SECOND)+amount));
+				}
+				if(field == "minute") {
+					cal.set(Calendar.MINUTE, (int) (cal.get(Calendar.MINUTE)+amount));
+				}
+				if(field == "hour") {
+					cal.set(Calendar.HOUR_OF_DAY, (int) (cal.get(Calendar.HOUR_OF_DAY)+amount));
+				}
+				if(field == "day") {
+					cal.set(Calendar.DAY_OF_YEAR, (int) (cal.get(Calendar.DAY_OF_YEAR)+amount));
+				}
+				if(field == "week") {
+					cal.set(Calendar.WEEK_OF_YEAR, (int) (cal.get(Calendar.WEEK_OF_YEAR)+amount));
+				}
+				if(field == "month") {
+					cal.set(Calendar.MONTH, (int) (cal.get(Calendar.MONTH)+amount));
+				}
+				if(field == "year") {
+					cal.set(Calendar.YEAR, (int) (cal.get(Calendar.YEAR)+amount));
+				}
+				s = cal.toInstant().toString();
+				cs = s;
+				end = Instant.parse(cs);
+			}
+		}
 		return Duration.between(start, end).toMillis();
 	}
 	
