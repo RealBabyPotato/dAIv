@@ -100,23 +100,21 @@ public class ScheduledEvent{
 
 		timeTracker = new Timer();
 		timeTracker.scheduleAtFixedRate(this.task, 0, periodToRepeat);
-		timeTracker.schedule(task, getTimeDiff(date), periodToRepeat);
+		timeTracker.schedule(task, getTimeDiff(Calendar.getInstance()), periodToRepeat);
 	}
 
 	//input the date and time at which message should be sent
 	//returns the number of milliseconds between the current time and the time it should be sent
 	public long getTimeDiff(Calendar cal) {
-		Clock clocka = Clock.system(ZoneId.of("UTC"));
-		Clock clock = Clock.offset(clocka, Duration.ofHours(-7));
+		Clock clockMain = Clock.system(ZoneId.of("UTC"));
+		Clock clock = Clock.offset(clockMain, Duration.ofHours(-7));
 		
 		Instant start = Instant.now(clock);
-		
-		String s = cal.toInstant().toString();
-		CharSequence cs = s;
+
+    CharSequence cs = cal.toInstant().toString();
 		Instant end = Instant.parse(cs);
 
-		return Duration.between(start, end).toMillis();
-		
+		return Duration.between(start, end).toMillis();	
 	}	
 
 	//allows repeating events to keep running after a restart
@@ -172,8 +170,4 @@ public class ScheduledEvent{
 	public String getTime(){ // Format as a YYYY-MM-DD HH:mm:ss string
 		return String.format("%04d-%02d-%02d %02d:%02d:%02d", date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH), date.get(Calendar.HOUR_OF_DAY), date.get(Calendar.MINUTE), date.get(Calendar.SECOND)); // Format as YYYY-MM-DD HH:mm:ss string
 	}
-	
-
-	
-	
 }
