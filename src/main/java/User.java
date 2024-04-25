@@ -84,7 +84,7 @@ public class User {
          */
         ArrayList<User> users = backup.getUsersFromJSON();
         for(User user : users){
-            Main.RegisteredUsers.add(user);
+   //         Main.RegisteredUsers.add(user);
         }
     }
 

@@ -15,30 +15,31 @@ public class ScheduledEvent{
 	private Calendar date;
 	private String field;
 	private int amount;
-	private PhoneNumber phonenum;
+	//private PhoneNumber phonenum;
+	private String phonenum;
 	private User user;
 	
 	//for one time tasks
 	public ScheduledEvent(String m, PhoneNumber n, User u, Calendar d) {
 		
 		message = m;
-		phonenum = n;
+	//	phonenum = n;
 		user = u;
 		date = d;
 		
-		scheduleEvent(message, phonenum, user, date);
+	//	scheduleEvent(message, phonenum, user, date);
 	}
 
 	//for repeated events
 	public ScheduledEvent(String m, PhoneNumber n, User u, Calendar d, String f, int a) {
 		message = m;
-		phonenum = n;
+	//	phonenum = n;
 		user = u;
 		date = d;
 		field = f;
 		amount = a;
 		
-		scheduleRepeatedEvent(message, phonenum, user, date, field, amount);
+	//	scheduleRepeatedEvent(message, phonenum, user, date, field, amount);
 	}
 	
 	//for one time tasks
@@ -81,12 +82,12 @@ public class ScheduledEvent{
 				}else if(f.equals("second")){
 					date.set(Calendar.SECOND, date.get(Calendar.SECOND)+a);
 				}
-				scheduleRepeatedEvent(message, phonenum, user, date, field, amount);
+				//scheduleRepeatedEvent(message, phonenum, user, date, field, amount);
 			}
 		};
 		
 		timeTracker = new Timer();
-		timeTracker.schedule(task, fixTime(date);
+		timeTracker.schedule(task, fixTime(date));
 	}
 
 	// temporary constructor for immediate-start scheduled events

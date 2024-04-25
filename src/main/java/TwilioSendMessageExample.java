@@ -17,7 +17,7 @@ public class TwilioSendMessageExample {
     try {
       Message message = Message
       .creator(
-        new PhoneNumber("2508809769"),
+        new PhoneNumber("2506613358"),
         new PhoneNumber("YOUR_TWILIO_PHONE_NUMBER"),
         "This is the ship that made the Kessel Run in fourteen parsecs?"
       )
@@ -30,6 +30,7 @@ public class TwilioSendMessageExample {
 
   // we should move this method out of this class soon.
   public static void messageUser(User user, String text){
+    Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
     try {
       Message message = Message
               .creator(user.getPhoneNumber(), serverPhoneNumber, text)
