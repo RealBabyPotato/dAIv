@@ -14,7 +14,7 @@ public class EventMaker {
 	// d must be set in the future
 	public static void makeEvent(String m, String n, String u, Calendar d) {
 		if (isValid(d)) {
-			ScheduledEvent a = new ScheduledEvent(m, n, u, d);
+	//		ScheduledEvent a = new ScheduledEvent(m, n, u, d);
 		}
 	}
 	
@@ -28,7 +28,7 @@ public class EventMaker {
 	//int a is the amount of time units
 	public static void makeEvent(String m, String n, String u, Calendar d, String f, int a) {
 		if (isValid(d)) {
-			ScheduledEvent b = new ScheduledEvent(m, n, u, d, f, a);
+			//ScheduledEvent b = new ScheduledEvent(m, n, u, d, f, a);
 		}
 	}
 

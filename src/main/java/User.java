@@ -21,6 +21,7 @@ public class User {
     public User(PhoneNumber phoneNum, String userN) {
         this.phoneNumber = phoneNum;
         this.userName = userN;
+        Main.RegisteredUsers.add(this);
     }
 
     //public
@@ -83,9 +84,7 @@ public class User {
         and create new User objects with appropriate information.
          */
         ArrayList<User> users = backup.getUsersFromJSON();
-        for(User user : users){
-            Main.RegisteredUsers.add(user);
-        }
+        Main.RegisteredUsers.addAll(users);
     }
 
     public static void main(String[] args) {

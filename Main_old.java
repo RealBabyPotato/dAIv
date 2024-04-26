@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-class Main{
+class Main_old {
     public static ArrayList<User> RegisteredUsers = new ArrayList<User>(); // not sure if we should keep this...
 
     public static void main(String[] args) throws NameNotFoundException, InterruptedException {

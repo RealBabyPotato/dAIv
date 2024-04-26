@@ -24,11 +24,11 @@ class GPTAPI {
     }
 
     //private static Pattern pattern = Pattern.compile("\"id\": \"([^\"]+)\"");
-    public static void main(String[] args) throws InterruptedException, NameNotFoundException {
-        User j = new User(new PhoneNumber("2508809769"), "Jaden");
-        // System.out.println(sendAndReceive(j, "A uniform, rigid rod of length 2m lies on a horizontal surface. One end of the rod can pivot about an axis that is perpendicular to the rod and along the plane of the page. A 10N force is applied to the rod at its midpoint from the bottom right at an angle of 37 degrees. A second force F is applied to the free end of the rod downward so that the rod remains at rest. The magnitude of the torque produced by force F is most nearly?"));
-        System.out.println(sendAndReceive(j, "What's the first law in the book 48 laws of power by Robert Green?"));
-    }
+//    public static void main(String[] args) throws InterruptedException, NameNotFoundException {
+ //       User j = new User(new PhoneNumber("2508809769"), "Jaden");
+  //      // System.out.println(sendAndReceive(j, "A uniform, rigid rod of length 2m lies on a horizontal surface. One end of the rod can pivot about an axis that is perpendicular to the rod and along the plane of the page. A 10N force is applied to the rod at its midpoint from the bottom right at an angle of 37 degrees. A second force F is applied to the free end of the rod downward so that the rod remains at rest. The magnitude of the torque produced by force F is most nearly?"));
+  //      System.out.println(sendAndReceive(j, "What's the first law in the book 48 laws of power by Robert Green?"));
+  //  }
 
     private static String addMessageToUserThread(User user, String message) throws NameNotFoundException {
         if(user.getThreadId() == null){ // create new thread if one doesn't exist
@@ -37,26 +37,36 @@ class GPTAPI {
         }
         addMessageToThread(user.getThreadId(), message);
 
+        System.out.println(user.getThreadId());
+
         // returns the runID
         return regexResponse(createRun(assistantId, user.getThreadId(), user.getUserName()), "id");
     }
 
-    private static String retrieveFromRun(User user, String runID) throws NameNotFoundException, InterruptedException {
+    private static String retrieveFromRun(User user, String runID) {
         String response;
         for(int i = 0; i < 20; i++){
+            try {
             response = regexResponse(pollRun(user.getThreadId(), runID), "status");
             Thread.sleep(550);
             if(response.equals("completed")){ // if the server has handled our request, return it
                 return regexResponse(retrieveMessagesFromThread(user.getThreadId()), "value");
                 //return retrieveMessagesFromThread(user.getThreadId());
             }
+        } catch(Exception e) {
+            System.out.println(e);
+        }
         }
         return "There was an error processing this response.";
     }
 
-    public static String sendAndReceive(User user, String message) throws NameNotFoundException, InterruptedException {
+    public static String sendAndReceive(User user, String message) {
         //System.out.println("Sending message to ChatGPT API with threadId " + user.getThreadId());
+        try {
         return retrieveFromRun(user, addMessageToUserThread(user, message));
+        } catch(Exception e) {
+            return "Error";
+        }
     }
 
     private static String createAssistant() {
@@ -112,6 +122,7 @@ class GPTAPI {
 
     private static String pollRun(String threadId, String runId){ // can probably offload lots of this to a get method
         try {
+            @SuppressWarnings("deprecation")
             URL url = new URL("https://api.openai.com/v1/threads/" + threadId + "/runs/" + runId);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
