@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import com.twilio.Twilio;
 import com.twilio.type.PhoneNumber;
 import javax.naming.NameNotFoundException;
 // import com.sun.net.httpserver.HttpServer;
@@ -45,13 +46,24 @@ System.out.println(incoming_phone);
 
 //testing
 
-User dave = new User(new PhoneNumber(incoming_phone), "Buddy");
+/*User dave = new User(new PhoneNumber(incoming_phone), "Buddy");
 
         // here is how we can use both twilio and chatgpt to send a message from chatgpt through twilio through our user! very cool!
         //jaden.message(GPTAPI.sendAndReceive(jaden, "How much wood would a woodchuck chuck if a woodchuck could chuck wood?").replaceAll("\\\\n", "\n")); // the replaceAll here just makes the \n function properly
-dave.message(GPTAPI.sendAndReceive(dave, incoming_message));
-       
+dave.message(GPTAPI.sendAndReceive(dave, incoming_message));*/
+    boolean tempFlag = false;
 
+    for(User u : Main.RegisteredUsers){
+        if(u.getPhoneNumber().toString().equals(incoming_phone)){
+            u.message(GPTAPI.sendAndReceive(u, incoming_message));
+            tempFlag = true;
+            break;
+        }
+    }
+
+    if(!tempFlag){
+        TwilioSendMessageExample.messageUser(new User(new PhoneNumber("0"), "Unknown"), "Unknown user; you aren't in RegisteredUsers!");
+    }
 
 //System.out.print(TwilioServer.send("2506613358",incoming_message));
 
