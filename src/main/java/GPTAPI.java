@@ -37,6 +37,8 @@ class GPTAPI {
         }
         addMessageToThread(user.getThreadId(), message);
 
+        System.out.println(user.getThreadId());
+
         // returns the runID
         return regexResponse(createRun(assistantId, user.getThreadId(), user.getUserName()), "id");
     }

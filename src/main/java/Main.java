@@ -11,7 +11,7 @@ public class Main {
     
     //System.out.println(TwilioServer.send("+12506613358","HTTP Service is Running!"));
     User.PopulateUsers();
-    User j = new User(new PhoneNumber("2508809769"), "Jaden");
+    //User j = new User(new PhoneNumber("2508809769"), "Jaden");
 
     for(User u : RegisteredUsers){
         System.out.println(u.getPhoneNumber());

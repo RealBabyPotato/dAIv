@@ -12,6 +12,7 @@ import javax.naming.NameNotFoundException;
 // import com.sun.net.httpserver.HttpServer;
 // import com.twilio.rest.api.v2010.account.IncomingPhoneNumber;
 
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 
 import java.net.URLDecoder;
 
@@ -33,7 +34,7 @@ public void handle(HttpExchange t) throws IOException {
    String str = str_full.substring(str_start);
    int str_end = str.indexOf("&");
    String incoming_message = URLDecoder.decode(str.substring(0,str_end), "UTF-8"); 
-   System.out.println(incoming_message);
+   //System.out.println(incoming_message);
  // extract the incoming phone# of the HTTPRequest from Twilio to String
    str_start = str_full.indexOf("&From=%2B")+10;
    str = str_full.substring(str_start);
@@ -62,13 +63,14 @@ dave.message(GPTAPI.sendAndReceive(dave, incoming_message));*/
     }
 
     if(!tempFlag){
-        TwilioSendMessageExample.messageUser(new User(new PhoneNumber("0"), "Unknown"), "Unknown user; you aren't in RegisteredUsers!");
+      TwilioSendMessageExample.messageUser(new User(new PhoneNumber(incoming_phone), "Unknown"), "Unknown user; you aren't registered!");
+      // TwilioSendMessageExample.messageUser(new User(new PhoneNumber(incoming_phone)), "nknown"), "Unknown user; you aren't in RegisteredUsers!");
     }
 
 //System.out.print(TwilioServer.send("2506613358",incoming_message));
 
 String response = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Message>" + getReply(incoming_message) + "</Message></Response>";
-System.out.println(response);
+//System.out.println(response);
 
 
 
