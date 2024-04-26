@@ -21,7 +21,7 @@ class TwilioServer {
 
     // create and HTTP Service to listen for Twilio sms messages
     HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
-    server.createContext("/sms", new SMSHandler());
+    server.createContext("/", new SMSHandler());
     server.setExecutor(null); // creates a default executor
     server.start();
     }
