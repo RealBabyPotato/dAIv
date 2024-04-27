@@ -41,4 +41,17 @@ public class TwilioSendMessageExample {
       System.err.println(e);
     }
   }
+
+  public static void messageNumber(PhoneNumber num, String text){
+  Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+      try {
+        Message message = Message
+                .creator(num, serverPhoneNumber, text)
+                .create();
+        System.out.println("Message sent with ID: " + message.getSid());
+      } catch (final ApiException e) {
+        // error
+        System.err.println(e);
+      }
+    }
 }

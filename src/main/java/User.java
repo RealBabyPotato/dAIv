@@ -34,7 +34,14 @@ public class User {
         Main.RegisteredUsers.add(this);
     }
 
-    //public
+    public static void registerUser(PhoneNumber number){
+        // here we can ask them to tell us their name or something so that we can put in userName; this is just a big setup process. 
+        // note that this will be called in SMSHandler.java when we don't recognize an incoming user
+        // so it may be useful to use context from there.
+
+        User incomingUser = new User(number, null); // this will automatically register our user in Main.registeredUsers.
+        backup.updateAndSaveUser(incomingUser); // this backs up our new user.
+    }
 
     // Accessor Methods
     public String getUserName(){

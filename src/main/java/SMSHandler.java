@@ -63,8 +63,9 @@ dave.message(GPTAPI.sendAndReceive(dave, incoming_message));*/
     }
 
     if(!tempFlag){
-      TwilioSendMessageExample.messageUser(new User(new PhoneNumber(incoming_phone), "Unknown"), "Unknown user; you aren't registered!");
+      //TwilioSendMessageExample.messageUser(new User(new PhoneNumber(incoming_phone), "Unknown"), "Unknown user; you aren't registered!");
       // TwilioSendMessageExample.messageUser(new User(new PhoneNumber(incoming_phone)), "nknown"), "Unknown user; you aren't in RegisteredUsers!");
+      User.registerUser(new PhoneNumber(incoming_phone), incoming_message);
     }
 
 //System.out.print(TwilioServer.send("2506613358",incoming_message));
