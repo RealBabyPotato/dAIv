@@ -1,4 +1,5 @@
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.twilio.type.PhoneNumber;
 import org.json.simple.parser.ParseException;
 
@@ -9,18 +10,27 @@ import java.util.Objects;
 
 public class User {
     // Instance Variables
-    @Expose // This tag is for the backup group
-    public PhoneNumber phoneNumber;
+
+    //@Expose // This tag is for the backup group
+    private PhoneNumber phoneNumber;
+
+    @Expose
+    private String phoneNumberString;
+
     @Expose
     private String userName;
+
     @Expose
+    @SerializedName("events")
     ArrayList<ScheduledEvent> events = new ArrayList<ScheduledEvent>();
+    
     @Expose
     private String threadId;
 
     public User(PhoneNumber phoneNum, String userN) {
         this.phoneNumber = phoneNum;
         this.userName = userN;
+        this.phoneNumberString = phoneNum.toString();
         Main.RegisteredUsers.add(this);
     }
 
@@ -32,6 +42,10 @@ public class User {
     }
 
     public PhoneNumber getPhoneNumber(){
+        if(this.phoneNumber == null){
+            return new PhoneNumber(phoneNumberString);
+        }
+
         return phoneNumber;
     }
 
@@ -43,6 +57,7 @@ public class User {
 
     public void setThreadId(String id){
         this.threadId = id;
+        backup.updateAndSaveUser(this);
     }
 
     @Override

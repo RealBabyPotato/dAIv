@@ -11,6 +11,7 @@ import java.util.Iterator;
 
 public class backup {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting()
+            .registerTypeAdapter(ScheduledEvent.class, new ScheduledEventTypeAdapter())
             .excludeFieldsWithoutExposeAnnotation()
             .create();
 
@@ -18,7 +19,7 @@ public class backup {
     public static void saveUsersToJSON(ArrayList<User> users) {
         try (FileWriter writer = new FileWriter("users.json")) {
             gson.toJson(users, writer);
-            System.out.println("User objects saved to users.json");
+            System.out.println("User object saved to users.json");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -26,7 +27,7 @@ public class backup {
 
     // Method to add a User object to JSON
 
-    public static void updateAndSaveUser(User newUser) {
+    /*public static void updateAndSaveUser(User newUser) {
         ArrayList<User> users = getUsersFromJSON();
         Iterator<User> iterator = users.iterator();
         if(!getUsersFromJSON().isEmpty()) {
@@ -38,6 +39,17 @@ public class backup {
             }
         }
         users.add(newUser);
+        backup.saveUsersToJSON(users);
+    }*/
+    
+    // I think this is a little bit cleaner but lmk if it doesn't work as intended -- jaden
+    public static void updateAndSaveUser(User newUser) {
+        ArrayList<User> users = getUsersFromJSON();
+        
+        users.removeIf(existingUser -> existingUser.getUserName().equals(newUser.getUserName()));
+        
+        users.add(newUser);
+        
         backup.saveUsersToJSON(users);
     }
 
@@ -56,20 +68,25 @@ public class backup {
 
     // Main method for testing purposes
     public static void main(String[] args) {
-        User zachary = new User(new PhoneNumber("000000000"), "zachary");
-        zachary.events.add(new ScheduledEvent(5000, new Task(){
+        //User jaden = new User(new PhoneNumber("2508809769"), "Jaden");
+
+        /*jaden.events.add(new ScheduledEvent(5000, new Task(){
             @Override
             public void execute(){
                 System.out.println("beh");
             }
-        }));
-        ArrayList<User> users = new ArrayList<>();
+        }));*/
 
-        backup.updateAndSaveUser(zachary);
+        //jaden.events.add(new RepeatedEvent(5002, "beh"));
+
+        //backup.updateAndSaveUser(jaden);
+
         ArrayList<User> loadedUsers = backup.getUsersFromJSON();
+
         for (User user : loadedUsers) {
             System.out.println("Loaded user: " + user.getUserName());
-            System.out.println("Loaded number: " +user. getPhoneNumber());
+            System.out.println("Loaded number: " + user.getPhoneNumber());
+            System.out.println("Loaded threadID: " + user.getThreadId());
         }
     }
 }
