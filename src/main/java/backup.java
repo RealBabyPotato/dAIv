@@ -77,7 +77,8 @@ public class backup {
             }
         }));*/
 
-        //jaden.events.add(new RepeatedEvent(5002, "beh"));
+        //jaden.events.add(new RepeatedEvent(1000, "asdf"));
+        //jaden.events.add(new RepeatedEvent(2500, "tadaloo"));
 
         //backup.updateAndSaveUser(jaden);
 
@@ -87,6 +88,9 @@ public class backup {
             System.out.println("Loaded user: " + user.getUserName());
             System.out.println("Loaded number: " + user.getPhoneNumber());
             System.out.println("Loaded threadID: " + user.getThreadId());
+            for(ScheduledEvent event : user.events){
+                System.out.println("Loaded event with message: " + event.getMessage());
+            }
         }
     }
 }
