@@ -97,9 +97,9 @@ public class ScheduledEvent{
 				}else if(f.equals("hour")) {
 					date.set(Calendar.HOUR_OF_DAY, date.get(Calendar.HOUR_OF_DAY)+amount);
 				}else if(f.equals("minute")) {
-					date.set(Calendar.MINUTE, date.get(Calendar.MINUTE)+a);
+					date.set(Calendar.MINUTE, date.get(Calendar.MINUTE)+amount);
 				}else if(f.equals("second")){
-					date.set(Calendar.SECOND, date.get(Calendar.SECOND)+a);
+					date.set(Calendar.SECOND, date.get(Calendar.SECOND)+amount);
 				}
 				//scheduleRepeatedEvent(message, phonenum, user, date, field, amount);
 			}
