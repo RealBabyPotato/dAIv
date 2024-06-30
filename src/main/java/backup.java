@@ -16,11 +16,10 @@ public class backup {
             .create();
 
     // Method to save a list of User objects to a JSON file
-    public static void saveUsersToJSON(ArrayList<User> users) {
-        try (FileWriter writer = new FileWriter("users.json")) {
-            System.out.println("saving users.json");
+    private static void saveUsersToJSON(ArrayList<User> users) {
+        try (FileWriter writer = new FileWriter("users.json", false)) {
             gson.toJson(users, writer);
-            System.out.println("User object saved to users.json");
+            System.out.println("Updated and saved users.json");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -30,16 +29,28 @@ public class backup {
     public static void updateAndSaveUser(User newUser) {
         ArrayList<User> users = getUsersFromJSON();
         
-        users.removeIf(existingUser -> existingUser.getUserName().equals(newUser.getUserName())); // if nothing changed, do not update this user
+        try{
+
+           /* for(int i = 0; i < users.size(); i++){
+                if(users.get(i).getPhoneNumberAsString().equals(newUser.getPhoneNumberAsString())){
+
+                }
+            }*/
+
+            users.removeIf(existingUser -> existingUser.getPhoneNumberAsString().equals(newUser.getPhoneNumberAsString())); // if nothing changed, do not update this user; updates
+        } catch (NullPointerException e){
+            System.out.println("Creating new user in users.json");
+        }
         
-        users.add(newUser);
+        users.add(newUser); // adds
         
         backup.saveUsersToJSON(users);
     }
 
     // Method to return a list of User objects from JSON file
     public static ArrayList<User> getUsersFromJSON() {
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<User> users = new ArrayList<User>();
+
         try (Reader reader = new FileReader("users.json")) {
             Type userListType = new TypeToken<ArrayList<User>>(){}.getType();
             users = gson.fromJson(reader, userListType);

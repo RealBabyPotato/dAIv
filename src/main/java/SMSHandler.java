@@ -41,6 +41,8 @@ public class SMSHandler implements HttpHandler {
 
        boolean userExists = false;
 
+       System.out.println("SIZE: " + Main.RegisteredUsers.size());
+
         for(User u : Main.RegisteredUsers){
 
           System.out.println("Incoming: " + incoming_phone + " | Main: " + u.getPhoneNumberAsString());
@@ -62,7 +64,7 @@ public class SMSHandler implements HttpHandler {
         }
 
       if(!userExists){
-        User new_user = User.registerUser(new PhoneNumber(incoming_phone), incoming_message);
+        User new_user = User.registerUser(new PhoneNumber(incoming_phone));
         SetupManager.setup(new_user, 0, incoming_message);
       }
         

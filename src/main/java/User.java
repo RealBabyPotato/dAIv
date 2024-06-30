@@ -38,6 +38,7 @@ public class User {
         this.userName = userN;
         this.phoneNumberString = phoneNum.toString();
         Main.RegisteredUsers.add(this);
+        backup.updateAndSaveUser(this);
     }
 
     public static User registerUser(PhoneNumber number){
@@ -45,7 +46,7 @@ public class User {
         // note that this will be called in SMSHandler.java when we don't recognize an incoming user
         // so it may be useful to use context from there.
 
-        User incomingUser = new User(number, null); // this will automatically register our user in Main.registeredUsers.
+        User incomingUser = new User(number, "in setup phase"); // this will automatically register our user in Main.registeredUsers.
         backup.updateAndSaveUser(incomingUser); // this backs up our new user.
 
         return incomingUser;

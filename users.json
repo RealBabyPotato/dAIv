@@ -1,2 +1,30 @@
 [
+  {
+    "phoneNumberString": "2508809769",
+    "userName": "in setup phase",
+    "events": [],
+    "isInSetup": true,
+    "setupPhase": 0
+  },
+  {
+    "phoneNumberString": "2508809769",
+    "userName": "in setup phase",
+    "events": [],
+    "isInSetup": true,
+    "setupPhase": 0
+  },
+  {
+    "phoneNumberString": "2508809769",
+    "userName": "in setup phase",
+    "events": [],
+    "isInSetup": true,
+    "setupPhase": 1
+  },
+  {
+    "phoneNumberString": "2508809769",
+    "userName": "jad",
+    "events": [],
+    "isInSetup": true,
+    "setupPhase": 1
+  }
 ]
