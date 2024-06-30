@@ -11,13 +11,14 @@ import java.util.Iterator;
 
 public class backup {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting()
-            .registerTypeAdapter(ScheduledEvent.class, new ScheduledEventTypeAdapter())
+            //.registerTypeAdapter(ScheduledEvent.class, new ScheduledEventTypeAdapter())
             .excludeFieldsWithoutExposeAnnotation()
             .create();
 
     // Method to save a list of User objects to a JSON file
     public static void saveUsersToJSON(ArrayList<User> users) {
         try (FileWriter writer = new FileWriter("users.json")) {
+            System.out.println("saving users.json");
             gson.toJson(users, writer);
             System.out.println("User object saved to users.json");
         } catch (IOException e) {

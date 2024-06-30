@@ -23,16 +23,16 @@ class GPTAPI {
         }
     }
 
-    //private static Pattern pattern = Pattern.compile("\"id\": \"([^\"]+)\"");
-//    public static void main(String[] args) throws InterruptedException, NameNotFoundException {
- //       User j = new User(new PhoneNumber("2508809769"), "Jaden");
-  //      // System.out.println(sendAndReceive(j, "A uniform, rigid rod of length 2m lies on a horizontal surface. One end of the rod can pivot about an axis that is perpendicular to the rod and along the plane of the page. A 10N force is applied to the rod at its midpoint from the bottom right at an angle of 37 degrees. A second force F is applied to the free end of the rod downward so that the rod remains at rest. The magnitude of the torque produced by force F is most nearly?"));
-  //      System.out.println(sendAndReceive(j, "What's the first law in the book 48 laws of power by Robert Green?"));
-  //  }
+    // private static Pattern pattern = Pattern.compile("\"id\": \"([^\"]+)\"");
+    public static void main(String[] args) throws InterruptedException, NameNotFoundException {
+        User j = new User(new PhoneNumber("2508809769"), "Jaden");
+        // System.out.println(sendAndReceive(j, "A uniform, rigid rod of length 2m lies on a horizontal surface. One end of the rod can pivot about an axis that is perpendicular to the rod and along the plane of the page. A 10N force is applied to the rod at its midpoint from the bottom right at an angle of 37 degrees. A second force F is applied to the free end of the rod downward so that the rod remains at rest. The magnitude of the torque produced by force F is most nearly?"));
+        System.out.println(sendAndReceive(j, "What's the first law in the book 48 laws of power by Robert Green?"));
+    }
 
     private static String addMessageToUserThread(User user, String message) throws NameNotFoundException {
         if(user.getThreadId() == null){ // create new thread if one doesn't exist
-            user.setThreadId(regexResponse(createThread(assistantId), "id"));
+            user.setThreadId(regexResponse(createThread(), "id"));
             // addMessageToThread(assistantId, user.getThreadId(), "");
         }
         addMessageToThread(user.getThreadId(), message);
@@ -80,7 +80,7 @@ class GPTAPI {
         return sendPostRequest(url, requestBody);
     }
 
-    private static String createThread(String assistantId) {
+    private static String createThread() {
         // Implement the thread creation logic here
         String url = "https://api.openai.com/v1/threads";
         return sendPostRequest(url, "{}");

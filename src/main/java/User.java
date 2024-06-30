@@ -43,6 +43,11 @@ public class User {
         backup.updateAndSaveUser(incomingUser); // this backs up our new user.
     }
 
+    public static void registerUser(PhoneNumber number, String firstMessage){
+        registerUser(number);
+        System.out.println("DEBUG: registered user with first message: " + firstMessage);
+    }
+
     // Accessor Methods
     public String getUserName(){
         return userName;

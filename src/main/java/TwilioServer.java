@@ -15,15 +15,14 @@ class TwilioServer {
 	private static final String ACCOUNT_NUMBER = "+1YOUR_TWILIO_PHONE_NUMBER";
 
   public TwilioServer() throws Exception {
-    
-    // authenticate the Twilio Client
-    Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+      // authenticate the Twilio Client
+      Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
-    // create and HTTP Service to listen for Twilio sms messages
-    HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
-    server.createContext("/", new SMSHandler());
-    server.setExecutor(null); // creates a default executor
-    server.start();
+      // create and HTTP Service to listen for Twilio sms messages
+      HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
+      server.createContext("/", new SMSHandler());
+      server.setExecutor(null); // creates a default executor
+      server.start();
     }
 
   
