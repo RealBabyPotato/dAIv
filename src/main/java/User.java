@@ -88,7 +88,7 @@ public class User {
     }
 
     public String getPhoneNumberAsString(){
-        return  phoneNumber.toString();
+        return getPhoneNumber().toString();
     }
 
     public String getThreadId() { return threadId; }

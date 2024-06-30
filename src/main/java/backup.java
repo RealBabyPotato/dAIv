@@ -28,7 +28,7 @@ public class backup {
     // I think this is a little bit cleaner but lmk if it doesn't work as intended -- jaden
     public static void updateAndSaveUser(User newUser) {
         ArrayList<User> users = getUsersFromJSON();
-        
+        /// System.out.println(users.get(0).getPhoneNumberAsString());
         try{
 
            /* for(int i = 0; i < users.size(); i++){
@@ -36,8 +36,8 @@ public class backup {
 
                 }
             }*/
-
             users.removeIf(existingUser -> existingUser.getPhoneNumberAsString().equals(newUser.getPhoneNumberAsString())); // if nothing changed, do not update this user; updates
+
         } catch (NullPointerException e){
             System.out.println("Creating new user in users.json");
         }
@@ -76,6 +76,8 @@ public class backup {
         //jaden.events.add(new RepeatedEvent(2500, "tadaloo"));
 
         //backup.updateAndSaveUser(jaden);
+
+        //User new_user = User.registerUser(new PhoneNumber("2508809769"));
 
         ArrayList<User> loadedUsers = backup.getUsersFromJSON();
 

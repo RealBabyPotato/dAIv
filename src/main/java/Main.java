@@ -14,7 +14,7 @@ public class Main {
     //User j = new User(new PhoneNumber("2508809769"), "Jaden");
     //backup.updateAndSaveUser(j);
 
-    User new_user = User.registerUser(new PhoneNumber("2508809769"));
+    /*User new_user = User.registerUser(new PhoneNumber("2508809769")); // add user to main.user and backup
     SetupManager.setup(new_user, 0, "test startup message");
 
     System.out.println(new_user.getUserName());
@@ -22,16 +22,18 @@ public class Main {
     new_user.setUsername("jad");
 
     System.out.println(new_user.getUserName());
+
+    SetupManager.setup(new_user, new_user.getSetupPhase(), "message");*/
     
     // System.out.println(GPTAPI.sendAndReceive(j, "test"));
 
     //System.out.println(TwilioServer.send("+12506613358","HTTP Service is Running!"));
 
     /*for(User u : RegisteredUsers){
-        System.out.println(u.getUserName());
+      u.setUsername("bob");
     }*/
 
-    //TwilioServer service = new TwilioServer();
+    TwilioServer service = new TwilioServer();
   }
 
 }

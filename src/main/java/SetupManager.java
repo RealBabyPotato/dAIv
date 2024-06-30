@@ -8,13 +8,9 @@ public class SetupManager {
                 break;
             
             case 1:
-                System.out.println("case 1 message: " + message);
                 user.setUsername(message);
-                System.out.println("1");
                 user.message("Great to meet you " + user.getUserName() + "! How can I assist you today?");
-                System.out.println("2");
                 user.setIsInSetup(false);
-
                 System.out.println("user pn: " + user.getPhoneNumberAsString());
                 break;
         
