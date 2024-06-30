@@ -1,4 +1,5 @@
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.twilio.type.PhoneNumber;
 import org.json.simple.parser.ParseException;
 
@@ -9,22 +10,38 @@ import java.util.Objects;
 
 public class User {
     // Instance Variables
-    @Expose // This tag is for the backup group
-    public PhoneNumber phoneNumber;
+
+    //@Expose // This tag is for the backup group
+    private PhoneNumber phoneNumber;
+
+    @Expose
+    private String phoneNumberString;
+
     @Expose
     private String userName;
+
     @Expose
+    @SerializedName("events")
     ArrayList<ScheduledEvent> events = new ArrayList<ScheduledEvent>();
+    
     @Expose
     private String threadId;
 
     public User(PhoneNumber phoneNum, String userN) {
         this.phoneNumber = phoneNum;
         this.userName = userN;
+        this.phoneNumberString = phoneNum.toString();
         Main.RegisteredUsers.add(this);
     }
 
-    //public
+    public static void registerUser(PhoneNumber number){
+        // here we can ask them to tell us their name or something so that we can put in userName; this is just a big setup process. 
+        // note that this will be called in SMSHandler.java when we don't recognize an incoming user
+        // so it may be useful to use context from there.
+
+        User incomingUser = new User(number, null); // this will automatically register our user in Main.registeredUsers.
+        backup.updateAndSaveUser(incomingUser); // this backs up our new user.
+    }
 
     // Accessor Methods
     public String getUserName(){
@@ -32,6 +49,10 @@ public class User {
     }
 
     public PhoneNumber getPhoneNumber(){
+        if(this.phoneNumber == null){
+            return new PhoneNumber(phoneNumberString);
+        }
+
         return phoneNumber;
     }
 
@@ -43,6 +64,7 @@ public class User {
 
     public void setThreadId(String id){
         this.threadId = id;
+        backup.updateAndSaveUser(this);
     }
 
     @Override

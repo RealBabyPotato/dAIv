@@ -1,6 +1,9 @@
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import com.google.gson.annotations.Expose;
+
 import java.time.*;
 
 interface Task{
@@ -9,15 +12,27 @@ interface Task{
 
 public class ScheduledEvent{
 	
-	private Timer timeTracker;
-	private TimerTask task;
-	private String message;
+	protected Timer timeTracker;
+
+	@Expose
+	protected TimerTask task;
+
+	@Expose 
+	protected String message;
+
 	private Calendar date;
 	private String field;
 	private int amount;
 	//private PhoneNumber phonenum;
 	private String phonenum;
 	private User user;
+
+	@Expose
+	protected int repeat = -1;
+
+	protected ScheduledEvent(){
+		System.out.println("Constructing protected ScheduledEvent (hopefully this should be coming from a subclass!)");
+	}
 	
 	//for one time tasks
 	public ScheduledEvent(String m, PhoneNumber n, User u, Calendar d) {
@@ -55,6 +70,10 @@ public class ScheduledEvent{
 		timeTracker = new Timer();
 		timeTracker.schedule(task, getTimeDiff(date));
 	}
+
+	public int getRepeat(){
+		return this.repeat;
+	}
 	
 	//for repeated events
 	// the parameter f is the time unit by which the event is repeating
@@ -78,9 +97,9 @@ public class ScheduledEvent{
 				}else if(f.equals("hour")) {
 					date.set(Calendar.HOUR_OF_DAY, date.get(Calendar.HOUR_OF_DAY)+amount);
 				}else if(f.equals("minute")) {
-					date.set(Calendar.MINUTE, date.get(Calendar.MINUTE)+a);
+					date.set(Calendar.MINUTE, date.get(Calendar.MINUTE)+amount);
 				}else if(f.equals("second")){
-					date.set(Calendar.SECOND, date.get(Calendar.SECOND)+a);
+					date.set(Calendar.SECOND, date.get(Calendar.SECOND)+amount);
 				}
 				//scheduleRepeatedEvent(message, phonenum, user, date, field, amount);
 			}
@@ -91,18 +110,25 @@ public class ScheduledEvent{
 	}
 
 	// temporary constructor for immediate-start scheduled events
-	public ScheduledEvent(long periodToRepeat, final Task runnableTask){
+	/*public ScheduledEvent(long periodToRepeat, String prompt){ // (final Task runnableTask)
+		this.repeat = (int)periodToRepeat;
+
 		this.task = new TimerTask() {
 			@Override
 			public void run() {
-				runnableTask.execute();
+				// runnableTask.execute();
+				System.out.println(prompt);
 			}
 		};
 
 		timeTracker = new Timer();
 		timeTracker.scheduleAtFixedRate(this.task, 0, periodToRepeat);
-		timeTracker.schedule(task, getTimeDiff(Calendar.getInstance()), periodToRepeat);
-	}
+		try{
+			timeTracker.schedule(task, getTimeDiff(Calendar.getInstance()), periodToRepeat);
+		} catch(IllegalStateException e){
+			System.out.println("Attempting to schedule task with negative time difference, ignoring");
+		}
+	}*/
 
 	//input the date and time at which message should be sent
 	//returns the number of milliseconds between the current time and the time it should be sent
@@ -171,4 +197,28 @@ public class ScheduledEvent{
 	public String getTime(){ // Format as a YYYY-MM-DD HH:mm:ss string
 		return String.format("%04d-%02d-%02d %02d:%02d:%02d", date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH), date.get(Calendar.HOUR_OF_DAY), date.get(Calendar.MINUTE), date.get(Calendar.SECOND)); // Format as YYYY-MM-DD HH:mm:ss string
 	}
+}
+
+class RepeatedEvent extends ScheduledEvent{
+	public RepeatedEvent(long periodToRepeat, String prompt){ // (final Task runnableTask)
+		this.repeat = (int)periodToRepeat;
+		this.message = prompt;
+
+		this.task = new TimerTask() {
+			@Override
+			public void run() {
+				// runnableTask.execute();
+				System.out.println(prompt);
+			}
+		};
+
+		timeTracker = new Timer();
+		timeTracker.scheduleAtFixedRate(this.task, 0, periodToRepeat);
+		try{
+			timeTracker.schedule(task, getTimeDiff(Calendar.getInstance()), periodToRepeat);
+		} catch(IllegalStateException e){
+			System.out.println("Attempting to schedule task with negative time difference, ignoring");
+		}
+	}
+
 }
