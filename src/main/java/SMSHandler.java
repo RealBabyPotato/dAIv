@@ -18,8 +18,7 @@ public class SMSHandler implements HttpHandler {
       System.out.println("I got a message!");
 
       InputStream stream = t.getRequestBody();
-      String str_full = new BufferedReader(
-         new InputStreamReader(stream, "UTF-8"))
+      String str_full = new BufferedReader(new InputStreamReader(stream, "UTF-8"))
          .lines()
          .collect(Collectors.joining("\n"));
 
@@ -37,26 +36,37 @@ public class SMSHandler implements HttpHandler {
       str_end = str.indexOf("&");
       String incoming_phone = str.substring(0,str_end);
 
-
        // create a Twilio xml reponse string that echos the incoming text
        System.out.println(incoming_phone);
 
        boolean userExists = false;
 
         for(User u : Main.RegisteredUsers){
-            if(u.getPhoneNumber().toString().equals(incoming_phone)){
-                u.message(GPTAPI.sendAndReceive(u, incoming_message));
-                userExists = true;
-                break;
+
+          System.out.println("Incoming: " + incoming_phone + " | Main: " + u.getPhoneNumberAsString());
+
+          if(u.getPhoneNumber().toString().equals(incoming_phone)){ // is this user's phone number the same as the incoming one?
+
+            if(u.getIsInSetup()){ // if this user is setting up their account, go to the setup manager
+              System.out.println("match! in phase: " + u.getSetupPhase());
+              SetupManager.setup(u, u.getSetupPhase(), incoming_message);
             }
+            else {
+              // this is the user that just messaged us, and they are registered.
+              u.message(GPTAPI.sendAndReceive(u, incoming_message));
+              userExists = true;
+            }
+
+            break;
+          }
         }
 
-        if(!userExists){
-          //TwilioSendMessageExample.messageUser(new User(new PhoneNumber(incoming_phone), "Unknown"), "Unknown user; you aren't registered!");
-          // TwilioSendMessageExample.messageUser(new User(new PhoneNumber(incoming_phone)), "nknown"), "Unknown user; you aren't in RegisteredUsers!");
-
-          User.registerUser(new PhoneNumber(incoming_phone), incoming_message);
-        }
+      if(!userExists){
+        User new_user = User.registerUser(new PhoneNumber(incoming_phone), incoming_message);
+        SetupManager.setup(new_user, 0, incoming_message);
+      }
+        
+        // send response code back to twilio
 
         String response = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Message>" + getReply(incoming_message) + "</Message></Response>";
 

@@ -27,6 +27,12 @@ public class User {
     @Expose
     private String threadId;
 
+    @Expose
+    private boolean isInSetup = true;
+
+    @Expose
+    private int setupPhase = 0;
+
     public User(PhoneNumber phoneNum, String userN) {
         this.phoneNumber = phoneNum;
         this.userName = userN;
@@ -34,20 +40,39 @@ public class User {
         Main.RegisteredUsers.add(this);
     }
 
-    public static void registerUser(PhoneNumber number){
+    public static User registerUser(PhoneNumber number){
         // here we can ask them to tell us their name or something so that we can put in userName; this is just a big setup process. 
         // note that this will be called in SMSHandler.java when we don't recognize an incoming user
         // so it may be useful to use context from there.
 
         User incomingUser = new User(number, null); // this will automatically register our user in Main.registeredUsers.
         backup.updateAndSaveUser(incomingUser); // this backs up our new user.
+
+        return incomingUser;
     }
 
-    public static void registerUser(PhoneNumber number, String firstMessage){
-        registerUser(number);
+    public static User registerUser(PhoneNumber number, String firstMessage){
         System.out.println("DEBUG: registered user with first message: " + firstMessage);
+        return registerUser(number);
     }
 
+    public boolean getIsInSetup(){
+        return isInSetup;
+    }
+
+    public void setIsInSetup(boolean val){
+        isInSetup = val;
+        backup.updateAndSaveUser(this);
+    }
+
+    public int getSetupPhase(){
+        return setupPhase;
+    }
+
+    public void setSetupPhase(int val){
+        setupPhase = val;
+        backup.updateAndSaveUser(this);
+    }
     // Accessor Methods
     public String getUserName(){
         return userName;
@@ -69,6 +94,11 @@ public class User {
 
     public void setThreadId(String id){
         this.threadId = id;
+        backup.updateAndSaveUser(this);
+    }
+
+    public void setUsername(String username){
+        this.userName = username;
         backup.updateAndSaveUser(this);
     }
 
@@ -115,6 +145,8 @@ public class User {
     }
 
     public static void main(String[] args) {
-        PopulateUsers();
+        // PopulateUsers();
+        User b = new User(new PhoneNumber("25"), "bob");
+        backup.updateAndSaveUser(b);
     }
 }

@@ -20,11 +20,6 @@ public class Main {
     }
 
     TwilioServer service = new TwilioServer();
-
-    // Send a test Message
-    // System.out.println(service);
-
-    
   }
 
 }

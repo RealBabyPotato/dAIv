@@ -25,29 +25,12 @@ public class backup {
             e.printStackTrace();
         }
     }
-
-    // Method to add a User object to JSON
-
-    /*public static void updateAndSaveUser(User newUser) {
-        ArrayList<User> users = getUsersFromJSON();
-        Iterator<User> iterator = users.iterator();
-        if(!getUsersFromJSON().isEmpty()) {
-            while (iterator.hasNext()) {
-                User existingUser = iterator.next();
-                if (existingUser.getUserName().equals(newUser.getUserName())) {
-                    iterator.remove();
-                }
-            }
-        }
-        users.add(newUser);
-        backup.saveUsersToJSON(users);
-    }*/
     
     // I think this is a little bit cleaner but lmk if it doesn't work as intended -- jaden
     public static void updateAndSaveUser(User newUser) {
         ArrayList<User> users = getUsersFromJSON();
         
-        users.removeIf(existingUser -> existingUser.getUserName().equals(newUser.getUserName()));
+        users.removeIf(existingUser -> existingUser.getUserName().equals(newUser.getUserName())); // if nothing changed, do not update this user
         
         users.add(newUser);
         

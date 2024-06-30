@@ -61,7 +61,6 @@ class GPTAPI {
     }
 
     public static String sendAndReceive(User user, String message) {
-        //System.out.println("Sending message to ChatGPT API with threadId " + user.getThreadId());
         try {
         return retrieveFromRun(user, addMessageToUserThread(user, message));
         } catch(Exception e) {
