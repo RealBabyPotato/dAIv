@@ -3,7 +3,7 @@ public class SetupManager {
     public static void setup(User user, int phase, String message){
         switch (phase) {
             case 0: // this is the user's first time messaging us, give them the preamble
-                user.message("Hi there! Welcome to dAIv, an awesome AI-powered assistant initiated by APCSA and finished by Jaden BN. Because it doesn't seem like this account has messaged us before, I will begin a brief setup process. First off, what would you like to be referred to as?");
+                user.message("Hi there! Welcome to dAIv, an awesome AI-powered assistant initiated by APCSA and finished by Jaden BN. Because it doesn't seem like this account has messaged us before, I will begin a brief setup process. First off, what would you like to be referred to as?\n\n(You can access a help menu using !help)");
                 user.setSetupPhase(user.getSetupPhase() + 1); 
                 break;
             
@@ -15,8 +15,9 @@ public class SetupManager {
                 break;
         
             default:
-                System.out.println("default wtff?");
-                user.setIsInSetup(false);
+                user.message("We're sorry, but it seems like something went wrong with the account setup process. Reverting to the start. If this issue persists, please report it using !report {detailed account of issue}.");
+                user.setIsInSetup(true);
+                user.setSetupPhase(0);
                 break;
         }
     }

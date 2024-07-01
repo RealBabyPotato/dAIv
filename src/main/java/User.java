@@ -135,6 +135,17 @@ public class User {
         // this.writeToFile(content); uncomment this when we fix file io
     }
 
+    public static User getUserWithNumberString(String num){
+
+        for(User u : Main.RegisteredUsers){
+            if(u.getPhoneNumberAsString().equals(num)){
+                return u;
+            }
+        }
+
+        return null;
+    }
+
     // Reset and Reboot
     public static void PopulateUsers() {
         /*
@@ -146,8 +157,8 @@ public class User {
     }
 
     public static void main(String[] args) {
-        // PopulateUsers();
-        User b = new User(new PhoneNumber("25"), "bob");
-        backup.updateAndSaveUser(b);
+        PopulateUsers();
+
+        System.out.println(getUserWithNumberString("2508809769").getThreadId());
     }
 }
