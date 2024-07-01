@@ -3,12 +3,17 @@ import java.io.OutputStream;
 import java.io.InputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Calendar;
 import java.util.stream.Collectors;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.twilio.type.PhoneNumber;
 
 import java.net.URLDecoder;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.text.SimpleDateFormat;
 
 public class SMSHandler implements HttpHandler {
     // This overrides the Java HTTPHandler to Listen for an HTTP Request and produce a different response
@@ -58,7 +63,18 @@ public class SMSHandler implements HttpHandler {
           try{
             TwilioSendMessageExample.messageNumber(new PhoneNumber("2508809769"), "dAIv REPORT from " + incoming_phone + ": " + incomingMessageCopy.substring(7));
             TwilioSendMessageExample.messageNumber(numOfUser, "Thanks for your report! You are actively making dAIv a better tool :)");
-          } catch (Exception e){
+            try {
+              Calendar calendar = Calendar.getInstance();
+              SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+              String formattedDate = sdf.format(calendar.getTime());
+
+              Files.write(Paths.get("reports.txt"), String.format("%s | %s | %s\n", formattedDate, incoming_phone, incomingMessageCopy.substring(7)).getBytes(), StandardOpenOption.APPEND); // formatted like date, number, report
+              } catch (Exception e){ // catches an issue with logging the report
+                System.out.println("issue logging report!");
+              }
+            } 
+            
+            catch (Exception e){ // catches an issue with sending the message
             TwilioSendMessageExample.messageNumber(numOfUser, "Unfortunately something went wrong with your report. Please try again later.");
           }
           break;
@@ -84,30 +100,6 @@ public class SMSHandler implements HttpHandler {
               User new_user = User.registerUser(new PhoneNumber(incoming_phone));
               SetupManager.setup(new_user, 0, incoming_message);
           }
-
-          /*for(User u : Main.RegisteredUsers){ // delegate this to a hashmap later
-    
-            if(u.getPhoneNumber().toString().equals(incoming_phone)){ // is this user's phone number the same as the incoming one?
-    
-              if(u.getIsInSetup()){ // if this user is setting up their account, go to the setup manager
-                System.out.println("here in phase: " + u.getSetupPhase());
-                SetupManager.setup(u, u.getSetupPhase(), incoming_message);
-                userExists = true;
-              }
-              else {
-                // this is the user that just messaged us, and they are registered.
-                u.message(GPTAPI.sendAndReceive(u, incoming_message));
-                userExists = true;
-              }
-    
-              break;
-            }
-          }*/
-
-          /*if(!userExists){
-            User new_user = User.registerUser(new PhoneNumber(incoming_phone));
-            SetupManager.setup(new_user, 0, incoming_message);
-          }*/
 
           break;
       }
