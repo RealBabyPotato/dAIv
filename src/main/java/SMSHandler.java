@@ -112,8 +112,6 @@ public class SMSHandler implements HttpHandler {
           }
           break;
       }
-
-        
         // send response code back to twilio
 
         String response = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Message>" + getReply(incoming_message) + "</Message></Response>";

@@ -3,7 +3,7 @@ public class SetupManager {
     public static void setup(User user, int phase, String message){
         switch (phase) {
             case 0: // this is the user's first time messaging us, give them the preamble
-                user.message("Hi there! Welcome to dAIv, an awesome AI-powered assistant initiated by APCSA and finished by Jaden BN. Because it doesn't seem like this account has messaged us before, I will begin a brief setup process. First off, what would you like to be referred to as?\n\n(You can access a help menu using !help)");
+                user.message("Hi there! Welcome to dAIv, an awesome AI-powered assistant initiated by APCSA and finished by Jaden. Because it doesn't seem like this account has messaged dAIv before, I will begin a brief setup process. First off, what would you like to be referred to as?\n\n(You can access a help menu using !help)");
                 user.setSetupPhase(user.getSetupPhase() + 1); 
                 break;
             

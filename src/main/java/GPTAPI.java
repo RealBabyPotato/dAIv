@@ -26,8 +26,10 @@ class GPTAPI {
     // private static Pattern pattern = Pattern.compile("\"id\": \"([^\"]+)\"");
     public static void main(String[] args) throws InterruptedException, NameNotFoundException {
         User j = new User(new PhoneNumber("2508809769"), "Jaden");
-        // System.out.println(sendAndReceive(j, "A uniform, rigid rod of length 2m lies on a horizontal surface. One end of the rod can pivot about an axis that is perpendicular to the rod and along the plane of the page. A 10N force is applied to the rod at its midpoint from the bottom right at an angle of 37 degrees. A second force F is applied to the free end of the rod downward so that the rod remains at rest. The magnitude of the torque produced by force F is most nearly?"));
-        System.out.println(sendAndReceive(j, "What's the first law in the book 48 laws of power by Robert Green?"));
+
+        System.out.println(sendAndReceive(j, "What's the first law in the book 48 laws of power by Robert Green? give me 2 paragraphs"));
+
+        //System.out.println(sendAndReceive(j, "What's the first law in the book 48 laws of power by Robert Green? give me 2 paragraphs"));
     }
 
     private static String addMessageToUserThread(User user, String message) throws NameNotFoundException {
@@ -62,7 +64,11 @@ class GPTAPI {
 
     public static String sendAndReceive(User user, String message) {
         try {
-        return retrieveFromRun(user, addMessageToUserThread(user, message));
+            String response = retrieveFromRun(user, addMessageToUserThread(user, message));
+            response = response.replace("\\\"", "'");
+            response = response.replace("\\n", "\n");
+            return response;
+        //return retrieveFromRun(user, addMessageToUserThread(user, message));
         } catch(Exception e) {
             return "Error";
         }
