@@ -78,10 +78,19 @@ public class SMSHandler implements HttpHandler {
             TwilioSendMessageExample.messageNumber(numOfUser, "Unfortunately something went wrong with your report. Please try again later.");
           }
           break;
+
+        case "!!changeusername": // an example incoming request could be: !changeusername Bob
+          try{
+            incoming_user.setUsername(incomingMessageCopy.substring(16));
+            TwilioSendMessageExample.messageUser(incoming_user, "Your new name is: " + incomingMessageCopy.substring(16));
+          } catch (Exception e){
+            TwilioSendMessageExample.messageNumber(numOfUser, "Something went wrong when setting your username. Either you currently do not have an account, or you have input an invalid username. Please ensure your username only consists of normal characters.");
+          }
+          break;
         
-          case "!!":
-            TwilioSendMessageExample.messageNumber(numOfUser, "Unrecognized command. If you would like to see a list of commands, please use !help.");
-            break;
+        case "!!":
+          TwilioSendMessageExample.messageNumber(numOfUser, "Unrecognized command. If you would like to see a list of commands, please use !help.");
+          break;
 
         default:
           System.out.println("default");
