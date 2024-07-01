@@ -7,7 +7,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-public class JSONManager{
+public class JSONManager{ // deprecated
     private String user;
     private int txt;
     private static JSONArray allUser = new JSONArray();

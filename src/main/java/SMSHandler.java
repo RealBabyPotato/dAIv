@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.stream.Collectors;
+
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.twilio.type.PhoneNumber;
@@ -104,12 +105,11 @@ public class SMSHandler implements HttpHandler {
               // this is the user that just messaged us, and they are registered.
               incoming_user.message(GPTAPI.sendAndReceive(incoming_user, incoming_message));
             }
-          } 
+          }
           else {
               User new_user = User.registerUser(new PhoneNumber(incoming_phone));
               SetupManager.setup(new_user, 0, incoming_message);
           }
-
           break;
       }
 
