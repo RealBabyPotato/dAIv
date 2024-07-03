@@ -9,6 +9,12 @@ import java.io.IOException;
 import java.io.File;
 import java.util.Calendar;
 
+/*
+ * Used to store conversation logs under conversations/
+ * @deprecated {functionality removed}
+ */
+
+@Deprecated // -- Deprecated!
 public class FileReadWrite {
 
     public static void addToConversation(User client, String message, String reply) {

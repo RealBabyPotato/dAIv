@@ -7,6 +7,11 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+/*
+ * Backs things up into users.json old-style.
+ * @deprecated use {@backup.java} instead.
+ */
+@Deprecated
 public class JSONManager{ // deprecated
     private String user;
     private int txt;

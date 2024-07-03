@@ -5,7 +5,13 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
-public class WebScrape{
+/*
+ * Leftover from APCSA fork, but there are some functionalities I'd like to work on in the future here.
+ * @deprecated
+ */
+
+@Deprecated
+public class WebScrape{ // Deprecated, but WIP soon?
     //search query
     private static String search;
     private static String initialUrl;
