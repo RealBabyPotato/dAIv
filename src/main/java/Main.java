@@ -36,8 +36,6 @@ public class Main {
       u.setUsername("bob");
     }*/
 
-    
-
     TwilioServer service = new TwilioServer();
   }
 }
