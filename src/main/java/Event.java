@@ -3,7 +3,8 @@ import java.util.*;
 import java.text.DateFormat;
 
 public class Event {
-    protected static DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, new Locale("en", "CA"));
+    public static DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, new Locale("en", "CA"));
+    public static DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.DEFAULT, new Locale("en", "CA"));
     protected Date startTime;
     protected Date expiryTime;
     protected User owner;

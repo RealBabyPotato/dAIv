@@ -14,7 +14,7 @@ public class Main {
     
     // Create a TwilioSMS instance to begin an HTTP service and Authenticate Client
     
-    User.PopulateUsers(); // adds all users into memory - our 'registeredUsers' static list
+    // User.PopulateUsers(); // adds all users into memory - our 'registeredUsers' static list
 
     User j = new User(new PhoneNumber("2508809769"), "Jaden");
     //backup.updateAndSaveUser(j);
@@ -34,14 +34,12 @@ public class Main {
 
     //System.out.println(TwilioServer.send("+12506613358","HTTP Service is Running!"));
 
-    /*for(User u : RegisteredUsers){
-      u.setUsername("bob");
-    }*/
+    System.out.println(GPTAPI.sendAndReceive(j, "tell me to eat a bannana on july 4th at 3pm."));
 
-    Date asdf = new Date();
+    /*Date asdf = new Date();
     asdf.setTime(System.currentTimeMillis() + 10 * 1000);
 
-    Reminder reminder = new Reminder(j, asdf, "get some bread at fairway's");
+    Reminder reminder = new Reminder(j, asdf, "get some bread at fairway's");*/
 
     // TwilioServer service = new TwilioServer();
   }
