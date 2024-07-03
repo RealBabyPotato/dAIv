@@ -30,6 +30,9 @@ class Reminder extends Event{
             }
         }, expiry.getTime() - new Date().getTime());
 
-        System.out.println(expiry.getTime() - new Date().getTime());
+        System.out.println("Time until reminder ends: " + (expiry.getTime() - new Date().getTime()));
+        user.addEvent(this);
+        float hoursUntilProc = (expiry.getTime() - new Date().getTime()) / 1000 / 60 / 60;
+        user.message("Successfully set reminder to end in " + Math.round(hoursUntilProc) + " hours!");
     }
 }

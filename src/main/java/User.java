@@ -22,7 +22,7 @@ public class User {
 
     @Expose
     @SerializedName("events")
-    ArrayList<ScheduledEvent> events = new ArrayList<ScheduledEvent>();
+    ArrayList<Event> events = new ArrayList<Event>();
     
     @Expose
     private String threadId;
@@ -103,6 +103,10 @@ public class User {
         backup.updateAndSaveUser(this);
     }
 
+    public void addEvent(Event e){
+        System.out.println("Adding event: " + e.getClass());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -116,23 +120,9 @@ public class User {
         return "PN:" + phoneNumber.toString() + "," + "userName:" + userName + "," + "threadID:" + threadId;
     }
 
-    public void writeToFile(String message) {
-        String reply = "This is where our ChatGPT reply will be handled.";
-        FileReadWrite.addToConversation(this, message, reply);
-    }
-
-    public void writeToFile(String message, String overrideReply){
-        FileReadWrite.addToConversation(this, message, overrideReply);
-    }
-
-    public void readFromFile() {
-        FileReadWrite.readConversation(this);
-    }
-
     // Twillio Send message
     public void message(String content){
         TwilioSendMessageExample.messageUser(this, content);
-        // this.writeToFile(content); uncomment this when we fix file io
     }
 
     public static User getUserWithNumberString(String num){

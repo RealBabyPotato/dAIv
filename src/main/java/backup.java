@@ -85,8 +85,8 @@ public class backup {
             System.out.println("Loaded user: " + user.getUserName());
             System.out.println("Loaded number: " + user.getPhoneNumber());
             System.out.println("Loaded threadID: " + user.getThreadId());
-            for(ScheduledEvent event : user.events){
-                System.out.println("Loaded event with message: " + event.getMessage());
+            for(Event event : user.events){
+                System.out.println("Loaded event with startTime: " + event.startTime);
             }
         }
     }
