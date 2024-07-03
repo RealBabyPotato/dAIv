@@ -31,9 +31,7 @@ class GPTAPI {
     public static void main(String[] args) throws InterruptedException, NameNotFoundException {
         User j = new User(new PhoneNumber("2508809769"), "Jaden");
 
-        System.out.println(sendAndReceive(j, "in 2 hours remind me to wash my hands"));
-        Thread.sleep(3000);
-        System.out.println(sendAndReceive(j, "in 2 minutes remind me to wash my hands"));
+        System.out.println(sendAndReceive(j, "in 5 minutes remind me to wash my hands"));
     }
 
     private static String addMessageToUserThread(User user, String message) throws NameNotFoundException {

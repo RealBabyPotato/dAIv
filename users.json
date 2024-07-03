@@ -2,19 +2,8 @@
   {
     "phoneNumberString": "2508809769",
     "userName": "Jaden",
-    "events": [
-      {
-        "remind": " Wash your hands ",
-        "startTime": 1720038110217,
-        "expiryTime": 1720041705977
-      },
-      {
-        "remind": " Wash your hands ",
-        "startTime": 1720038117939,
-        "expiryTime": 1720038334224
-      }
-    ],
-    "threadId": "thread_wkiHJiRa7b1bJKTl711p6VSR",
+    "events": [],
+    "threadId": "thread_fiYb0pC5vt9VqS4jUps65ilR",
     "isInSetup": true,
     "setupPhase": 0
   }

@@ -13,10 +13,12 @@ public class Main {
   public static void main(String[] args) throws Exception {
     
     // Create a TwilioSMS instance to begin an HTTP service and Authenticate Client
-    
-    // User.PopulateUsers(); // adds all users into memory - our 'registeredUsers' static list
 
-    User j = new User(new PhoneNumber("2508809769"), "Jaden");
+    // this effectively loads everything from our backup into memory. (including events!!)
+    User.PopulateUsers(); // adds all users into memory - our 'registeredUsers' static list
+
+    //User jaden = new User(new PhoneNumber("2508809769"), "Jaden");
+    // System.out.println(GPTAPI.sendAndReceive(jaden, "in 5 minutes remind me to wash my hands"));
     //backup.updateAndSaveUser(j);
 
     /*User new_user = User.registerUser(new PhoneNumber("2508809769")); // add user to main.user and backup
@@ -33,8 +35,6 @@ public class Main {
     // System.out.println(GPTAPI.sendAndReceive(j, "test"));
 
     //System.out.println(TwilioServer.send("+12506613358","HTTP Service is Running!"));
-
-    System.out.println(GPTAPI.sendAndReceive(j, "tell me to eat a bannana on july 4th at 3pm."));
 
     /*Date asdf = new Date();
     asdf.setTime(System.currentTimeMillis() + 10 * 1000);

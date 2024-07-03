@@ -14,6 +14,13 @@ public class Event {
     protected User owner;
     protected Timer expiryTimer;
 
+    public static String formattedDateFromUnix(long unix){
+        Date date = new Date();
+        date.setTime(unix);
+
+        return dateFormat.format(date) + " " + timeFormat.format(date);
+    }
+
     public Event(User user, long expiry){
         this.startTime = new Date().getTime();
         this.expiryTime = expiry;
@@ -21,7 +28,8 @@ public class Event {
     }
 
     public Event(long expiry){
-        System.out.println("instantiating event with null constructor -- you did something wrong...");
+        this.expiryTime = expiry;
+        // System.out.println("instantiating event with null constructor -- you did something wrong...");
     }
 }
 
@@ -38,6 +46,9 @@ class Reminder extends Event{
             public void run() {
                 user.message(GPTAPI.sendAndReceive(user, "SYSTEM: on " + dateFormat.format(startTime) + " asked to be reminded about something. this is what they would like to be reminded about - remind them, and tell them when they asked to be reminded about it. reminder: " + remind));
                 System.out.println("Sending reminder of event: " + remind);
+
+                owner.events.remove(this);
+                backup.updateAndSaveUser(owner);
             }
         }, expiry - new Date().getTime());
 
@@ -48,15 +59,35 @@ class Reminder extends Event{
         backup.updateAndSaveUser(user);
     }
 
-    public Reminder(long beginTime, long expiryTime, String remind){
+    public Reminder(long beginTime, long expiryTime, String remind){ // THIS CONSTRUCTOR IS ONLY FOR WHEN WE ARE CREATING A REMINDER FROM THE BACKUP!
         super(expiryTime);
+        this.startTime = beginTime;
+        this.remind = remind;
         // System.out.println(a);
     }
 
     public void begin(){
         // begin timer. this should only be called when we are creating a reminder again via gson
         if(owner != null){
+            expiryTimer = new Timer();
+            try{
+                expiryTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        owner.message(GPTAPI.sendAndReceive(owner, "SYSTEM: on " + dateFormat.format(startTime) + " asked to be reminded about something. this is what they would like to be reminded about - remind them, and tell them when they asked to be reminded about it. reminder: " + remind));
+                        System.out.println("Sending reminder of event: " + remind);
+                        owner.events.remove(this);
+                        backup.updateAndSaveUser(owner);
+                    }
+                }, this.expiryTime - new Date().getTime());
 
+                System.out.println("Time until reminder ends: " + (this.expiryTime - new Date().getTime()));
+
+            } catch (IllegalArgumentException e){
+                System.out.println("Hi! Unfortunately it looks like a reminder that you set on " + Event.formattedDateFromUnix(this.startTime) + " elapsed while our servers were down. It instructed you to '" + this.remind + "' on " + Event.formattedDateFromUnix(this.expiryTime));
+                owner.events.remove(this);
+                backup.updateAndSaveUser(owner);
+            }
             return;
         }
 

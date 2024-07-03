@@ -159,14 +159,12 @@ public class User {
         ArrayList<User> users = backup.getUsersFromJSON();
 
         for(User u : users){
-            for(Event event : u.events){
+            for(Event event : u.events){ // pair every event to it's owner
                 if(event instanceof Reminder){
                     event.owner = u;
                     ((Reminder) event).begin(); // we know this is a reminder
-                    System.out.print("REMINDER: ");
                 }
-
-                System.out.println("Loaded event with username: " + event.owner.getUserName());
+                //System.out.println("Loaded event with username: " + event.owner.getUserName());
             }
         }
 
