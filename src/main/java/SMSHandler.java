@@ -42,7 +42,7 @@ public class SMSHandler implements HttpHandler {
       if(incoming_message.length() >= 15 && incoming_message.substring(0, 15).equals("!changeusername")) { incoming_message = "!!changeusername"; }
       else if(incoming_message.length() >= 7 && incoming_message.substring(0, 7).equals("!report")) { incoming_message = "!!report"; }
       else if(incoming_message.length() >= 10 && incoming_message.substring(0, 10).equals("!reminders")) { incoming_message = "!!reminders"; }// !reminders
-      else if(incoming_message.length() >= 14 && incoming_message.substring(0, 14).equals("!removereminder")) { incoming_message = "!!removereminder"; }
+      else if(incoming_message.length() >= 15 && incoming_message.substring(0, 15).equals("!removereminder")) { incoming_message = "!!removereminder"; }
       else if(incoming_message.startsWith("!help")) { incoming_message = "!help"; }
       else if(incoming_message.startsWith("!")) { incoming_message = "!!"; }
 
@@ -92,7 +92,18 @@ public class SMSHandler implements HttpHandler {
           break;
 
         case "!!reminders":
-          System.out.println("reminders");
+          if(incoming_user.events.size() == 0){
+            incoming_user.message("You have no active reminders.");
+          } else{
+            String msg = "You have " + incoming_user.events.size() + " active reminders/events.";
+            for(int i = 0; i < incoming_user.events.size(); i++){
+              if(incoming_user.events.get(i) instanceof Reminder){
+                msg += "\n\n{" + (i + 1) + "} | [Activates: " + Event.formattedDateFromUnix(incoming_user.events.get(i).expiryTime) + "] - " + ((Reminder)incoming_user.events.get(i)).remind;
+              }
+            }
+
+            incoming_user.message(msg);
+          }
           break;
 
         case "!!removereminder":

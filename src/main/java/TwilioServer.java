@@ -23,6 +23,7 @@ class TwilioServer {
       server.createContext("/", new SMSHandler());
       server.setExecutor(null); // creates a default executor
       server.start();
+      System.out.println("Server up and running.");
     }
 
   

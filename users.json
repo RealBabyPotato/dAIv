@@ -1,2 +1,21 @@
 [
+  {
+    "phoneNumberString": "2508809769",
+    "userName": "Joe",
+    "events": [
+      {
+        "remind": " Get bread ",
+        "startTime": 1720045611434,
+        "expiryTime": 1720132008307
+      },
+      {
+        "remind": " Pick up Kyle ",
+        "startTime": 1720045660016,
+        "expiryTime": 1720310408307
+      }
+    ],
+    "threadId": "thread_KtugGTg4M5p1Psq82P9yyzd3",
+    "isInSetup": false,
+    "setupPhase": 1
+  }
 ]

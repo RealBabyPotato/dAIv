@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-// TODO: !reminders and repeated events
+// TODO: !removereminder and repeated events
 
 public class Main {
 
