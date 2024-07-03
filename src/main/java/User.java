@@ -1,10 +1,8 @@
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.twilio.type.PhoneNumber;
-import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
-import java.io.File;
 import java.util.Objects;
 
 
@@ -103,8 +101,23 @@ public class User {
         backup.updateAndSaveUser(this);
     }
 
-    public void addEvent(Event e){
-        System.out.println("Adding event: " + e.getClass());
+    public <T extends Event> void addEvent(T event){
+        if(event.getClass() == Event.class){
+            System.out.println("Attempting to add an Event superclass through 'addEvent'! This is not allowed!");
+        }
+
+        if(event.getClass() == Reminder.class){
+            addReminder((Reminder)event);
+            return;
+        }
+    }
+
+    private void addReminder(Reminder e){
+        events.add(e);
+        System.out.println("Adding reminder! List of user's reminders: ");
+        for(Event v : events){
+            System.out.println(v.expiryTime);
+        }
     }
 
     @Override
@@ -122,6 +135,7 @@ public class User {
 
     // Twillio Send message
     public void message(String content){
+        if(content.equals("")) { System.out.println("DEBUG: attempting to send message with empty string, returning"); return; }
         TwilioSendMessageExample.messageUser(this, content);
     }
 
@@ -143,6 +157,19 @@ public class User {
         and create new User objects with appropriate information.
          */
         ArrayList<User> users = backup.getUsersFromJSON();
+
+        for(User u : users){
+            for(Event event : u.events){
+                if(event instanceof Reminder){
+                    event.owner = u;
+                    ((Reminder) event).begin(); // we know this is a reminder
+                    System.out.print("REMINDER: ");
+                }
+
+                System.out.println("Loaded event with username: " + event.owner.getUserName());
+            }
+        }
+
         Main.RegisteredUsers.addAll(users);
     }
 

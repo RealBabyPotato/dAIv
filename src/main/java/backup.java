@@ -12,6 +12,7 @@ import java.util.Iterator;
 public class backup {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting()
             //.registerTypeAdapter(ScheduledEvent.class, new ScheduledEventTypeAdapter())
+            .registerTypeAdapter(Event.class, new EventDeserializer())
             .excludeFieldsWithoutExposeAnnotation()
             .create();
 
@@ -79,15 +80,20 @@ public class backup {
 
         //User new_user = User.registerUser(new PhoneNumber("2508809769"));
 
-        ArrayList<User> loadedUsers = backup.getUsersFromJSON();
+        // ArrayList<User> loadedUsers = backup.getUsersFromJSON();
+        User.PopulateUsers();
 
-        for (User user : loadedUsers) {
+        for (User user : Main.RegisteredUsers) {
             System.out.println("Loaded user: " + user.getUserName());
             System.out.println("Loaded number: " + user.getPhoneNumber());
             System.out.println("Loaded threadID: " + user.getThreadId());
-            for(Event event : user.events){
-                System.out.println("Loaded event with startTime: " + event.startTime);
-            }
+            /*for(Event event : user.events){
+                if(event instanceof Reminder){
+                    event.owner = user;
+                    System.out.print("REMINDER: ");
+                }
+                System.out.println("Loaded event with startTime: " + event.owner.getUserName());
+            }*/
         }
     }
 }

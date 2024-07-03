@@ -32,6 +32,8 @@ class GPTAPI {
         User j = new User(new PhoneNumber("2508809769"), "Jaden");
 
         System.out.println(sendAndReceive(j, "in 2 hours remind me to wash my hands"));
+        Thread.sleep(3000);
+        System.out.println(sendAndReceive(j, "in 2 minutes remind me to wash my hands"));
     }
 
     private static String addMessageToUserThread(User user, String message) throws NameNotFoundException {
@@ -70,17 +72,21 @@ class GPTAPI {
             response = response.replace("\\n", "\n");
 
             if(response.contains(".reminder{")){
-                String reminderMessage = response.substring(response.indexOf('}') + 1, response.indexOf('|'));
-                long timeSinceEpoch = Long.parseLong(response.substring(response.indexOf(".reminder{") + 10, response.indexOf('}')));
-                System.out.println("reminder! message: " + reminderMessage + " | timeEpoch: " + timeSinceEpoch);
+                try{
+                    String reminderMessage = response.substring(response.indexOf('}') + 1, response.indexOf('|'));
+                    long timeSinceEpoch = Long.parseLong(response.substring(response.indexOf(".reminder{") + 10, response.indexOf('}')));
+                    System.out.println("reminder! message: " + reminderMessage + " | timeEpoch: " + timeSinceEpoch);
 
-                Date expire = new Date();
-                expire.setTime(timeSinceEpoch);
-                Reminder reminder = new Reminder(user, expire, reminderMessage);
+                    Date expire = new Date();
+                    expire.setTime(timeSinceEpoch);
+                    Reminder reminder = new Reminder(user, expire.getTime(), reminderMessage);
+                } catch (Exception e){
+                    return "Hmm. There was an error setting your reminder. Please try again with the exact date/time you would like to be reminded, and make sure that the date you specify is in the future. If the issue persists, please report it with !report.";
+                }
 
                 //response = response.substring(response.indexOf(".reminder"), response.indexOf("|") + 1);
                 //response = response.substring(0, response.indexOf(".reminder{")) + response.substring(response.indexOf("|") + 2);
-                return "Attempting to set reminder...";
+                return "";
             }
 
             return response;
