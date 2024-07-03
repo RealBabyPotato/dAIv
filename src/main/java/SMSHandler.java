@@ -41,6 +41,8 @@ public class SMSHandler implements HttpHandler {
       // if we receieve a help command that requires arguments, change the message so that our switch statement recognizes it -- then we can use incomingMessageCopy to extract the arguments
       if(incoming_message.length() >= 15 && incoming_message.substring(0, 15).equals("!changeusername")) { incoming_message = "!!changeusername"; }
       else if(incoming_message.length() >= 7 && incoming_message.substring(0, 7).equals("!report")) { incoming_message = "!!report"; }
+      else if(incoming_message.length() >= 10 && incoming_message.substring(0, 10).equals("!reminders")) { incoming_message = "!!reminders"; }// !reminders
+      else if(incoming_message.length() >= 14 && incoming_message.substring(0, 14).equals("!removereminder")) { incoming_message = "!!removereminder"; }
       else if(incoming_message.startsWith("!help")) { incoming_message = "!help"; }
       else if(incoming_message.startsWith("!")) { incoming_message = "!!"; }
 
@@ -57,7 +59,7 @@ public class SMSHandler implements HttpHandler {
 
       switch(incoming_message){
         case "!help":
-          TwilioSendMessageExample.messageNumber(numOfUser, "You are at the help menu. Please note that the commands *are* case sensitive. Commands:\n\n!help - brings you here!\n\n!changeusername {New Name} - changes your name in the eyes of dAIv.\n\n!report {issue} - reports an issue to Jaden.");
+          TwilioSendMessageExample.messageNumber(numOfUser, "You are at the help menu. Please note that the commands *are* case sensitive. Commands:\n\n!help - brings you here!\n\n!changeusername {New Name} - changes your name in the eyes of dAIv.\n\n!reminders - shows you your list of active reminders.\n\n!removereminder {Reminder Number} - deletes the specified reminder.\n\n!report {issue} - reports an issue to Jaden.");
           break;
 
         case "!!report":
@@ -88,14 +90,20 @@ public class SMSHandler implements HttpHandler {
             TwilioSendMessageExample.messageNumber(numOfUser, "Something went wrong when setting your username. Either you currently do not have an account, or you have input an invalid username. Please ensure your username only consists of normal characters.");
           }
           break;
+
+        case "!!reminders":
+          System.out.println("reminders");
+          break;
+
+        case "!!removereminder":
+          System.out.println("remove reminder");
+          break;
         
         case "!!":
           TwilioSendMessageExample.messageNumber(numOfUser, "Unrecognized command. If you would like to see a list of commands, please use !help.");
           break;
 
         default:
-          System.out.println("default");
-
           if(incoming_user != null){
             if(incoming_user.getIsInSetup()){ // if this user is setting up their account, go to the setup manager
               System.out.println("setting up in phase: " + incoming_user.getSetupPhase());

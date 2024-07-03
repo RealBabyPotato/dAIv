@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+// TODO: !reminders and repeated events
+
 public class Main {
 
   public static ArrayList<User> RegisteredUsers = new ArrayList<User>();

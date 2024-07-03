@@ -59,6 +59,8 @@ class Reminder extends Event{
         backup.updateAndSaveUser(user);
     }
 
+
+
     public Reminder(long beginTime, long expiryTime, String remind){ // THIS CONSTRUCTOR IS ONLY FOR WHEN WE ARE CREATING A REMINDER FROM THE BACKUP!
         super(expiryTime);
         this.startTime = beginTime;
