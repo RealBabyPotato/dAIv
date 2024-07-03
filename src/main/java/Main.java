@@ -41,6 +41,6 @@ public class Main {
 
     Reminder reminder = new Reminder(j, asdf, "get some bread at fairway's");*/
 
-    // TwilioServer service = new TwilioServer();
+    TwilioServer service = new TwilioServer();
   }
 }
