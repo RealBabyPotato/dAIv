@@ -4,6 +4,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Main {
 
@@ -14,7 +16,7 @@ public class Main {
     
     User.PopulateUsers(); // adds all users into memory - our 'registeredUsers' static list
 
-    //User j = new User(new PhoneNumber("2508809769"), "Jaden");
+    User j = new User(new PhoneNumber("2508809769"), "Jaden");
     //backup.updateAndSaveUser(j);
 
     /*User new_user = User.registerUser(new PhoneNumber("2508809769")); // add user to main.user and backup
@@ -36,6 +38,11 @@ public class Main {
       u.setUsername("bob");
     }*/
 
-    TwilioServer service = new TwilioServer();
+    Date asdf = new Date();
+    asdf.setTime(System.currentTimeMillis() + 10 * 1000);
+
+    Reminder reminder = new Reminder(j, asdf, "get some bread at fairway's");
+
+    // TwilioServer service = new TwilioServer();
   }
 }
