@@ -1,7 +1,7 @@
 import com.google.gson.annotations.Expose;
 
 import java.util.*;
-
+import java.util.concurrent.TimeUnit;
 import java.text.DateFormat;
 
 public class Event {
@@ -31,6 +31,11 @@ public class Event {
         this.expiryTime = expiry;
         // System.out.println("instantiating event with null constructor -- you did something wrong...");
     }
+
+    public static long currentTimeSeconds(){
+        long milli = System.currentTimeMillis();
+        return TimeUnit.MILLISECONDS.toSeconds(milli);
+    }
 }
 
 class Reminder extends Event{
@@ -39,6 +44,7 @@ class Reminder extends Event{
     public Reminder(User user, long expiry, String remind){
         super(user, expiry);
         this.remind = remind;
+        System.out.println("Time until reminder ends: " + (expiry - currentTimeSeconds()));
 
         expiryTimer = new Timer();
         expiryTimer.schedule(new TimerTask() {
@@ -50,11 +56,10 @@ class Reminder extends Event{
                 owner.events.remove(this);
                 backup.updateAndSaveUser(owner);
             }
-        }, expiry - new Date().getTime());
+        }, expiry - currentTimeSeconds());
 
-        System.out.println("Time until reminder ends: " + (expiry - new Date().getTime()));
         user.addEvent(this);
-        float hoursUntilProc = (expiry - new Date().getTime()) / 1000 / 60 ;
+        float hoursUntilProc = (expiry - currentTimeSeconds()) / 60 ;
         user.message("Successfully set reminder to end in " + Math.round(hoursUntilProc) + " minute(s)!");
         backup.updateAndSaveUser(user);
     }
@@ -81,9 +86,9 @@ class Reminder extends Event{
                         owner.events.remove(this);
                         backup.updateAndSaveUser(owner);
                     }
-                }, this.expiryTime - new Date().getTime());
+                }, this.expiryTime - currentTimeSeconds());
 
-                System.out.println("Time until reminder ends: " + (this.expiryTime - new Date().getTime()));
+                System.out.println("Time until reminder ends: " + (this.expiryTime - currentTimeSeconds()));
 
             } catch (IllegalArgumentException e){
                 System.out.println("Hi! Unfortunately it looks like a reminder that you set on " + Event.formattedDateFromUnix(this.startTime) + " elapsed while our servers were down. It instructed you to '" + this.remind + "' on " + Event.formattedDateFromUnix(this.expiryTime));
