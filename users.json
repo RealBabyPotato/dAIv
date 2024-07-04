@@ -1,21 +1,16 @@
 [
   {
     "phoneNumberString": "2508809769",
-    "userName": "Joe",
+    "userName": "Jaden",
     "events": [
       {
-        "remind": " Get bread ",
-        "startTime": 1720045611434,
-        "expiryTime": 1720132008307
-      },
-      {
-        "remind": " Pick up Kyle ",
-        "startTime": 1720045660016,
-        "expiryTime": 1720310408307
+        "remind": "Wash hands",
+        "startTime": 1720065619014,
+        "expiryTime": 1720065895340
       }
     ],
-    "threadId": "thread_KtugGTg4M5p1Psq82P9yyzd3",
-    "isInSetup": false,
-    "setupPhase": 1
+    "threadId": "thread_4d3fmjPJzRRSwOcMJAK5Mqgu",
+    "isInSetup": true,
+    "setupPhase": 0
   }
 ]

@@ -101,13 +101,17 @@ public class SMSHandler implements HttpHandler {
                 msg += "\n\n{" + (i + 1) + "} | [Activates: " + Event.formattedDateFromUnix(incoming_user.events.get(i).expiryTime) + "] - " + ((Reminder)incoming_user.events.get(i)).remind;
               }
             }
-
             incoming_user.message(msg);
           }
           break;
 
         case "!!removereminder":
-          System.out.println("remove reminder");
+          try{
+            int removeIndex = Integer.parseInt(incomingMessageCopy.substring(16));
+            System.out.println(removeIndex);
+          } catch(Exception e){
+            incoming_user.message("There was an error removing the reminder. Please try again. (Example: !removereminder 1)");
+          }
           break;
         
         case "!!":
