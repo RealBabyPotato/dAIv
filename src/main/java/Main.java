@@ -19,6 +19,8 @@ public class Main {
     // this effectively loads everything from our backup into memory. (including events!!)
     User.PopulateUsers(); // adds all users into memory - our 'registeredUsers' static list
 
-    TwilioServer service = new TwilioServer();
+    //GPTAPI.sendAndReceive(RegisteredUsers.get(0), "Remind me to make bread today at 10PM.");
+
+    // TwilioServer service = new TwilioServer();
   }
 }
