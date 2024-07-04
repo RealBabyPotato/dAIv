@@ -2,15 +2,9 @@
   {
     "phoneNumberString": "2508809769",
     "userName": "Jaden",
-    "events": [
-      {
-        "remind": "Wash hands",
-        "startTime": 1720065619014,
-        "expiryTime": 1720065895340
-      }
-    ],
+    "events": [],
     "threadId": "thread_4d3fmjPJzRRSwOcMJAK5Mqgu",
-    "isInSetup": true,
-    "setupPhase": 0
+    "isInSetup": false,
+    "setupPhase": 1
   }
 ]
