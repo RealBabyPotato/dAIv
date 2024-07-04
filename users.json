@@ -1,21 +1,2 @@
 [
-  {
-    "phoneNumberString": "2508809769",
-    "userName": "Jack",
-    "events": [
-      {
-        "remind": "Make Bread",
-        "startTime": 1720121186604,
-        "expiryTime": 1720168175
-      },
-      {
-        "remind": "Make Bread",
-        "startTime": 1720121238083,
-        "expiryTime": 1720168175
-      }
-    ],
-    "threadId": "thread_AWWJiqDUbWzacCaUPgUuSuov",
-    "isInSetup": false,
-    "setupPhase": 1
-  }
 ]

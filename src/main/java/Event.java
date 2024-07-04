@@ -15,6 +15,7 @@ public class Event {
     protected Timer expiryTimer;
 
     public static String formattedDateFromUnix(long unix){
+        unix *= 1000; //date takes time in millis not seconds
         Date date = new Date();
         date.setTime(unix);
 
@@ -22,7 +23,7 @@ public class Event {
     }
 
     public Event(User user, long expiry){
-        this.startTime = new Date().getTime();
+        this.startTime = currentTimeSeconds();
         this.expiryTime = expiry;
         this.owner = user;
     }
@@ -46,17 +47,18 @@ class Reminder extends Event{
         this.remind = remind;
         System.out.println("Time until reminder ends: " + (expiry - currentTimeSeconds()));
 
+        Reminder instance = this;
         expiryTimer = new Timer();
         expiryTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                user.message(GPTAPI.sendAndReceive(user, "SYSTEM: on " + dateFormat.format(startTime) + " asked to be reminded about something. this is what they would like to be reminded about - remind them, and tell them when they asked to be reminded about it. reminder: " + remind));
+                owner.message(GPTAPI.sendAndReceive(owner, "SYSTEM: on " + formattedDateFromUnix(startTime) + " asked to be reminded about something. this is what they would like to be reminded about - remind them, and tell them when they asked to be reminded about it (avoid starting your sentence as a reply to this prompt). reminder: " + remind));
                 System.out.println("Sending reminder of event: " + remind);
 
-                owner.events.remove(this);
+                owner.events.remove(instance);
                 backup.updateAndSaveUser(owner);
             }
-        }, expiry - currentTimeSeconds());
+        }, (expiry - currentTimeSeconds())*1000);
 
         user.addEvent(this);
         float hoursUntilProc = (expiry - currentTimeSeconds()) / 60 ;
@@ -76,17 +78,19 @@ class Reminder extends Event{
     public void begin(){
         // begin timer. this should only be called when we are creating a reminder again via gson
         if(owner != null){
+            Reminder instance = this;
             expiryTimer = new Timer();
             try{
                 expiryTimer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        owner.message(GPTAPI.sendAndReceive(owner, "SYSTEM: on " + dateFormat.format(startTime) + " asked to be reminded about something. this is what they would like to be reminded about - remind them, and tell them when they asked to be reminded about it. reminder: " + remind));
+                        owner.message(GPTAPI.sendAndReceive(owner, "SYSTEM: on " + formattedDateFromUnix(startTime) + " asked to be reminded about something. this is what they would like to be reminded about - remind them, and tell them when they asked to be reminded about it (avoid starting your sentence as a reply to this prompt). reminder: " + remind));
                         System.out.println("Sending reminder of event: " + remind);
-                        owner.events.remove(this);
+
+                        owner.events.remove(instance);
                         backup.updateAndSaveUser(owner);
                     }
-                }, this.expiryTime - currentTimeSeconds());
+                }, (this.expiryTime - currentTimeSeconds())*1000);
 
                 System.out.println("Time until reminder ends: " + (this.expiryTime - currentTimeSeconds()));
 
