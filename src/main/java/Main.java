@@ -8,14 +8,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-// TODO: !removereminder and repeated events
+// TODO: and repeated events
 
 public class Main {
 
   public static ArrayList<User> RegisteredUsers = new ArrayList<User>();
   public static void main(String[] args) throws Exception {
     
-    Event.timeFormat.setTimeZone(TimeZone.getTimeZone("PST"));
+    // Event.timeFormat.setTimeZone(TimeZone.getTimeZone("PST"));
     // Create a TwilioSMS instance to begin an HTTP service and Authenticate Client
 
     // this effectively loads everything from our backup into memory. (including events!!)

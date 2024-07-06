@@ -1,2 +1,16 @@
 [
+  {
+    "phoneNumberString": "2508809769",
+    "userName": "Jaden",
+    "events": [
+      {
+        "remind": "Make bread",
+        "startTime": 1720223370,
+        "expiryTime": 1720225456
+      }
+    ],
+    "threadId": "thread_EJyRfKr5ixE4DWk2rtWRymy0",
+    "isInSetup": false,
+    "setupPhase": 1
+  }
 ]

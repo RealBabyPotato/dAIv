@@ -3,10 +3,15 @@ import com.google.gson.annotations.Expose;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class Event {
     public static DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, new Locale("en", "CA"));
     public static DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.DEFAULT, new Locale("en", "CA"));
+    
+    public static SimpleDateFormat datePattern = new SimpleDateFormat("dd MMM yyyy HH:mm:ss");
+
     @Expose
     protected long startTime;
     @Expose
@@ -35,7 +40,26 @@ public class Event {
 
     public static long currentTimeSeconds(){
         long milli = System.currentTimeMillis();
-        return TimeUnit.MILLISECONDS.toSeconds(milli);
+        return TimeUnit.MILLISECONDS.toSeconds(milli) - 25200; // PST time zone is -7 * 60 * 60
+    }
+
+    public static long dateToSecondsFromEpoch(String date){ // should be formatted like 15 Jul 2024 22:25:40
+        Date day;
+        try {
+            day = datePattern.parse(date);
+        } catch (ParseException e) {
+            return 1; // if whatever we are given is not in the correct format, return 1; this will be recognized as an invalid end time
+        }
+
+        System.out.println(currentTimeSeconds());
+
+        //System.out.println(day.getTime() / 1000) + 25200 - currentTimeSeconds());
+
+        return (day.getTime() / 1000); //+ 25200; // PST diff
+    }
+
+    public static void main(String[] args){
+        System.out.println(dateToSecondsFromEpoch("5 Jul 2024 23:50:00"));
     }
 }
 
@@ -95,7 +119,7 @@ class Reminder extends Event{
                 System.out.println("Time until reminder ends: " + (this.expiryTime - currentTimeSeconds()));
 
             } catch (IllegalArgumentException e){
-                System.out.println("Hi! Unfortunately it looks like a reminder that you set on " + Event.formattedDateFromUnix(this.startTime) + " elapsed while our servers were down. It instructed you to '" + this.remind + "' on " + Event.formattedDateFromUnix(this.expiryTime));
+                owner.message("Hi! Unfortunately it looks like a reminder that you set on " + Event.formattedDateFromUnix(this.startTime) + " elapsed while our servers were down. It instructed you to '" + this.remind + "' on " + Event.formattedDateFromUnix(this.expiryTime));
                 owner.events.remove(this);
                 backup.updateAndSaveUser(owner);
             }
