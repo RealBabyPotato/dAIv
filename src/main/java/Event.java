@@ -16,6 +16,9 @@ public class Event {
     protected long startTime;
     @Expose
     protected long expiryTime;
+    @Expose
+    protected long repeatInterval = -1;
+
     protected User owner;
     protected Timer expiryTimer;
 
@@ -66,14 +69,16 @@ public class Event {
 class Reminder extends Event{
     @Expose
     String remind;
-    public Reminder(User user, long expiry, String remind){
+    public Reminder(User user, long expiry, String remind, long repeatInterval){
         super(user, expiry);
         this.remind = remind;
+        this.repeatInterval = repeatInterval;
         System.out.println("Time until reminder ends: " + (expiry - currentTimeSeconds()));
 
         Reminder instance = this;
         expiryTimer = new Timer();
-        expiryTimer.schedule(new TimerTask() {
+
+        TimerTask task = new TimerTask() {
             @Override
             public void run() {
                 owner.message(GPTAPI.sendAndReceive(owner, "SYSTEM: on " + formattedDateFromUnix(startTime) + " asked to be reminded about something. this is what they would like to be reminded about - remind them, and tell them when they asked to be reminded about it (avoid starting your sentence as a reply to this prompt). reminder: " + remind));
@@ -82,24 +87,34 @@ class Reminder extends Event{
                 owner.events.remove(instance);
                 backup.updateAndSaveUser(owner);
             }
-        }, (expiry - currentTimeSeconds())*1000);
+        };
+
+        if(repeatInterval > 0){ // soft limit of 300 for repeat interval
+            expiryTimer.scheduleAtFixedRate(task, 0, repeatInterval * 1000);
+            user.message("Successfully set reminder to end " + formattedDateFromUnix(expiry) + " and to repeat every " + repeatInterval / 60 + " minutes! You can view all of your active reminders with !reminders.");
+        } else{
+            expiryTimer.schedule(task, (expiry - currentTimeSeconds())*1000);
+            user.message("Successfully set reminder to end " + formattedDateFromUnix(expiry) + "! You can view all of your active reminders with !reminders.");
+        }
+        
 
         user.addEvent(this);
-        user.message("Successfully set reminder to end " + formattedDateFromUnix(expiry) + "! You can view all of your active reminders with !reminders.");
         backup.updateAndSaveUser(user);
     }
 
 
 
-    public Reminder(long beginTime, long expiryTime, String remind){ // THIS CONSTRUCTOR IS ONLY FOR WHEN WE ARE CREATING A REMINDER FROM THE BACKUP!
+    public Reminder(long beginTime, long expiryTime, String remind, long repeatTime){ // THIS CONSTRUCTOR IS ONLY FOR WHEN WE ARE CREATING A REMINDER FROM THE BACKUP!
         super(expiryTime);
         this.startTime = beginTime;
         this.remind = remind;
+        this.repeatInterval = repeatTime;
         // System.out.println(a);
     }
 
     public void begin(){
         // begin timer. this should only be called when we are creating a reminder again via gson
+        System.out.println(this.repeatInterval);
         if(owner != null){
             Reminder instance = this;
             expiryTimer = new Timer();

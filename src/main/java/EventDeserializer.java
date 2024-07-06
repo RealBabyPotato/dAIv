@@ -27,7 +27,8 @@ class ReminderDeserializer implements JsonDeserializer<Reminder> {
         String remind = jsonObject.get("remind").getAsString();
         long startTime = jsonObject.get("startTime").getAsLong();
         long expiryTime = jsonObject.get("expiryTime").getAsLong();
+        long repeatInterval = jsonObject.get("repeatInterval").getAsLong();
 
-        return new Reminder(startTime, expiryTime, remind);
+        return new Reminder(startTime, expiryTime, remind, repeatInterval);
     }
 }

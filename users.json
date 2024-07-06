@@ -2,24 +2,8 @@
   {
     "phoneNumberString": "2508809769",
     "userName": "Jaden",
-    "events": [
-      {
-        "remind": "Make Bread",
-        "startTime": 1720226739,
-        "expiryTime": 1720227336
-      },
-      {
-        "remind": "Make Bread",
-        "startTime": 1720226762,
-        "expiryTime": 1720229457
-      },
-      {
-        "remind": "Make Bread",
-        "startTime": 1720226956,
-        "expiryTime": 1721091227
-      }
-    ],
-    "threadId": "thread_MDa4MLTOcY7Af8jeQIHl3xOD",
+    "events": [],
+    "threadId": "thread_OhuU4m1wLRICKUJVrdTa8HFg",
     "isInSetup": false,
     "setupPhase": 1
   }
