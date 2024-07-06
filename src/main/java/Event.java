@@ -84,14 +84,19 @@ class Reminder extends Event{
                 owner.message(GPTAPI.sendAndReceive(owner, "SYSTEM: on " + formattedDateFromUnix(startTime) + " asked to be reminded about something. this is what they would like to be reminded about - remind them, and tell them when they asked to be reminded about it (avoid starting your sentence as a reply to this prompt). reminder: " + remind));
                 System.out.println("Sending reminder of event: " + remind);
 
-                owner.events.remove(instance);
-                backup.updateAndSaveUser(owner);
+                if(repeatInterval < 0){ // if this reminder does not repeat, remove it
+                    owner.events.remove(instance);
+                    backup.updateAndSaveUser(owner);
+                } else {
+                    instance.expiryTime += repeatInterval;
+                    backup.updateAndSaveUser(owner);
+                }
             }
         };
 
-        if(repeatInterval > 0){ // soft limit of 300 for repeat interval
-            expiryTimer.scheduleAtFixedRate(task, 0, repeatInterval * 1000);
-            user.message("Successfully set reminder to end " + formattedDateFromUnix(expiry) + " and to repeat every " + repeatInterval / 60 + " minutes! You can view all of your active reminders with !reminders.");
+        if(repeatInterval > 0){ // if this repeat interval has been changed (i.e. repeat != -1)
+            expiryTimer.scheduleAtFixedRate(task, repeatInterval * 1000, repeatInterval * 1000);
+            user.message("Successfully set reminder to repeat every " + repeatInterval / 60 + " minutes! You can view all of your active reminders with !reminders.");
         } else{
             expiryTimer.schedule(task, (expiry - currentTimeSeconds())*1000);
             user.message("Successfully set reminder to end " + formattedDateFromUnix(expiry) + "! You can view all of your active reminders with !reminders.");
@@ -127,7 +132,7 @@ class Reminder extends Event{
 
                         owner.events.remove(instance);
                         backup.updateAndSaveUser(owner);
-                    }
+                   }
                 }, (this.expiryTime - currentTimeSeconds())*1000);
 
                 System.out.println("Time until reminder ends: " + (this.expiryTime - currentTimeSeconds()));

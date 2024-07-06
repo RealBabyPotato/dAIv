@@ -2,8 +2,15 @@
   {
     "phoneNumberString": "2508809769",
     "userName": "Jaden",
-    "events": [],
-    "threadId": "thread_OhuU4m1wLRICKUJVrdTa8HFg",
+    "events": [
+      {
+        "remind": "Make bread",
+        "startTime": 1720273188,
+        "expiryTime": 1720273260,
+        "repeatInterval": 30
+      }
+    ],
+    "threadId": "thread_7TMlowZVQYZLNgOnvLzAbxSw",
     "isInSetup": false,
     "setupPhase": 1
   }

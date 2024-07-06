@@ -97,8 +97,13 @@ public class SMSHandler implements HttpHandler {
           } else{
             String msg = "You have " + incoming_user.events.size() + " active reminders/events.";
             for(int i = 0; i < incoming_user.events.size(); i++){
-              if(incoming_user.events.get(i) instanceof Reminder){
-                msg += "\n\n{" + (i + 1) + "} | [Activates: " + Event.formattedDateFromUnix(incoming_user.events.get(i).expiryTime) + "] - " + ((Reminder)incoming_user.events.get(i)).remind;
+              if(incoming_user.events.get(i) instanceof Reminder){ 
+                if(incoming_user.events.get(i).repeatInterval > 0){
+                  msg += "\n\n{" + (i + 1) + "} | [Activates: " + Event.formattedDateFromUnix(incoming_user.events.get(i).expiryTime) + "] - " + ((Reminder)incoming_user.events.get(i)).remind + " (Repeats every " + ((Reminder)incoming_user.events.get(i)).repeatInterval / 60 + " minutes)"; // if this event repeats, tell the user when they use !reminders
+                } else{
+                  msg += "\n\n{" + (i + 1) + "} | [Activates: " + Event.formattedDateFromUnix(incoming_user.events.get(i).expiryTime) + "] - " + ((Reminder)incoming_user.events.get(i)).remind;
+                }
+                
               }
             }
             incoming_user.message(msg);
