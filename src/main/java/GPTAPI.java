@@ -135,6 +135,7 @@ class GPTAPI {
     private static String createRun(String threadId, User user) {
 
         // System.out.println("[CURRENT unix timestamp and date (in seconds since epoch): " + Event.currentTimeSeconds() + " " + Event.formattedDateFromUnix(Event.currentTimeSeconds()) + "] " + INSTRUCTIONS +  " The user's name is " + user.getUserName() +  " and this is their prompt to you: \"");
+        System.out.println("[CURRENT unix timestamp and date (in seconds since epoch): " + Event.currentTimeSeconds() + " " + Event.formattedDateFromUnix(Event.currentTimeSeconds()) + "] " + INSTRUCTIONS +  " The user's name is " + user.getUserName() +  " and this is their prompt to you: ");
 
         // implement the run creation logic here
         String url = "https://api.openai.com/v1/threads/" + threadId + "/runs";

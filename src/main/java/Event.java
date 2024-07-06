@@ -59,7 +59,7 @@ public class Event {
     }
 
     public static void main(String[] args){
-        System.out.println(dateToSecondsFromEpoch("5 Jul 2024 23:50:00"));
+        System.out.println(dateToSecondsFromEpoch("6 Jul 2024 00:49:00"));
     }
 }
 
@@ -85,8 +85,7 @@ class Reminder extends Event{
         }, (expiry - currentTimeSeconds())*1000);
 
         user.addEvent(this);
-        float hoursUntilProc = (expiry - currentTimeSeconds()) / 60 ;
-        user.message("Successfully set reminder to end in " + Math.round(hoursUntilProc) + " minute(s)!");
+        user.message("Successfully set reminder to end " + formattedDateFromUnix(expiry) + "! You can view all of your active reminders with !reminders.");
         backup.updateAndSaveUser(user);
     }
 
