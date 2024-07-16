@@ -11,7 +11,6 @@ public class SetupManager {
                 user.setUsername(message);
                 user.message("Great to meet you " + user.getUserName() + "! How can I assist you today?");
                 user.setIsInSetup(false);
-                System.out.println("user pn: " + user.getPhoneNumberAsString());
                 break;
         
             default:

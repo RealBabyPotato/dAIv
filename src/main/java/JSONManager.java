@@ -73,7 +73,6 @@ public class JSONManager{ // deprecated
 
                 if (userObject.containsKey(requestedUser)) {
                     JSONArray conversation = (JSONArray) userObject.get(requestedUser);
-                    System.out.println("Conversation for user " + requestedUser + ":");
 
                     for (Object convObj : conversation) {
                         JSONObject txtNumber = (JSONObject) convObj;
@@ -82,7 +81,7 @@ public class JSONManager{ // deprecated
                             JSONObject txt = (JSONObject) txtNumber.get(key);
 
                             for (Object userTxt : txt.keySet()) {
-                                System.out.println(userTxt + ": " + txt.get(userTxt));
+                                System.out.println(userTxt + ": " + txt.get(userTxt)); // ??????? 4 for statements?? i can't really fix this because i don't know tooooo much about the best way to approach this ;) -- jaden
                             }
                         }
 

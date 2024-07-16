@@ -38,7 +38,6 @@ public class Event {
 
     public Event(long expiry){
         this.expiryTime = expiry;
-        // System.out.println("instantiating event with null constructor -- you did something wrong...");
     }
 
     public static long currentTimeSeconds(){
@@ -54,15 +53,7 @@ public class Event {
             return 1; // if whatever we are given is not in the correct format, return 1; this will be recognized as an invalid end time
         }
 
-        System.out.println(currentTimeSeconds());
-
-        //System.out.println(day.getTime() / 1000) + 25200 - currentTimeSeconds());
-
         return (day.getTime() / 1000); //+ 25200; // PST diff
-    }
-
-    public static void main(String[] args){
-        System.out.println(dateToSecondsFromEpoch("6 Jul 2024 00:49:00"));
     }
 }
 
@@ -85,9 +76,7 @@ class Reminder extends Event{
             @Override
             public void run() {
                 String response = GPTAPI.sendAndReceive(owner, "SYSTEM: on " + formattedDateFromUnix(startTime) + " asked to be reminded about something. this is what they would like to be reminded about - remind them, and tell them when they asked to be reminded about it (avoid starting your sentence as a reply to this prompt, and do NOT start your reply with .reminder as you are NOT setting another reminder). reminder: " + remind);
-                // owner.message(GPTAPI.sendAndReceive(owner, "SYSTEM: on " + formattedDateFromUnix(startTime) + " asked to be reminded about something. this is what they would like to be reminded about - remind them, and tell them when they asked to be reminded about it (avoid starting your sentence as a reply to this prompt, and do NOT start your reply with .reminder as you are NOT setting another reminder). reminder: " + remind));
                 owner.message(response);
-                System.out.println("Sending reminder of event: " + remind);
 
                 if(repeatInterval < 0){ // if this reminder does not repeat, remove it
                     owner.events.remove(instance);
@@ -119,12 +108,10 @@ class Reminder extends Event{
         this.startTime = beginTime;
         this.remind = remind;
         this.repeatInterval = repeatTime;
-        // System.out.println(a);
     }
 
     public void begin(){
         // begin timer. this should only be called when we are creating a reminder again via gson
-        System.out.println(this.repeatInterval);
         if(owner != null){
             Reminder instance = this;
             expiryTimer = new Timer();
@@ -132,8 +119,7 @@ class Reminder extends Event{
             this.task = new TimerTask() {
                     @Override
                     public void run() {
-                        owner.message(GPTAPI.sendAndReceive(owner, "SYSTEM: on " + formattedDateFromUnix(startTime) + " asked to be reminded about something. this is what they would like to be reminded about - remind them, and tell them when they asked to be reminded about it (avoid starting your sentence as a reply to this prompt). reminder: " + remind));
-                        System.out.println("Sending reminder of event: " + remind);
+                        owner.message(GPTAPI.sendAndReceive(owner, "SYSTEM: on " + formattedDateFromUnix(startTime) + " asked to be reminded about something. this is what they would like to be reminded about - remind them, and tell them when they asked to be reminded about it (avoid starting your sentence as a reply to this prompt, and do NOT start your reply with .reminder as you are NOT setting another reminder). reminder: " + remind));
 
                         if(repeatInterval < 0){ // if this reminder does not repeat, remove it
                             owner.events.remove(instance);
@@ -153,8 +139,6 @@ class Reminder extends Event{
                     expiryTimer.schedule(task, (this.expiryTime - currentTimeSeconds())*1000);
                 }
                 
-                System.out.println("Time until reminder ends: " + (this.expiryTime - currentTimeSeconds()) + " | Repeat: " + this.repeatInterval + " delay: " + (this.expiryTime - currentTimeSeconds()));
-
             } catch (IllegalArgumentException e){
                 owner.message("Hi! Unfortunately it looks like a reminder that you set on " + Event.formattedDateFromUnix(this.startTime) + " elapsed while our servers were down. It instructed you to '" + this.remind + "' on " + Event.formattedDateFromUnix(this.expiryTime) + " If this was a repeated reminder, you need to set it again.");
                 owner.events.remove(this);

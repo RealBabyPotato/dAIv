@@ -114,10 +114,6 @@ public class User {
 
     private void addReminder(Reminder e){
         events.add(e);
-        System.out.println("Adding reminder! List of user's reminders: ");
-        for(Event v : events){
-            System.out.println(v.expiryTime);
-        }
     }
 
     @Override
@@ -164,7 +160,6 @@ public class User {
                     event.owner = u;
                     ((Reminder) event).begin(); // we know this is a reminder
                 }
-                //System.out.println("Loaded event with username: " + event.owner.getUserName());
             }
         }
 

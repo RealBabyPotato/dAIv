@@ -1,9 +1,16 @@
 [
   {
     "phoneNumberString": "2508809769",
-    "userName": "Beck",
-    "events": [],
-    "threadId": "thread_ZUYniZof2iMrbrGdH2IQwcmI",
+    "userName": "Jaden",
+    "events": [
+      {
+        "remind": "Workout",
+        "startTime": 1721136446,
+        "expiryTime": 1721136463,
+        "repeatInterval": 30
+      }
+    ],
+    "threadId": "thread_vdNnBeNNCaBhZJcwLhNKZksF",
     "isInSetup": false,
     "setupPhase": 1
   }

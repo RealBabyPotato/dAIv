@@ -22,7 +22,6 @@ public class TwilioSendMessageExample {
         "This is the ship that made the Kessel Run in fourteen parsecs?"
       )
       .create();
-      System.out.println(message.getSid());
     } catch (final ApiException e) {
       System.err.println(e);
     }

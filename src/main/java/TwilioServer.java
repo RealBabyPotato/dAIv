@@ -1,11 +1,8 @@
-import java.io.IOException;
 import java.net.InetSocketAddress;
 import com.sun.net.httpserver.HttpServer;
-import com.sun.net.httpserver.HttpHandler;
 
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.type.PhoneNumber;
 
 
 class TwilioServer {
@@ -29,7 +26,6 @@ class TwilioServer {
   
   public static String send(String phone, String msg) {   
     
-    System.out.print("send:"+ msg);
     // method to Send an sms to any number 
     Message sms = Message.creator(new com.twilio.type.PhoneNumber(phone), new com.twilio.type.PhoneNumber(ACCOUNT_NUMBER), msg).create();
 

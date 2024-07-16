@@ -30,14 +30,7 @@ public class backup {
     // I think this is a little bit cleaner but lmk if it doesn't work as intended -- jaden
     public static void updateAndSaveUser(User newUser) {
         ArrayList<User> users = getUsersFromJSON();
-        /// System.out.println(users.get(0).getPhoneNumberAsString());
         try{
-
-           /* for(int i = 0; i < users.size(); i++){
-                if(users.get(i).getPhoneNumberAsString().equals(newUser.getPhoneNumberAsString())){
-
-                }
-            }*/
             users.removeIf(existingUser -> existingUser.getPhoneNumberAsString().equals(newUser.getPhoneNumberAsString())); // if nothing changed, do not update this user; updates
 
         } catch (NullPointerException e){
@@ -65,36 +58,12 @@ public class backup {
 
     // Main method for testing purposes
     public static void main(String[] args) {
-        //User jaden = new User(new PhoneNumber("2508809769"), "Jaden");
-
-        /*jaden.events.add(new ScheduledEvent(5000, new Task(){
-            @Override
-            public void execute(){
-                System.out.println("beh");
-            }
-        }));*/
-
-        //jaden.events.add(new RepeatedEvent(1000, "asdf"));
-        //jaden.events.add(new RepeatedEvent(2500, "tadaloo"));
-
-        //backup.updateAndSaveUser(jaden);
-
-        //User new_user = User.registerUser(new PhoneNumber("2508809769"));
-
-        // ArrayList<User> loadedUsers = backup.getUsersFromJSON();
         User.PopulateUsers();
 
         for (User user : Main.RegisteredUsers) {
             System.out.println("Loaded user: " + user.getUserName());
             System.out.println("Loaded number: " + user.getPhoneNumber());
             System.out.println("Loaded threadID: " + user.getThreadId());
-            /*for(Event event : user.events){
-                if(event instanceof Reminder){
-                    event.owner = user;
-                    System.out.print("REMINDER: ");
-                }
-                System.out.println("Loaded event with startTime: " + event.owner.getUserName());
-            }*/
         }
     }
 }

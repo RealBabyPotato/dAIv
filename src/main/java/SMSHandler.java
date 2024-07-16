@@ -21,14 +21,11 @@ public class SMSHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange t) throws IOException {
 
-      System.out.println("I got a message!");
-
       InputStream stream = t.getRequestBody();
       String str_full = new BufferedReader(new InputStreamReader(stream, "UTF-8"))
          .lines()
          .collect(Collectors.joining("\n"));
 
-      // System.out.println(str_full);
       // extract the Body of the HTTPRequest from Twilio to String
 
       int str_start = str_full.indexOf("&Body")+6;
@@ -129,7 +126,6 @@ public class SMSHandler implements HttpHandler {
         default:
           if(incoming_user != null){
             if(incoming_user.getIsInSetup()){ // if this user is setting up their account, go to the setup manager
-              System.out.println("setting up in phase: " + incoming_user.getSetupPhase());
               SetupManager.setup(incoming_user, incoming_user.getSetupPhase(), incoming_message);
             }
             else {

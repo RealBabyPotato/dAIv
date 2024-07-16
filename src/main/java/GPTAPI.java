@@ -1,16 +1,13 @@
-import com.theokanning.openai.file.File;
 import com.twilio.type.PhoneNumber;
 
 import javax.naming.NameNotFoundException;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import java.util.Date;
 import java.util.regex.*;
 
 class GPTAPI {
@@ -31,21 +28,12 @@ class GPTAPI {
         }
     }
 
-    public static void main(String[] args) throws InterruptedException, NameNotFoundException {
-        // User.PopulateUsers();
-        User pingas = new User(new PhoneNumber("2508809769"), "jaden");
-
-        System.out.println(sendAndReceive(pingas, "Remind me visit goo farm in 20 mins"));
-    }
-
     private static String addMessageToUserThread(User user, String message) throws NameNotFoundException {
         if(user.getThreadId() == null || !user.getThreadId().startsWith("thread")){ // create new thread if one doesn't exist
             user.setThreadId(regexResponse(createThread(), "id"));
         }
 
         addMessageToThread(user.getThreadId(), message);
-
-        System.out.println(user.getThreadId());
 
         // returns the runID
         return regexResponse(createRun(user.getThreadId(), user), "id");
@@ -66,15 +54,6 @@ class GPTAPI {
         }
         return "There was an error processing this response.";
     }
-
-    /*public static String sendReminderMessage(User user, String message){
-        try{
-            String res = retrieveFromRun(user, addMessageToUserThread(user, message));
-
-        } catch (Exception e){
-
-        }
-    }*/
 
     public static String sendAndReceive(User user, String message){
         try {
@@ -155,10 +134,8 @@ class GPTAPI {
 
     private static String createRun(String threadId, User user) {
 
-        // System.out.println("[CURRENT unix timestamp and date (in seconds since epoch): " + Event.currentTimeSeconds() + " " + Event.formattedDateFromUnix(Event.currentTimeSeconds()) + "] " + INSTRUCTIONS +  " The user's name is " + user.getUserName() +  " and this is their prompt to you: \"");
-        System.out.println("[CURRENT unix timestamp and date (in seconds since epoch): " + Event.currentTimeSeconds() + " " + Event.formattedDateFromUnix(Event.currentTimeSeconds()) + "] " + INSTRUCTIONS +  " The user's name is " + user.getUserName() +  " and this is their prompt to you: ");
+        // System.out.println("[CURRENT unix timestamp and date (in seconds since epoch): " + Event.currentTimeSeconds() + " " + Event.formattedDateFromUnix(Event.currentTimeSeconds()) + "] " + INSTRUCTIONS +  " The user's name is " + user.getUserName() +  " and this is their prompt to you: ");
 
-        // implement the run creation logic here
         String url = "https://api.openai.com/v1/threads/" + threadId + "/runs";
         String requestBody = "{"
                 + "\"assistant_id\": \"" + assistantId + "\"," // this is where we can alter our instructions -- this gets run whenever we add a new message to the thread!
