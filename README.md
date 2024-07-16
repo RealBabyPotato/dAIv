@@ -1,14 +1,13 @@
 # dAIv - Your AI SMS Companion
 
-dAIv is your personal AI SMS companion designed to streamline your communication experience. It offers a range of features including intelligent responses, Google searches, reminders, and much more, all through simple text messaging.
+Welcome to dAIv, your personal AI SMS companion! Designed to streamline your communication experience, dAIv offers a range of features including intelligent responses, reports, reminders, and much more, all through simple text messaging.
 
 ## Features
 
-- **Intelligent Responses**: dAIv leverages cutting-edge AI technology to provide intelligent responses to your messages, making conversations more engaging and efficient.
-
-- **Google Search Integration**: Need information? Just ask dAIv to perform a Google search for you and get instant answers right within your SMS conversation.
-
-- **Reminders**: Never forget important tasks or appointments again. dAIv can help you set reminders and keep track of your schedule effortlessly.
+- **Intelligent Responses**: dAIv leverages cutting-edge AI technology to provide intelligent responses to your messages, making conversations more engaging and efficient. Whether you need quick information, advice, or a friendly chat, dAIv is here to help.
+- **Reminders**: Never forget important tasks or appointments again. dAIv can help you set reminders and keep track of your schedule effortlessly. Simply text your reminder request, and dAIv will handle the rest.
+- **Reports**: Generate and receive detailed reports via SMS, tailored to your needs. Whether it's a summary of your activities or specific data points, dAIv can compile and send the information directly to your phone.
+- **Time Management**: Ask dAIv for the current time or set time-based alerts to stay punctual and organized. Whether you're tracking your day or coordinating with others, dAIv helps you manage your time effectively.
 
 ## Integrations
 
@@ -23,48 +22,85 @@ To power its intelligent responses, dAIv relies on OpenAI, a leading AI research
 
 - **Library**: TheoKanning's openai-java library provides a convenient way to interact with OpenAI's API in Java.
     - [openai-java Library](https://github.com/TheoKanning/openai-java)
-
 - **OpenAI Documentation**: Dive deeper into OpenAI's capabilities and explore how you can leverage its AI models in your applications.
     - [OpenAI Documentation](https://platform.openai.com/docs/overview)
 
-## Install & Run
-### Requirements:
-Maven (4+)
-Java (17+)
-git
-### Additional requirements for server.py helper script
-GNU coreutils
-A Unix-based server
-curl
-python3 (for install script)
+### GSON (Data Handling)
+dAIv integrates GSON to backup and store database information on users, their events, names, numbers, and more, ensuring data persistence and easy retrieval.
 
-1. Run `git clone https://github.com/DaveSMUS/dAIv.git` or clone the repository from Github Desktop.
+- **GSON Documentation**: Learn more about GSON and how to use it for JSON serialization and deserialization in Java.
+    - [GSON Documentation](https://github.com/google/gson)
 
-2. Run `cd dAIv && chmod +x server.py`
+## Installation & Setup
 
-3. Run `./server.py` to run your dAIv server! dAIv will be built and run automatically!
+### Requirements
 
-### But I want to run it on Windows!
-Never fear, it is possible, but a bit more involved.
+- Maven (4+)
+- Java (17+)
+- Git
+- Twilio API key
+- OpenAI API key
+- A server to receive webhooks (local or remote)
 
-1. Open Command Prompt or Powershell, I don't know which is better
+### Steps to Run Locally
 
-2. Run `git clone https://github.com/DaveSMUS/dAIv.git` or clone the repository from Github Desktop, and enter the directory in Command Prompt.
+1. **Clone the Repository**:
+    ```sh
+    git clone https://github.com/DaveSMUS/dAIv.git
+    cd dAIv
+    ```
 
-3. Run `mvn dependency:build-classpath` and copy the really long line that should look something like this:
-`/home/will/.m2/repository/com/theokanning/openai-gpt3-java/service/0.18.2/service-0.18.2.jar:/home/will/.m2/repository/com/theokanning/openai-gpt3-java/client/0.18.2/client-0.18.2.jar...`
+2. **Set Up Local Server**:
+    ```sh
+    chmod +x server.py
+    ./server.py
+    ```
 
-4. Run `mvn package`.
+3. **Link Webhook in Twilio**:
+    - Go to the Twilio console and set the webhook URL to your server's address.
 
-5. Find the latest version of dAIv in the `target/` directory and take note of it.
+    > Note: Running the server locally will not allow you to receive messages unless you also listen for webhooks on your server.
 
-5. Run `java -cp target/dAIV-$VERSION.jar:$CLASSPATH Main.java`
+### Running on Windows
 
-Please note, I am completely guessing on this part - don't @ me.
+1. **Open Command Prompt or Powershell**:
+    ```sh
+    git clone https://github.com/DaveSMUS/dAIv.git
+    cd dAIv
+    ```
+
+2. **Build Classpath**:
+    ```sh
+    mvn dependency:build-classpath
+    ```
+
+3. **Package the Application**:
+    ```sh
+    mvn package
+    ```
+
+4. **Run the Application**:
+    ```sh
+    java -cp target/dAIV-$VERSION.jar:$CLASSPATH Main.java
+    ```
+
+### Running with GitHub Codespaces
+
+If you do not already have a dedicated server, you can use GitHub Codespaces to run the server. You can directly run the `Main.java` file from the Codespace environment.
+
+## Use Cases
+
+dAIv is designed to be versatile and useful in various scenarios. Here are some practical use cases:
+
+- **Personal Assistant**: Use dAIv to manage your daily tasks, set reminders, and keep track of important events. With its intelligent responses, dAIv can also provide helpful information on-the-go.
+- **Business Tool**: dAIv can be integrated into business workflows to automate reminders for meetings, deadlines, and follow-ups. It can also generate reports for team members, ensuring everyone stays informed.
+- **Customer Support**: Enhance customer service by using dAIv to provide quick and accurate responses to customer inquiries via SMS. Its ability to handle multiple conversations simultaneously ensures efficient support.
+- **Event Management**: Organize events more effectively with dAIv's reminder and reporting features. Send reminders to attendees and receive updates on event preparations and participation.
 
 ## Community
 
 Join our Discord server to connect with other users, share experiences, and get support for dAIv.
+
 - [Discord Server](https://discord.gg/ECNegFY9KH)
 
 ---
