@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-// TODO: add repeated events
+// TODO: add repeated events and maybe !refresh for resetting thread?
 
 public class Main {
 

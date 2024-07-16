@@ -81,7 +81,9 @@ class Reminder extends Event{
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                owner.message(GPTAPI.sendAndReceive(owner, "SYSTEM: on " + formattedDateFromUnix(startTime) + " asked to be reminded about something. this is what they would like to be reminded about - remind them, and tell them when they asked to be reminded about it (avoid starting your sentence as a reply to this prompt). reminder: " + remind));
+                String response = GPTAPI.sendAndReceive(owner, "SYSTEM: on " + formattedDateFromUnix(startTime) + " asked to be reminded about something. this is what they would like to be reminded about - remind them, and tell them when they asked to be reminded about it (avoid starting your sentence as a reply to this prompt, and do NOT start your reply with .reminder as you are NOT setting another reminder). reminder: " + remind);
+                // owner.message(GPTAPI.sendAndReceive(owner, "SYSTEM: on " + formattedDateFromUnix(startTime) + " asked to be reminded about something. this is what they would like to be reminded about - remind them, and tell them when they asked to be reminded about it (avoid starting your sentence as a reply to this prompt, and do NOT start your reply with .reminder as you are NOT setting another reminder). reminder: " + remind));
+                owner.message(response);
                 System.out.println("Sending reminder of event: " + remind);
 
                 if(repeatInterval < 0){ // if this reminder does not repeat, remove it
@@ -123,22 +125,35 @@ class Reminder extends Event{
         if(owner != null){
             Reminder instance = this;
             expiryTimer = new Timer();
-            try{
-                expiryTimer.schedule(new TimerTask() {
+
+            TimerTask task = new TimerTask() {
                     @Override
                     public void run() {
                         owner.message(GPTAPI.sendAndReceive(owner, "SYSTEM: on " + formattedDateFromUnix(startTime) + " asked to be reminded about something. this is what they would like to be reminded about - remind them, and tell them when they asked to be reminded about it (avoid starting your sentence as a reply to this prompt). reminder: " + remind));
                         System.out.println("Sending reminder of event: " + remind);
 
-                        owner.events.remove(instance);
-                        backup.updateAndSaveUser(owner);
+                        if(repeatInterval < 0){ // if this reminder does not repeat, remove it
+                            owner.events.remove(instance);
+                            backup.updateAndSaveUser(owner);
+                        } else {
+                            instance.expiryTime += repeatInterval;
+                            backup.updateAndSaveUser(owner);
+                        }
                    }
-                }, (this.expiryTime - currentTimeSeconds())*1000);
+                };
 
-                System.out.println("Time until reminder ends: " + (this.expiryTime - currentTimeSeconds()));
+            try{
+
+                if(this.repeatInterval > 0){
+                    expiryTimer.scheduleAtFixedRate(task, (this.expiryTime - currentTimeSeconds()) * 1000, repeatInterval * 1000);
+                } else{
+                    expiryTimer.schedule(task, (this.expiryTime - currentTimeSeconds())*1000);
+                }
+                
+                System.out.println("Time until reminder ends: " + (this.expiryTime - currentTimeSeconds()) + " | Repeat: " + this.repeatInterval + " delay: " + (this.expiryTime - currentTimeSeconds()));
 
             } catch (IllegalArgumentException e){
-                owner.message("Hi! Unfortunately it looks like a reminder that you set on " + Event.formattedDateFromUnix(this.startTime) + " elapsed while our servers were down. It instructed you to '" + this.remind + "' on " + Event.formattedDateFromUnix(this.expiryTime));
+                owner.message("Hi! Unfortunately it looks like a reminder that you set on " + Event.formattedDateFromUnix(this.startTime) + " elapsed while our servers were down. It instructed you to '" + this.remind + "' on " + Event.formattedDateFromUnix(this.expiryTime) + " If this was a repeated reminder, you need to set it again.");
                 owner.events.remove(this);
                 backup.updateAndSaveUser(owner);
             }

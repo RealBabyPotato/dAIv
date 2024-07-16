@@ -67,6 +67,15 @@ class GPTAPI {
         return "There was an error processing this response.";
     }
 
+    /*public static String sendReminderMessage(User user, String message){
+        try{
+            String res = retrieveFromRun(user, addMessageToUserThread(user, message));
+
+        } catch (Exception e){
+
+        }
+    }*/
+
     public static String sendAndReceive(User user, String message){
         try {
             String response = retrieveFromRun(user, addMessageToUserThread(user, message));
@@ -91,7 +100,6 @@ class GPTAPI {
                     }
 
                     long activateEpoch = Event.dateToSecondsFromEpoch(activateDate);
-                    // System.out.println("reminder! message: " + reminderMessage + " | timeEpoch: " + timeSinceEpoch);
 
                     Reminder reminder = new Reminder(user, activateEpoch, reminderMessage, repeatInterval);
                 } catch (Exception e){
