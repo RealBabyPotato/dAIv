@@ -113,6 +113,7 @@ public class SMSHandler implements HttpHandler {
         case "!!removereminder":
           try{
             int removeIndex = Integer.parseInt(incomingMessageCopy.substring(16));
+            ((Reminder)incoming_user.events.get(removeIndex - 1)).kill();
             incoming_user.message("Removed reminder: " + ((Reminder)incoming_user.events.get(removeIndex - 1)).remind);
             incoming_user.events.remove(removeIndex - 1);
             backup.updateAndSaveUser(incoming_user);

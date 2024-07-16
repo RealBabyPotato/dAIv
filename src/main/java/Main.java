@@ -17,9 +17,13 @@ public class Main {
     // Create a TwilioSMS instance to begin an HTTP service and Authenticate Client
 
     // this effectively loads everything from our backup into memory. (including events!!)
-    User.PopulateUsers(); // adds all users into memory - our 'registeredUsers' static list
+    try{
+      User.PopulateUsers(); // adds all users into memory - our 'registeredUsers' static list
+      TwilioServer service = new TwilioServer();
+      
+    } catch(java.util.ConcurrentModificationException e){
+      System.out.println("Something went wrong, please retry in ~5 seconds.");
+    }
 
-
-    TwilioServer service = new TwilioServer();
   }
 }

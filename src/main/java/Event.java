@@ -69,6 +69,9 @@ public class Event {
 class Reminder extends Event{
     @Expose
     String remind;
+
+    private TimerTask task;
+
     public Reminder(User user, long expiry, String remind, long repeatInterval){
         super(user, expiry);
         this.remind = remind;
@@ -78,7 +81,7 @@ class Reminder extends Event{
         Reminder instance = this;
         expiryTimer = new Timer();
 
-        TimerTask task = new TimerTask() {
+        this.task = new TimerTask() {
             @Override
             public void run() {
                 String response = GPTAPI.sendAndReceive(owner, "SYSTEM: on " + formattedDateFromUnix(startTime) + " asked to be reminded about something. this is what they would like to be reminded about - remind them, and tell them when they asked to be reminded about it (avoid starting your sentence as a reply to this prompt, and do NOT start your reply with .reminder as you are NOT setting another reminder). reminder: " + remind);
@@ -126,7 +129,7 @@ class Reminder extends Event{
             Reminder instance = this;
             expiryTimer = new Timer();
 
-            TimerTask task = new TimerTask() {
+            this.task = new TimerTask() {
                     @Override
                     public void run() {
                         owner.message(GPTAPI.sendAndReceive(owner, "SYSTEM: on " + formattedDateFromUnix(startTime) + " asked to be reminded about something. this is what they would like to be reminded about - remind them, and tell them when they asked to be reminded about it (avoid starting your sentence as a reply to this prompt). reminder: " + remind));
@@ -161,5 +164,10 @@ class Reminder extends Event{
         }
 
         System.out.println("ERROR: attempting to begin a Reminder with no owner!");
+    }
+
+    public void kill(){ // ends the timer/repeated timer
+        this.task.cancel();
+        System.out.println("Cancelling task timer: " + this.remind);
     }
 }

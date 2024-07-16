@@ -2,14 +2,7 @@
   {
     "phoneNumberString": "2508809769",
     "userName": "Beck",
-    "events": [
-      {
-        "remind": "Workout",
-        "startTime": 1721133245,
-        "expiryTime": 1721133327,
-        "repeatInterval": 30
-      }
-    ],
+    "events": [],
     "threadId": "thread_ZUYniZof2iMrbrGdH2IQwcmI",
     "isInSetup": false,
     "setupPhase": 1
