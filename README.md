@@ -2,6 +2,8 @@
 
 Welcome to dAIv, your personal AI SMS companion! Designed to streamline your communication experience, dAIv offers a range of features including intelligent responses, reports, reminders, and much more, all through simple text messaging.
 
+#### [Demonstration link on YouTube](https://youtu.be/ws8h3RK7JFg)
+
 ## Features
 
 - **Intelligent Responses**: dAIv leverages cutting-edge AI technology to provide intelligent responses to your messages, making conversations more engaging and efficient. Whether you need quick information, advice, or a friendly chat, dAIv is here to help.
