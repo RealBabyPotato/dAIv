@@ -42,6 +42,10 @@ dAIv integrates GSON to backup and store database information on users, their ev
 - OpenAI API key
 - A server to receive webhooks (local or remote)
 
+### Running with GitHub Codespaces (recommended)
+
+If you do not already have a dedicated server, you can use GitHub Codespaces to run the server. You can directly run the `Main.java` file from the Codespace environment. Forward port 8000 in the codespace, set it's visibility to public, and set Twilio's webhook URL to the public address of your codespace running on port 8000.
+
 ### Steps to Run Locally
 
 1. **Clone the Repository**:
@@ -83,10 +87,6 @@ dAIv integrates GSON to backup and store database information on users, their ev
     ```sh
     java -cp target/dAIV-$VERSION.jar:$CLASSPATH Main.java
     ```
-
-### Running with GitHub Codespaces
-
-If you do not already have a dedicated server, you can use GitHub Codespaces to run the server. You can directly run the `Main.java` file from the Codespace environment.
 
 ## Use Cases
 
