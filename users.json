@@ -1,17 +1,17 @@
 [
   {
-    "phoneNumberString": "2508809769",
-    "userName": "Jaden",
+    "phoneNumberString": "0000000000",
+    "userName": "This is the skeleton of a user.",
     "events": [
       {
-        "remind": "Workout",
-        "startTime": 1721136446,
-        "expiryTime": 1721136463,
-        "repeatInterval": 30
+        "remind": "This is where the reminder body goes.",
+        "startTime": 1721138291,
+        "expiryTime": 1721548800,
+        "repeatInterval": -1
       }
     ],
-    "threadId": "thread_vdNnBeNNCaBhZJcwLhNKZksF",
-    "isInSetup": false,
-    "setupPhase": 1
+    "threadId": "",
+    "isInSetup": true,
+    "setupPhase": 0
   }
 ]

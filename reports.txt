@@ -1,2 +1,4 @@
-2024-07-01 17:46:39 | [redacted] |  this is a test report 
-2024-07-03 21:41:30 | 2508809769 |  inaccurate times when setting reminders
+2024-07-01 17:46:39 | [phone number of reporter] |  this is a test report 
+2024-07-03 21:41:30 | [phone number of reporter] |  inaccurate times when setting reminders
+2024-07-16 20:40:58 | [phone number of reporter] |  This is a test report.
+2024-07-16 20:55:24 | [phone number of reporter] |  This is a test report (this will log a report and also send it straight to me)
