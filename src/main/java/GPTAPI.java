@@ -1,5 +1,3 @@
-import com.twilio.type.PhoneNumber;
-
 import javax.naming.NameNotFoundException;
 import java.io.BufferedReader;
 import java.io.IOException;
