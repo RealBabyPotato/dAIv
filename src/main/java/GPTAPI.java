@@ -8,6 +8,8 @@ import java.net.URL;
 
 import java.util.regex.*;
 
+// provides useful utility when interacting with OpenAI's ChatGPT 4
+
 class GPTAPI {
 
     private static final String API_KEY = "YOUR_CHATGPT_API_KEY";
